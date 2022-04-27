@@ -1,11 +1,15 @@
-import { FC } from "react";
+import React from 'react'
+import Products from '../../components/Products/Products';
+import { products } from '../../data';
 
-interface Props {
+type Props = {}
 
+const Home = (props: Props) => {
+  return (
+    <div>
+      <Products productsArray={products}></Products>
+    </div>
+  )
 }
 
-export const Home: FC<Props> = () => {
-return (
-<h1>Home</h1>
-);
-};
+export default Home
