@@ -11,12 +11,12 @@ interface ProductProps {
 
 
 
-const Product = (props: ProductProps) => {
+const Product = ({imageId, imageUrl, title, desc}: ProductProps) => {
   return (
-    <Link className="product-card_link" to={"/products/" + props.imageId}><div className="product-card">
-        <img className="product-card_image" src={props.imageUrl} alt="Thumbnail image of the artwork being sold"/>
-        <h2 className="product-card_title">{props.title}</h2>
-        <h3 className="product-card_desc">{props.desc}</h3>
+    <Link className="product-card_link" to={"/products/" + imageId}><div className="product-card">
+        <img className="product-card_image" src={imageUrl} alt="Thumbnail image of the artwork being sold"/>
+        <h2 className="product-card_title">{title}</h2>
+        <h3 className="product-card_desc">{desc}</h3>
     </div></Link>
   )
 }
