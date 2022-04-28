@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 import { Routes, Route } from "react-router-dom";
-import { Home } from "./pages/Home/Home";
-import { SingleProduct } from "./pages/SingleProduct/SingleProduct";
+import  Home  from "./pages/Home/Home";
+import  SingleProduct  from "./pages/SingleProduct/SingleProduct";
 import { TopNav } from "./components/TopNav";
 import './App.css';
     
