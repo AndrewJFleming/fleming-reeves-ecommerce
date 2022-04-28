@@ -1,5 +1,6 @@
 .product-card {
-    width: 325px;
+    width: 245px;
+    min-height: 550px;
     border-radius: 15px;
     padding: 12px;
     margin: 12px;
@@ -7,6 +8,7 @@
     display: flex;
     flex-direction:column;
     align-items: center;
+    justify-content: space-around;
     background-color: rgb(32, 32, 32);
     color:antiquewhite
 
@@ -14,6 +16,7 @@
 
 .product-card_desc {
     margin: 0px 15px 10px 15px;
+    font-size: 14px;
 }
 
 .product-card_link {
