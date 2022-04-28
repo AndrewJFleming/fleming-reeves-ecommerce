@@ -1,15 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Products from '../../components/Products/Products';
 import Pagination from '@mui/material/Pagination/';
 import Stack from '@mui/material/Stack';
-import { products } from '../../data';
+import { ProductData } from '../../interfaces';
+import './Home.css';
 
-type Props = {}
+type HomeProps = {
+  productData: ProductData[];
+}
 
-const Home = (props: Props) => { 
-  const [productsArray, setProductsArray] = useState(products);
+const Home = ({productData}: HomeProps) => { 
+  const [productsArray, setProductsArray] = useState(productData);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(3);
+
+  useEffect(() => {
+    setProductsArray(productData)
+  }, productData)
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value);
@@ -21,9 +28,9 @@ const Home = (props: Props) => {
   const currentProducts = productsArray.slice(indexOfFirstProduct, indexOfLastProduct);
 
   return (
-    <div>
+    <div className="home-page_container">
       <Products productsArray={currentProducts}></Products>
-      <Stack spacing={2} sx={{ justifyContent: 'center'}}>
+      <Stack className="pagination" spacing={2} sx={{ justifyContent: 'center'}}>
         <Pagination count={numberOfPages}  page={currentPage} onChange={handlePageChange} shape="rounded"/>
       </Stack>
     </div>

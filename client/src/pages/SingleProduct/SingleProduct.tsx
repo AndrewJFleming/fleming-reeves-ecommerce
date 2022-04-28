@@ -1,22 +1,23 @@
 import React, { FC, useState }  from "react";
 import './SingleProduct.css';
 import { useParams } from 'react-router-dom';
-import { ProductData } from '../../components/Products/Products'; 
+import { ProductData } from '../../interfaces'; 
 import { products } from '../../data';
+
 import Modal from './Modal/Modal';
 
 type SingleProductProps = {
-
+  productData: ProductData[];
 }
 
 
 
-const SingleProduct = (props: SingleProductProps) => {
+const SingleProduct = ({productData}: SingleProductProps) => {
 
   const  { productId } = useParams();
   const [ showModal, setShowModal ] = useState(false);
 
-  let currentProduct = products.filter((product) => product.id === productId)[0];
+  let currentProduct = productData.filter((product) => product._id === productId)[0];
   
 
   const ToggleModal = () => {
