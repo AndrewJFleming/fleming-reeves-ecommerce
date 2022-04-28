@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import './App.css';
 import {Routes, Route} from 'react-router-dom';
 import Home from "./pages/Home/Home";
 import SingleProduct from "./pages/SingleProduct/SingleProduct";
-import { products } from './data';
 
 
 
 function App() {
+
+  const [user, setUser] = useState(true);
+
   return (
     <div className="App">
      <Routes>
