@@ -12,7 +12,7 @@ type HomeProps = {
 const Home = ({productData}: HomeProps) => { 
   const [productsArray, setProductsArray] = useState(productData);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(3);
+  const [productsPerPage, setProductsPerPage] = useState(5);
 
   useEffect(() => {
     setProductsArray(productData)
@@ -20,6 +20,11 @@ const Home = ({productData}: HomeProps) => {
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value);
+  }
+
+  const handlePageNumberChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    setProductsPerPage(parseInt(value));
   }
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -30,9 +35,18 @@ const Home = ({productData}: HomeProps) => {
   return (
     <div className="home-page_container">
       <Products productsArray={currentProducts}></Products>
+      <div className="pagination-container">
       <Stack className="pagination" spacing={2} sx={{ justifyContent: 'center'}}>
         <Pagination count={numberOfPages}  page={currentPage} onChange={handlePageChange} shape="rounded"/>
+        <label className="pagination-dropdown_label" htmlFor="products-per-page">Items per page:</label>
+        <select onChange={handlePageNumberChange} className="pagination-dropdown_menu" name="products-per-page">
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={15}>15</option>
+        </select>
+
       </Stack>
+      </div>
     </div>
   )
 }

@@ -17,7 +17,7 @@ const Products = ({productsArray}: ProductsProps) => {
  
 
     let allProducts = productsArray.map((product) => {
-        return <Product imageId={product._id} imageUrl={product.squareThumbUrl} title={product.title} desc={product.desc}/>
+        return <Product key={product._id} imageId={product._id} imageUrl={product.squareThumbUrl} title={product.title} desc={product.desc}/>
     })
 
   return (
