@@ -21,7 +21,6 @@ const SingleProduct = (props: SingleProductProps) => {
 
   const ToggleModal = () => {
     setShowModal(!showModal);
-    console.log("Modal showing: " + showModal)
   }
 
   return (
@@ -31,7 +30,7 @@ const SingleProduct = (props: SingleProductProps) => {
       <img onClick={ToggleModal} className="product-image" src={currentProduct.largeUrl} alt={"Preview image of" + currentProduct.title}/>
       
       <p className="product-desc">{currentProduct.desc}</p>
-      {(showModal) ? <div onClick={ToggleModal}><Modal  imageUrl={currentProduct.fullsizeUrl} title={currentProduct.title}/></div>  : null}
+      {showModal && (<div onClick={ToggleModal}><Modal  imageUrl={currentProduct.fullsizeUrl} title={currentProduct.title}/></div>)}
       
      
      {/* May want to make the currency a variable instead of hard coding it like this */}
