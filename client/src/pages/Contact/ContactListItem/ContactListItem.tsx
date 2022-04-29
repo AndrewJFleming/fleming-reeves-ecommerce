@@ -1,10 +1,8 @@
 import { FC } from "react";
-import {
-  Link as MUILink,
-  ListItemIcon,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
+
+import { ListItemIcon, ListItem, ListItemText } from "@mui/material";
+
+import "./ContactListItem.css";
 
 interface Props {
   externalLinkUrl: string;
@@ -20,10 +18,15 @@ const ContactListItem: FC<Props> = ({
   icon,
 }) => {
   return (
-    <ListItem button component={MUILink} href={externalLinkUrl}>
-      <ListItemIcon>{icon}</ListItemIcon>
+    <ListItem>
+      <ListItemIcon className="external-link-icon">{icon}</ListItemIcon>
       <ListItemText
-        primary={`${name.split(" ")[0]}'s ${externalLinkDestination}`}
+        className="external-link-text"
+        primary={
+          <a href={externalLinkUrl}>{`${
+            name.split(" ")[0]
+          }'s ${externalLinkDestination}`}</a>
+        }
       />
     </ListItem>
   );
