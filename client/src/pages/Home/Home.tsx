@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Box, { BoxProps } from '@mui/material/Box';
 import Products from '../../components/Products/Products';
 import Pagination from '@mui/material/Pagination/';
 import Stack from '@mui/material/Stack';
@@ -34,9 +35,18 @@ const Home = ({productData}: HomeProps) => {
 
   return (
     <div className="home-page_container">
+    <Box  
+    sx={{
+      display: 'grid',
+      gap: 1,
+      gridTemplateColumns: '(3, 1fr)',
+    }}>
       <Products productsArray={currentProducts}></Products>
       <div className="pagination-container">
-      <Stack className="pagination" spacing={2} sx={{ justifyContent: 'center'}}>
+      
+      </div>
+    </Box>
+    <Stack className="pagination" spacing={2} sx={{ justifyContent: 'center'}}>
         <Pagination count={numberOfPages}  page={currentPage} onChange={handlePageChange} shape="rounded"/>
         <label className="pagination-dropdown_label" htmlFor="products-per-page">Items per page:</label>
         <select onChange={handlePageNumberChange} className="pagination-dropdown_menu" name="products-per-page">
@@ -47,7 +57,6 @@ const Home = ({productData}: HomeProps) => {
 
       </Stack>
       </div>
-    </div>
   )
 }
 
