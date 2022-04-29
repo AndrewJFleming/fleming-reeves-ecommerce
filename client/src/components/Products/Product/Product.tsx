@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './Product.css';
 import { Link } from 'react-router-dom';
+import Paper from '@mui/material/Paper';
 
 interface ProductProps {
     imageId: string;

@@ -1,6 +1,7 @@
 import React, { FC, Component, useState } from 'react'
 import Product from './Product/Product';
 import {ProductData} from '../../interfaces';
+import Grid from '@mui/material/Grid';
 import './Products.css';
 
 
