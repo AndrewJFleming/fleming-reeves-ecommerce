@@ -1,12 +1,28 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Typography, Paper, Grid, TextField, Button } from "@mui/material";
+import { Typography, Paper, TextField, Button } from "@mui/material";
 
-import "./Auth.css";
+import { makeStyles } from "@mui/styles";
 
 interface Props {
   title: string;
 }
+
+const authStyles = makeStyles({
+  authPage: {
+    position: "relative",
+    height: "calc(100vh - 60px)",
+  },
+  authForm: {
+    padding: 20,
+    width: 280,
+    margin: "0 auto",
+    position: "absolute",
+    top: "45%",
+    left: "50%",
+    transform: "translate(-50%, -55%)",
+  },
+});
 
 export const Auth: FC<Props> = ({ title }) => {
   const navigate = useNavigate();
@@ -16,30 +32,24 @@ export const Auth: FC<Props> = ({ title }) => {
     navigate("/");
   };
 
-  const paperStyle = {
-    padding: 20,
-    width: 280,
-    margin: "0 auto",
-  };
-  const btnstyle = { margin: "1rem 0" };
-  const textFieldStyle = { margin: "1rem 0" };
-
+  const classes = authStyles();
   return (
-    <div className="auth-page">
-      <Paper elevation={10} style={paperStyle} className="auth-form">
-        <Grid textAlign="center">
-          <h2 className="auth-form-title">{title}</h2>
-        </Grid>
+    <div className={classes.authPage}>
+      <Paper elevation={10} className={classes.authForm}>
+        <Typography variant="h5" align="center">
+          {title}
+        </Typography>
         <TextField
           label="Username"
           placeholder="Enter username"
-          style={textFieldStyle}
+          margin="normal"
           fullWidth
           required
         />
         <TextField
           label="Password"
           placeholder="Enter password"
+          margin="normal"
           type="password"
           fullWidth
           required
@@ -48,7 +58,7 @@ export const Auth: FC<Props> = ({ title }) => {
           type="submit"
           color="primary"
           variant="contained"
-          style={btnstyle}
+          sx={{ margin: "1rem 0" }}
           fullWidth
           onClick={handleAuthenticate}
         >
@@ -56,13 +66,13 @@ export const Auth: FC<Props> = ({ title }) => {
         </Button>
         <Typography>
           {title === "Login" ? (
-            <React.Fragment>
+            <Typography>
               Not yet registered? <Link to="/register">Register</Link>
-            </React.Fragment>
+            </Typography>
           ) : (
-            <React.Fragment>
+            <Typography>
               Already registered? <Link to="/login">Login</Link>
-            </React.Fragment>
+            </Typography>
           )}
         </Typography>
       </Paper>

@@ -1,4 +1,5 @@
 import { FC } from "react";
+
 import {
   Card,
   CardContent,
@@ -7,6 +8,7 @@ import {
   List,
   Container,
   Grid,
+  Button,
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -38,14 +40,16 @@ export const Contact: FC<Props> = () => {
   return (
     <div>
       <Container>
-        <h1 style={{ textAlign: "center" }}>Contact the Developers</h1>
-        <p>
+        <Typography variant="h4" my="1rem">
+          Contact the Developers
+        </Typography>
+        <Typography mb="2rem">
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
           commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus
           et magnis dis parturient montes, nascetur ridiculus mus. Donec quam
           felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla
           consequat massa quis enim. Donec.
-        </p>
+        </Typography>
         <Grid container spacing={3}>
           {teamMembers.map((teamMember) => (
             <Grid item xs={12} sm={6}>
@@ -53,6 +57,7 @@ export const Contact: FC<Props> = () => {
                 <CardContent>
                   <Typography
                     sx={{ fontSize: 24, paddingLeft: "16px" }}
+                    variant="h4"
                     gutterBottom
                   >
                     {teamMember.name}
