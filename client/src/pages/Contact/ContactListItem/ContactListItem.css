@@ -1,0 +1,14 @@
+.external-link-icon
+ {
+    color: rgb(73, 73, 53);
+ } 
+ .external-link-text a {
+    color: rgb(105, 17, 17);
+    text-decoration: none;
+}
+
+.external-link-text a:hover, 
+.external-link-text a:active {
+    color: rgb(0, 0, 0);
+    text-decoration: underline;
+}

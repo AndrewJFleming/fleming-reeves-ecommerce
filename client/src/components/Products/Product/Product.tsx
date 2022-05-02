@@ -28,7 +28,7 @@ const Product = ({
           {title}
         </h2>
         <h3 className="product-card_desc">
-          {desc}
+          {desc.length <= 99 ? desc : `${desc.substring(0, 100)}...`}
         </h3>
       </div>
     </Link>

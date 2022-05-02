@@ -5,6 +5,7 @@ import Pagination from '@mui/material/Pagination/';
 import Stack from '@mui/material/Stack';
 import { ProductData } from '../../interfaces';
 import './Home.css';
+import SearchBar from '../../components/SearchBar/SearchBar';
 
 type HomeProps = {
   productData: ProductData[];
@@ -14,6 +15,7 @@ const Home = ({ productData }: HomeProps) => {
   const [productsArray, setProductsArray] = useState(productData);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(5);
+  const [searchString, setSearchString] = useState('');
 
   useEffect(() => {
     setProductsArray(productData);
@@ -42,9 +44,22 @@ const Home = ({ productData }: HomeProps) => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
+<<<<<<< HEAD
 
   return (
     <div className="home-page_container">
+=======
+  const filteredProducts = productsArray.filter(
+    product => product.title == searchString
+  );
+
+  return (
+    <div className="home-page_container">
+      <SearchBar
+        placeholder={'Search by title'}
+        data={productsArray}
+      />
+>>>>>>> master
       <Box
         sx={{
           display: 'grid',
