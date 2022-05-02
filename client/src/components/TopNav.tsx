@@ -1,10 +1,10 @@
-import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 
-import { Container } from "@mui/material";
+import { Container } from '@mui/material';
 // import styled from "@emotion/styled";
 
-import "./TopNav.css";
+import './TopNav.css';
 
 interface Props {
   user: boolean;
@@ -37,20 +37,18 @@ export const TopNav: FC<Props> = ({ user }) => {
           </Link>
         </nav>
         <nav id="right-nav">
-          {user ? (
-            <span className="nav-item auth-link" onClick={() => {}}>
-              Logout
-            </span>
-          ) : (
-            <React.Fragment>
-              <Link className="nav-item auth-link" to="/login">
-                Login
-              </Link>
-              <Link className="nav-item auth-link" to="/register">
-                Register
-              </Link>
-            </React.Fragment>
-          )}
+          {user
+            ? <span className="nav-item auth-link" onClick={() => {}}>
+                Logout
+              </span>
+            : <React.Fragment>
+                <Link className="nav-item auth-link" to="/login">
+                  Login
+                </Link>
+                <Link className="nav-item auth-link" to="/register">
+                  Register
+                </Link>
+              </React.Fragment>}
         </nav>
       </Container>
     </header>

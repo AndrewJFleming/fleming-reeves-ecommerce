@@ -44,6 +44,11 @@ const Home = ({ productData }: HomeProps) => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
+<<<<<<< HEAD
+
+  return (
+    <div className="home-page_container">
+=======
   const filteredProducts = productsArray.filter(
     product => product.title == searchString
   );
@@ -54,6 +59,7 @@ const Home = ({ productData }: HomeProps) => {
         placeholder={'Search by title'}
         data={productsArray}
       />
+>>>>>>> master
       <Box
         sx={{
           display: 'grid',
