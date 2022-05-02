@@ -1,8 +1,12 @@
 import { FC } from "react";
 
-import { ListItemIcon, ListItem, ListItemText } from "@mui/material";
-
-import "./ContactListItem.css";
+import { makeStyles } from "@mui/styles";
+import {
+  ListItemIcon,
+  ListItem,
+  ListItemText,
+  Link as MUILink,
+} from "@mui/material";
 
 interface Props {
   externalLinkUrl: string;
@@ -11,21 +15,42 @@ interface Props {
   icon: any;
 }
 
+const contactlistItemStyles = makeStyles((theme: any) => {
+  return {
+    externalLinkIcon: {
+      "& svg": {
+        color: theme.palette.common.black,
+      },
+    },
+    externalLinkText: {
+      "& a": {
+        color: theme.palette.primary.light,
+        textDecoration: "none",
+      },
+      "& a:hover,& a:active": {
+        color: theme.palette.primary.main,
+        textDecoration: "underline",
+      },
+    },
+  };
+});
+
 const ContactListItem: FC<Props> = ({
   externalLinkUrl,
   externalLinkDestination,
   name,
   icon,
 }) => {
+  const classes = contactlistItemStyles();
   return (
     <ListItem>
-      <ListItemIcon className="external-link-icon">{icon}</ListItemIcon>
+      <ListItemIcon className={classes.externalLinkIcon}>{icon}</ListItemIcon>
       <ListItemText
-        className="external-link-text"
+        className={classes.externalLinkText}
         primary={
-          <a href={externalLinkUrl}>{`${
-            name.split(" ")[0]
-          }'s ${externalLinkDestination}`}</a>
+          <MUILink href={externalLinkUrl}>
+            {`${name.split(" ")[0]}'s ${externalLinkDestination}`}
+          </MUILink>
         }
       />
     </ListItem>
