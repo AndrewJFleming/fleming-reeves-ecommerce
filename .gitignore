@@ -29,4 +29,5 @@ yarn-error.log*
 client/.env
 server/.env
 *.zip
+*.bak
 client/src/assets/development assets
