@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 
-export const topNavStyles = makeStyles((theme: any) => {
+export const useStyles = makeStyles((theme: any) => {
   return {
     headerContainer: {
       display: "flex!important",
@@ -15,11 +15,12 @@ export const topNavStyles = makeStyles((theme: any) => {
       },
     },
     navItem: {
-      color: theme.palette.success.light,
+      color: theme.palette.success.main,
       textDecoration: "none",
       cursor: "pointer",
       "&:hover": {
         color: theme.palette.common.white,
+        textDecoration: "none",
       },
       "&:not(:last-child)": {
         marginRight: "12px",
@@ -35,14 +36,14 @@ export const topNavStyles = makeStyles((theme: any) => {
     },
     headerLogo: {
       fontFamily: theme.typography.fontFamily,
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.primary.dark,
       border: `1px solid  ${theme.palette.success.main}`,
       boxShadow: `2px 2px 2px ${theme.palette.primary.main}`,
       fontSize: "22px",
       padding: "0 7px 3px",
       "&:hover": {
         border: `1px solid  ${theme.palette.common.white}`,
-        backgroundColor: theme.palette.primary.dark,
+        backgroundColor: theme.palette.common.black,
         boxShadow: `2px 2px 2px ${theme.palette.primary.dark}`,
       },
       [theme.breakpoints.down("md")]: {
