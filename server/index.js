@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 import productRoute from "./routes/products.js";
+import userRoute from "./routes/users.js";
 
 const app = express();
 dotenv.config();
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/products", productRoute);
+app.use("/users", userRoute);
 
 const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT || 5000;
