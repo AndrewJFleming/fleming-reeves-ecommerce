@@ -15,21 +15,17 @@ interface Props {
   icon: any;
 }
 
-const contactlistItemStyles = makeStyles((theme: any) => {
+const useStyles = makeStyles((theme: any) => {
   return {
     externalLinkIcon: {
       "& svg": {
-        color: theme.palette.common.black,
+        color: theme.palette.primary.light,
       },
     },
     externalLinkText: {
       "& a": {
-        color: theme.palette.primary.light,
-        textDecoration: "none",
-      },
-      "& a:hover,& a:active": {
         color: theme.palette.primary.main,
-        textDecoration: "underline",
+        textDecoration: "none",
       },
     },
   };
@@ -41,7 +37,7 @@ const ContactListItem: FC<Props> = ({
   name,
   icon,
 }) => {
-  const classes = contactlistItemStyles();
+  const classes = useStyles();
   return (
     <ListItem>
       <ListItemIcon className={classes.externalLinkIcon}>{icon}</ListItemIcon>
