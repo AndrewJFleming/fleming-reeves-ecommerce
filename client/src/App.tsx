@@ -86,9 +86,9 @@ function App() {
     axios
       .get<ProductData[]>('http://localhost:5000/products')
       .then((response: AxiosResponse) => {
-        setProducts(response.data);
+        setProducts(response?.data);
       });
-  }, []);
+  }, [products]);
 
   return (
     <ThemeProvider theme={customTheme}>
