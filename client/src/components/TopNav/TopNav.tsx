@@ -6,7 +6,7 @@ import NavItem from "./NavItem/NavItem";
 import CartNavItemInner from "./CartNavItemInner/CartNavItemInner";
 import UserAvatar from "./UserAvatar/UserAvatar";
 
-import { topNavStyles } from "./topNavStyles";
+import { useStyles } from "./TopNav.styles";
 
 interface Props {
   user: boolean;
@@ -23,7 +23,7 @@ const StyledNav = styled("nav")(({ theme }) => ({
 }));
 
 export const TopNav: FC<Props> = ({ user }) => {
-  const classes = topNavStyles();
+  const classes = useStyles();
 
   return (
     <Box component="header" sx={{ backgroundColor: "error.main" }}>

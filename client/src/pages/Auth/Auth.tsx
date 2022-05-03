@@ -8,7 +8,7 @@ interface Props {
   title: string;
 }
 
-const authStyles = makeStyles({
+const useStyles = makeStyles({
   authPage: {
     position: "relative",
     height: "calc(100vh - 60px)",
@@ -32,7 +32,7 @@ export const Auth: FC<Props> = ({ title }) => {
     navigate("/");
   };
 
-  const classes = authStyles();
+  const classes = useStyles();
   return (
     <div className={classes.authPage}>
       <Paper elevation={10} className={classes.authForm}>
@@ -40,6 +40,7 @@ export const Auth: FC<Props> = ({ title }) => {
           {title}
         </Typography>
         <TextField
+          sx={{ backgroundColor: "common.white" }}
           label="Username"
           placeholder="Enter username"
           margin="normal"
@@ -47,6 +48,7 @@ export const Auth: FC<Props> = ({ title }) => {
           required
         />
         <TextField
+          sx={{ backgroundColor: "common.white" }}
           label="Password"
           placeholder="Enter password"
           margin="normal"
@@ -56,7 +58,7 @@ export const Auth: FC<Props> = ({ title }) => {
         />
         <Button
           type="submit"
-          color="primary"
+          color="warning"
           variant="contained"
           sx={{ margin: "1rem 0" }}
           fullWidth

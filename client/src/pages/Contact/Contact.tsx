@@ -8,7 +8,6 @@ import {
   List,
   Container,
   Grid,
-  Button,
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -53,7 +52,7 @@ export const Contact: FC<Props> = () => {
         <Grid container spacing={3}>
           {teamMembers.map((teamMember) => (
             <Grid item xs={12} sm={6}>
-              <Card sx={{ minWidth: 275 }}>
+              <Card sx={{ minWidth: 275, backgroundColor: "background.paper" }}>
                 <CardContent>
                   <Typography
                     sx={{ fontSize: 24, paddingLeft: "16px" }}

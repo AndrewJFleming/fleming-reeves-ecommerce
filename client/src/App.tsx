@@ -1,90 +1,111 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import axios, { AxiosResponse } from 'axios';
-import { createTheme, ThemeProvider } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import axios, { AxiosResponse } from "axios";
+import { createTheme, ThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
 
 //Page Components
-import Home from './pages/Home/Home';
-import { About } from './pages/About/About';
-import { Contact } from './pages/Contact/Contact';
-import { Auth } from './pages/Auth/Auth';
-import SingleProduct from './pages/SingleProduct/SingleProduct';
+import Home from "./pages/Home/Home";
+import { About } from "./pages/About/About";
+import { Contact } from "./pages/Contact/Contact";
+import { Auth } from "./pages/Auth/Auth";
+import SingleProduct from "./pages/SingleProduct/SingleProduct";
 
 //Components
-import { TopNav } from './components/TopNav/TopNav';
+import { TopNav } from "./components/TopNav/TopNav";
 
-import { ProductData } from './interfaces';
-import './App.css';
+import { ProductData } from "./interfaces";
+// import "./App.css";
 
 const customTheme = createTheme({
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundColor: "#f3f6e5",
+          "& a": {
+            color: "#220242",
+            textDecoration: "none",
+          },
+          "& a:hover,& a:active": {
+            color: "#18002a",
+            textDecoration: "underline",
+          },
+        },
+      },
+    },
+  },
   palette: {
     primary: {
-      main: '#20002d',
-      light: '#706378',
-      dark: '#16001c'
+      main: "#220242",
+      light: "#635776",
+      dark: "#18002a",
     },
     secondary: {
-      main: '#be6e85',
-      light: '#d0abb9',
-      dark: '#7d3d4a'
+      main: "#f9d0a3",
+      light: "#f0e0dc",
+      dark: "#a3885d",
     },
     error: {
-      main: '#c44343',
-      light: '#d09398',
-      dark: '#86271e'
+      main: "#c44343",
+      light: "#d09398",
+      dark: "#86271e",
     },
     warning: {
-      main: '#ed943f',
-      light: '#e7b594',
-      dark: '#a46616'
+      main: "#b38305",
+      light: "#c3a570",
+      dark: "#735d00",
     },
     success: {
-      main: '#f8ebb3',
-      light: '#f6edd5',
-      dark: '#a19b69'
-    }
+      main: "#ecf6d0",
+      light: "#f3f6e5",
+      dark: "#929d7e",
+    },
+    background: {
+      paper: "#fefff9",
+    },
   },
   typography: {
-    fontFamily: 'Bree Serif',
+    fontFamily: "Bree Serif",
     h1: {
-      fontFamily: 'Bree Serif'
+      fontFamily: "Bree Serif",
     },
     h2: {
-      fontFamily: 'Bree Serif'
+      fontFamily: "Bree Serif",
     },
     h3: {
-      fontFamily: 'Bree Serif'
+      fontFamily: "Bree Serif",
     },
     h4: {
-      fontFamily: 'Bree Serif'
+      fontFamily: "Bree Serif",
     },
     h5: {
-      fontFamily: 'Bree Serif'
+      fontFamily: "Bree Serif",
     },
     h6: {
-      fontFamily: 'Bree Serif'
+      fontFamily: "Bree Serif",
     },
     body1: {
-      fontFamily: 'Open Sans'
+      fontFamily: "Open Sans",
     },
     body2: {
-      fontFamily: 'Open Sans'
+      fontFamily: "Open Sans",
     },
     button: {
-      fontFamily: 'Open Sans'
-    }
-  }
+      fontFamily: "Open Sans",
+    },
+  },
 });
 
 function App() {
   const [user, setUser] = useState(false);
   const [products, setProducts] = useState<ProductData[]>([]);
 
-  console.log('Products: ', products);
+  console.log("Products: ", products);
 
   useEffect(() => {
     axios
-      .get<ProductData[]>('http://localhost:5000/products')
+      .get<ProductData[]>("http://localhost:5000/products")
       .then((response: AxiosResponse) => {
         setProducts(response?.data);
       });
@@ -92,23 +113,19 @@ function App() {
 
   return (
     <ThemeProvider theme={customTheme}>
-      <div className="App">
-        <TopNav user={user} />
-        <Routes>
-          <Route element={<Home productData={products} />} path="/" />
-          <Route element={<About />} path="/about" />
-          <Route element={<Contact />} path="/contact" />
-          <Route element={<Auth title="Login" />} path="/login" />
-          <Route
-            element={<Auth title="Register" />}
-            path="/register"
-          />
-          <Route
-            element={<SingleProduct productData={products} />}
-            path="/products/:productId"
-          />
-        </Routes>
-      </div>
+      <CssBaseline />
+      <TopNav user={user} />
+      <Routes>
+        <Route element={<Home productData={products} />} path="/" />
+        <Route element={<About />} path="/about" />
+        <Route element={<Contact />} path="/contact" />
+        <Route element={<Auth title="Login" />} path="/login" />
+        <Route element={<Auth title="Register" />} path="/register" />
+        <Route
+          element={<SingleProduct productData={products} />}
+          path="/products/:productId"
+        />
+      </Routes>
     </ThemeProvider>
   );
 }
