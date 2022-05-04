@@ -17,7 +17,8 @@ type Props = {
 let total = 0;
 
 const Cart = ({ productsInCart }: Props) => {
-  
+  total = 0;
+
   let currentCart = productsInCart?.map(product => {
     total += product.price;
     return (
