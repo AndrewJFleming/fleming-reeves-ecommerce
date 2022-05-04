@@ -15,6 +15,10 @@ import SingleProduct from "./pages/SingleProduct/SingleProduct";
 import { TopNav } from "./components/TopNav/TopNav";
 
 import { ProductData } from "./interfaces";
+import Layout from "./components/Layout/Layout";
+import Favorites from "./pages/Favorites/Favorites";
+import Cart from "./pages/Cart/Cart";
+import Profile from "./pages/Profile/Profile";
 // import "./App.css";
 
 const customTheme = createTheme({
@@ -109,23 +113,28 @@ function App() {
       .then((response: AxiosResponse) => {
         setProducts(response?.data);
       });
-  }, [products]);
+  }, []);
 
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
       <TopNav user={user} />
-      <Routes>
-        <Route element={<Home productData={products} />} path="/" />
-        <Route element={<About />} path="/about" />
-        <Route element={<Contact />} path="/contact" />
-        <Route element={<Auth title="Login" />} path="/login" />
-        <Route element={<Auth title="Register" />} path="/register" />
-        <Route
-          element={<SingleProduct productData={products} />}
-          path="/products/:productId"
-        />
-      </Routes>
+      <Layout user={user}>
+        <Routes>
+          <Route element={<Home productData={products} />} path="/" />
+          <Route element={<About />} path="/about" />
+          <Route element={<Contact />} path="/contact" />
+          <Route element={<Auth title="Login" />} path="/login" />
+          <Route element={<Auth title="Register" />} path="/register" />
+          <Route
+            element={<SingleProduct productData={products} />}
+            path="/products/:productId"
+          />
+          <Route element={<Favorites favorites={products} />} path="/favorites"/>
+          <Route element={<Cart productsInCart={products}/>} path="/cart" />
+          <Route element={<Profile />} path="/profile" />
+        </Routes>
+      </Layout>
     </ThemeProvider>
   );
 }

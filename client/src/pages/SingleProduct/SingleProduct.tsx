@@ -1,8 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import './SingleProduct.css';
 import { useParams } from 'react-router-dom';
 import { ProductData } from '../../interfaces';
-import { products } from '../../data';
 
 import Modal from './Modal/Modal';
 
