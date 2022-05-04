@@ -15,7 +15,7 @@ const Products = ({ productsArray }: ProductsProps) => {
         <Product
           key={product._id}
           imageId={product._id}
-          imageUrl={product.squareThumbUrl}
+          imageUrl={product.largeUrl}
           title={product.title}
           desc={product.desc}
           price={product.price}
