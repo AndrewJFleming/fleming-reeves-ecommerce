@@ -32,10 +32,10 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: any) => {
   return {
     drawer: {
-      backgroundColor: '#F3F6E5!important'
+      backgroundColor: '#C44343!important'
     },
     navListItem: {
-      backgroundColor: '#C44343!important'
+      backgroundColor: '#F3F6E5!important'
     },
     root: {
       display: 'flex'
