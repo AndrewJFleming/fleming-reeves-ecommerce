@@ -43,43 +43,47 @@ const Product = ({
   const classes = useStyles();
 
   return (
-    <Link to={'/products/' + imageId} className={classes.productLink}>
-      <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }}>
+      <Link
+        to={'/products/' + imageId}
+        className={classes.productLink}
+      >
         <CardMedia
           component="img"
           height="240"
           image={imageUrl}
           alt={'A preview of ' + title}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2">
-            {desc}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            gutterBottom
-            sx={{
-              justifySelf: 'center',
-              alignSelf: 'center',
-              textAlign: 'center'
-            }}
-          >
-            {'Price:  $' + price}
-          </Typography>
-          <CardActions>
-            <Button size="small">
-              <StarRateIcon />Favorite
-            </Button>
-            <Button size="small">
-              <ShoppingCartIcon /> Add to Cart
-            </Button>
-          </CardActions>
-        </CardContent>
-      </Card>
-    </Link>
+      </Link>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {title}
+        </Typography>
+        <Typography variant="body2" gutterBottom>
+          {desc.length <= 119 ? desc : `${desc.substring(0, 120)}...`}
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+          sx={{
+            justifySelf: 'center',
+            alignSelf: 'center',
+            textAlign: 'center',
+            margin: '20px 0px 30px 0px'
+          }}
+        >
+          {'Price:  $' + price}
+        </Typography>
+        <CardActions>
+          <Button size="small">
+            <StarRateIcon />Favorite
+          </Button>
+          <Button size="small">
+            <ShoppingCartIcon /> Add to Cart
+          </Button>
+        </CardActions>
+      </CardContent>
+    </Card>
 
     // <div className="product-card">
     //   <img

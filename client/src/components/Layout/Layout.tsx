@@ -121,7 +121,7 @@ const Layout = ({ children, user }: Props) => {
             <Paper className={classes.drawer} />
           </Drawer>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={10}>
           {children}
         </Grid>
       </Grid>

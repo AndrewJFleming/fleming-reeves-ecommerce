@@ -10,7 +10,7 @@
 .data-result {
     margin-top: 5px;
     position: absolute;
-    top: 25px;
+    top: 65px;
     width: calc(100% + 8px);
     max-height:200px;
     background-color: white;

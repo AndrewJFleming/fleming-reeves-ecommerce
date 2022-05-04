@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { ProductData } from '../../interfaces';
 
 import Modal from './Modal/Modal';
+import { Box } from '@mui/material';
+import { Typography } from '@mui/material';
 
 type SingleProductProps = {
   productData: ProductData[];
@@ -22,10 +24,16 @@ const SingleProduct = ({ productData }: SingleProductProps) => {
   };
 
   return (
-    <div className="single-product_container">
-      <h1 className="product-title">
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}
+    >
+      <Typography variant="h2">
         {currentProduct.title}
-      </h1>
+      </Typography>
 
       <img
         onClick={ToggleModal}
@@ -49,7 +57,7 @@ const SingleProduct = ({ productData }: SingleProductProps) => {
       <h3 className="product-price">
         {'Price: ' + currentProduct.price + '$'}{' '}
       </h3>
-    </div>
+    </Box>
   );
 };
 
