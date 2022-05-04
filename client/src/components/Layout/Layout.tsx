@@ -1,6 +1,5 @@
 import { makeStyles } from '@mui/styles';
 import React, { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -8,18 +7,12 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { ClassNames } from '@emotion/react';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Person } from '@mui/icons-material';
-import { flexbox } from '@mui/system';
-import { Container, CssBaseline, Grid, Paper } from '@mui/material';
-import { TopNav } from '../TopNav/TopNav';
+import { CssBaseline, Grid, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 type Props = {
