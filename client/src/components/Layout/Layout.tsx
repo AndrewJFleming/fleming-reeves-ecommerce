@@ -18,7 +18,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Person } from '@mui/icons-material';
 import { flexbox } from '@mui/system';
-import { Container, CssBaseline, Paper } from '@mui/material';
+import { Container, CssBaseline, Grid, Paper } from '@mui/material';
 import { TopNav } from '../TopNav/TopNav';
 import { Link } from 'react-router-dom';
 
@@ -32,6 +32,9 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: any) => {
   return {
     drawer: {
+      backgroundColor: '#F3F6E5!important'
+    },
+    navListItem: {
       backgroundColor: '#C44343!important'
     },
     root: {
@@ -86,51 +89,49 @@ const Layout = ({ children, user }: Props) => {
 
   return (
     <Box className={classes.root}>
-      <CssBaseline />
-      <Drawer
-        sx={{
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box'
-          }
-        }}
-        classes={{
-          paper: classes.drawer
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <Toolbar>
-          <Box className={classes.userIconContainer}>
-            <PersonIcon />
-          </Box>
-          <Typography variant="h5">John Doe</Typography>
-        </Toolbar>
-        <Divider />
-        <List className={classes.drawer}>
-          {menuItems.map((item, index) =>
-            <Link className={classes.navLink} to={item.path}>
-              <ListItem button key={item.text}>
-                <ListItemIcon>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.text} />
-              </ListItem>
-            </Link>
-          )}
-        </List>
-        <Paper className={classes.drawer} />
-      </Drawer>
-      <Container
-        sx={{
-          width: `calc(100% - ${drawerWidth}px)`,
-          ml: `${drawerWidth}px`,
-          alignSelf: 'space-around'
-        }}
-      >
-        {children}
-      </Container>
+      <Grid container>
+        <CssBaseline />
+        <Grid item xs={3}>
+          <Drawer
+            sx={{
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width: 'inherit',
+                boxSizing: 'border-box'
+              }
+            }}
+            classes={{
+              paper: classes.drawer
+            }}
+            variant="permanent"
+            anchor="left"
+          >
+            <Toolbar>
+              <Box className={classes.userIconContainer}>
+                <PersonIcon />
+              </Box>
+              <Typography variant="h5">John Doe</Typography>
+            </Toolbar>
+            <Divider />
+            <List className={classes.navListItem}>
+              {menuItems.map((item, index) =>
+                <Link className={classes.navLink} to={item.path}>
+                  <ListItem button key={item.text}>
+                    <ListItemIcon>
+                      {item.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={item.text} />
+                  </ListItem>
+                </Link>
+              )}
+            </List>
+            <Paper className={classes.drawer} />
+          </Drawer>
+        </Grid>
+        <Grid item xs={9}>
+          {children}
+        </Grid>
+      </Grid>
     </Box>
   );
 };

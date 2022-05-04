@@ -13,8 +13,13 @@ type Props = {
   productsInCart: ProductData[];
 };
 
+
+let total = 0;
+
 const Cart = ({ productsInCart }: Props) => {
-  let currentCart = productsInCart.map(product => {
+  
+  let currentCart = productsInCart?.map(product => {
+    total += product.price;
     return (
       <ListItem
         alignItems="flex-start"
@@ -59,7 +64,14 @@ const Cart = ({ productsInCart }: Props) => {
         }}
       >
         {currentCart}
-        <Typography />
+        <Typography
+        variant='h3'
+        sx={{
+            marginTop: 12
+        }}
+        >
+            {"Total: $" + total}
+        </Typography>
       </List>
     </Box>
   );
