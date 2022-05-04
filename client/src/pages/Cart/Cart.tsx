@@ -61,7 +61,10 @@ const Cart = ({ productsInCart }: Props) => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          border: '1px solid black',
+          borderRadius: 7,
+          margin: '35px 0px'
         }}
       >
         {currentCart}

@@ -84,7 +84,7 @@ const Layout = ({ children, user }: Props) => {
     <Box className={classes.root}>
       <Grid container>
         <CssBaseline />
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Drawer
             sx={{
               flexShrink: 0,

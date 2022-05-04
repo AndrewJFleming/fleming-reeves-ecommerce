@@ -11,20 +11,27 @@ interface ProductsProps {
 const Products = ({ productsArray }: ProductsProps) => {
   let allProducts = productsArray.map(product => {
     return (
-      <Product
-        key={product._id}
-        imageId={product._id}
-        imageUrl={product.squareThumbUrl}
-        title={product.title}
-        desc={product.desc}
-      />
+      <Grid item>
+        <Product
+          key={product._id}
+          imageId={product._id}
+          imageUrl={product.squareThumbUrl}
+          title={product.title}
+          desc={product.desc}
+          price={product.price}
+        />
+      </Grid>
     );
   });
 
   return (
-    <div className="products-container">
+    <Grid container spacing={3}>
       {allProducts}
-    </div>
+    </Grid>
+
+    // <div className="products-container">
+    //   {allProducts}
+    // </div>
   );
 };
 
