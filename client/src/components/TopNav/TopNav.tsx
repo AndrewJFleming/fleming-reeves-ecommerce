@@ -9,7 +9,7 @@ import UserAvatar from "./UserAvatar/UserAvatar";
 import { useStyles } from "./TopNav.styles";
 
 interface Props {
-  user: boolean;
+  username: string;
 }
 
 const StyledNav = styled("nav")(({ theme }) => ({
@@ -22,7 +22,7 @@ const StyledNav = styled("nav")(({ theme }) => ({
   },
 }));
 
-export const TopNav: FC<Props> = ({ user }) => {
+export const TopNav: FC<Props> = ({ username }) => {
   const classes = useStyles();
 
   return (
@@ -48,7 +48,7 @@ export const TopNav: FC<Props> = ({ user }) => {
           />
         </StyledNav>
         <StyledNav id="center-right-nav">
-          {user && <UserAvatar username="Andrew" />}
+          {username && <UserAvatar username={username} />}
           <NavItem
             navItemInner={<CartNavItemInner cartCount={0} />}
             path="/cart"
@@ -56,7 +56,7 @@ export const TopNav: FC<Props> = ({ user }) => {
           />
         </StyledNav>
         <StyledNav id="right-nav">
-          {user ? (
+          {username ? (
             <NavItem
               navItemInner="Logout"
               path=""
