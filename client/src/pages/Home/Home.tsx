@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import Box, { BoxProps } from '@mui/material/Box';
-import Products from '../../components/Products/Products';
-import Pagination from '@mui/material/Pagination/';
-import Stack from '@mui/material/Stack';
-import { ProductData } from '../../interfaces';
-import './Home.css';
-import SearchBar from '../../components/SearchBar/SearchBar';
+import React, { useState, useEffect } from "react";
+import Box, { BoxProps } from "@mui/material/Box";
+import Products from "../../components/Products/Products";
+import Pagination from "@mui/material/Pagination/";
+import Stack from "@mui/material/Stack";
+import { ProductData } from "../../interfaces";
+import "./Home.css";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 type HomeProps = {
   productData: ProductData[];
@@ -15,14 +15,11 @@ const Home = ({ productData }: HomeProps) => {
   const [productsArray, setProductsArray] = useState(productData);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(5);
-  const [searchString, setSearchString] = useState('');
+  const [searchString, setSearchString] = useState("");
 
-  useEffect(
-    () => {
-      setProductsArray(productData);
-    },
-    [productData]
-  );
+  useEffect(() => {
+    setProductsArray(productData);
+  }, [productData]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -40,28 +37,23 @@ const Home = ({ productData }: HomeProps) => {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const numberOfPages = Math.ceil(
-    productsArray.length / productsPerPage
-  );
+  const numberOfPages = Math.ceil(productsArray.length / productsPerPage);
   const currentProducts = productsArray.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
   const filteredProducts = productsArray.filter(
-    product => product.title == searchString
+    (product) => product.title == searchString
   );
 
   return (
     <div className="home-page_container">
-      <SearchBar
-        placeholder={'Search by title'}
-        data={productsArray}
-      />
+      <SearchBar placeholder={"Search by title"} data={productsArray} />
       <Box
         sx={{
-          display: 'grid',
+          display: "grid",
           gap: 1,
-          gridTemplateColumns: '(3, 1fr)'
+          gridTemplateColumns: "(3, 1fr)",
         }}
       >
         <Products productsArray={currentProducts} />
@@ -70,7 +62,7 @@ const Home = ({ productData }: HomeProps) => {
       <Stack
         className="pagination"
         spacing={2}
-        sx={{ justifyContent: 'center' }}
+        sx={{ justifyContent: "center" }}
       >
         <Pagination
           count={numberOfPages}
