@@ -8,24 +8,29 @@ import jwt from "jsonwebtoken";
 
 // LOGIN
 export const login = async (req, res) => {
-  const { username, password } = req.body;
   try {
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ username: req.body.username });
     if (!existingUser)
       return res.status(404).json({ message: "User doesn't exist." });
+
     const isPasswordCorrect = await bcrypt.compare(
-      password,
+      req.body.password,
       existingUser.password
     );
 
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Incorrect password." });
+
     const token = jwt.sign(
-      { email: existingUser.email, id: existingUser._id },
-      "test",
+      //Include email and id along with accessToken
+      { username: existingUser.username, id: existingUser._id },
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.status(200).json({ result: existingUser, token });
+
+    //Respond with everything but user password
+    const { password, ...loggedInUser } = existingUser._doc;
+    res.status(200).json({ result: loggedInUser, token });
   } catch (error) {
     res.status(500).json({ message: "Failed to sign in." });
   }
@@ -33,32 +38,36 @@ export const login = async (req, res) => {
 
 // REGISTER
 export const register = async (req, res) => {
-  const { username, email, password, isAdmin } = req.body;
   let existingUser;
   try {
-    existingUser = await User.findOne({ username });
+    existingUser = await User.findOne({ username: req.body.username });
 
     if (existingUser)
       return res.status(400).json({ message: "User already exists." });
+
     //Second arg in hash method is 'salt' (password difficulty)
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const result = await User.create({
-      username,
-      email,
+      username: req.body.username,
+      email: req.body.email,
       password: hashedPassword,
-      isAdmin,
+      isAdmin: req.body.isAdmin,
     });
 
     const token = jwt.sign(
       { username: result.username, id: result._id },
-      "test",
+      process.env.JWT_SECRET,
       {
         expiresIn: "1h",
       }
     );
-    res.status(201).json({ result, token });
+
+    //Respond with everything but user password
+    const { password, ...registeredUser } = result._doc;
+    //If user creation was successful, send result and token back in res obj with status code.
+    res.status(201).json({ result: registeredUser, token });
   } catch (error) {
-    res.status(500).json({ message: "Failed to signup." });
+    res.status(500).json({ message: "Failed to register user." });
   }
 };
 
@@ -89,6 +98,27 @@ export const updateUser = async (req, res) => {
       req.params.id,
       {
         $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update user." });
+  }
+};
+
+// UPDATE FAVORITES
+export const updateFavorites = async (req, res) => {
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ _id: req.params.id });
+    if (!existingUser)
+      return res.status(404).json({ message: "User doesn't exist." });
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        favorites: req.body.favorites,
       },
       { new: true }
     );

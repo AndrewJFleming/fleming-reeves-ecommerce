@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios, { AxiosResponse } from "axios";
 import { createTheme, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -102,10 +103,14 @@ const customTheme = createTheme({
 });
 
 function App() {
-  const [user, setUser] = useState(false);
+  const currentUser = useSelector(
+    (state: any) => state.userReducer.authData.result
+  );
   const [products, setProducts] = useState<ProductData[]>([]);
+  const [favorites, setFavorites] = useState<ProductData[]>([]);
 
   console.log("Products: ", products);
+  console.log(currentUser);
 
   useEffect(() => {
     axios
@@ -115,23 +120,56 @@ function App() {
       });
   }, []);
 
+  //Check currentUser favorites array for product id matches in products array objs.
+  useEffect(() => {
+    const findFavoriteProducts = (
+      currentUserFavorites: any,
+      allProducts: any
+    ) => {
+      var matches: ProductData[] = [];
+      allProducts.forEach((product: ProductData) => {
+        if (
+          currentUserFavorites.find(
+            (favorite: string) => favorite === product._id
+          )
+        ) {
+          //If ids match, product object is pushed to matches array.
+          matches.push(product);
+        }
+      });
+      return matches;
+    };
+
+    //Array of matches objs are set to favorites state.
+    setFavorites(findFavoriteProducts(currentUser?.favorites, products));
+  }, [products]);
+
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
-      <TopNav user={user} />
-      <Layout user={user}>
+      <TopNav username={currentUser?.username} />
+      <Layout username={currentUser?.username}>
         <Routes>
           <Route element={<Home productData={products} />} path="/" />
           <Route element={<About />} path="/about" />
           <Route element={<Contact />} path="/contact" />
-          <Route element={<Auth title="Login" />} path="/login" />
-          <Route element={<Auth title="Register" />} path="/register" />
+          <Route
+            element={<Auth title="Login" altPath="/register" />}
+            path="/login"
+          />
+          <Route
+            element={<Auth title="Register" altPath="/login" />}
+            path="/register"
+          />
           <Route
             element={<SingleProduct productData={products} />}
             path="/products/:productId"
           />
-          <Route element={<Favorites favorites={products} />} path="/favorites"/>
-          <Route element={<Cart productsInCart={products}/>} path="/cart" />
+          <Route
+            element={<Favorites favorites={products} />}
+            path="/favorites"
+          />
+          <Route element={<Cart productsInCart={products} />} path="/cart" />
           <Route element={<Profile />} path="/profile" />
         </Routes>
       </Layout>

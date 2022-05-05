@@ -1,11 +1,17 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../redux";
+
 import { Typography, Paper, TextField, Button } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
+import { SwitchAuthPage } from "./SwitchAuthPage/SwitchAuthPage";
 
 interface Props {
   title: string;
+  altPath: string;
 }
 
 const useStyles = makeStyles({
@@ -24,12 +30,40 @@ const useStyles = makeStyles({
   },
 });
 
-export const Auth: FC<Props> = ({ title }) => {
+export const Auth: FC<Props> = ({ title, altPath }) => {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleAuthenticate = (e: any) => {
+  const { login, register } = bindActionCreators(actionCreators, dispatch);
+
+  const handleAuth = (e: any) => {
     e.preventDefault();
-    navigate("/");
+    if (title === "Login") {
+      //Remove email prop from formData obj
+      const { email, ...loginFormData } = formData;
+      login(loginFormData, navigate);
+    } else {
+      register(formData, navigate);
+    }
+  };
+
+  const handleChange = (e: any) =>
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+
+  const handleClearForm = (e: any) => {
+    setFormData({
+      username: "",
+      email: "",
+      password: "",
+    });
   };
 
   const classes = useStyles();
@@ -43,38 +77,63 @@ export const Auth: FC<Props> = ({ title }) => {
           sx={{ backgroundColor: "common.white" }}
           label="Username"
           placeholder="Enter username"
+          value={formData.username}
+          name="username"
           margin="normal"
           fullWidth
           required
+          onChange={handleChange}
         />
+        {title === "Register" && (
+          <TextField
+            sx={{ backgroundColor: "common.white" }}
+            label="Email"
+            placeholder="Enter email"
+            value={formData.email}
+            name="email"
+            type="email"
+            margin="normal"
+            fullWidth
+            required
+            onChange={handleChange}
+          />
+        )}
         <TextField
           sx={{ backgroundColor: "common.white" }}
           label="Password"
           placeholder="Enter password"
+          value={formData.password}
+          name="password"
           margin="normal"
           type="password"
           fullWidth
           required
+          onChange={handleChange}
         />
         <Button
-          type="submit"
           color="warning"
           variant="contained"
           sx={{ margin: "1rem 0" }}
           fullWidth
-          onClick={handleAuthenticate}
+          onClick={handleAuth}
         >
           {title}
         </Button>
         <Typography>
           {title === "Login" ? (
-            <Typography>
-              Not yet registered? <Link to="/register">Register</Link>
-            </Typography>
+            <SwitchAuthPage
+              prompt="Not yet registered? "
+              title={title}
+              altPath={altPath}
+              handleClearForm={handleClearForm}
+            />
           ) : (
-            <Typography>
-              Already registered? <Link to="/login">Login</Link>
-            </Typography>
+            <SwitchAuthPage
+              prompt="Already registered? "
+              title={title}
+              altPath={altPath}
+              handleClearForm={handleClearForm}
+            />
           )}
         </Typography>
       </Paper>
