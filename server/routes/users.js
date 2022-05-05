@@ -4,8 +4,11 @@ import {
   login,
   register,
   updateUser,
+  updateFavorites,
   deleteUser,
 } from "../controllers/user-controller.js";
+
+import { auth } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -13,6 +16,7 @@ const router = express.Router();
 router.post("/login", login);
 router.post("/register", register);
 router.put("/:id", updateUser);
+router.put("/favorites/:id", updateFavorites);
 router.delete("/:id", deleteUser);
 
 export default router;

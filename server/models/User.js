@@ -8,8 +8,8 @@ const UserSchema = mongoose.Schema(
     isAdmin: {
       type: Boolean,
       default: false,
-      required: true,
     },
+    favorites: { type: Array },
   },
   { timestamps: true }
 );

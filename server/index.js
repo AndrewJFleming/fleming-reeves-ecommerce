@@ -9,6 +9,8 @@ import userRoute from "./routes/users.js";
 const app = express();
 dotenv.config();
 
+//Middleware
+//express.json parses any json data coming back from req into a js obj; attaches js obj to req obj.
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
@@ -18,9 +20,11 @@ app.get("/", (req, res) => {
   res.send("Hello world...");
 });
 
+//Routes
 app.use("/products", productRoute);
 app.use("/users", userRoute);
 
+//Database connection
 const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT || 5000;
 
