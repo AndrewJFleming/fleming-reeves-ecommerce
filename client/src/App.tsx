@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios, { AxiosResponse } from "axios";
@@ -20,7 +20,6 @@ import Layout from "./components/Layout/Layout";
 import Favorites from "./pages/Favorites/Favorites";
 import Cart from "./pages/Cart/Cart";
 import Profile from "./pages/Profile/Profile";
-// import "./App.css";
 
 const customTheme = createTheme({
   components: {
@@ -104,13 +103,11 @@ const customTheme = createTheme({
 
 function App() {
   const currentUser = useSelector(
-    (state: any) => state.userReducer.authData.result
+    (state: any) => state.userReducer.authData.user
   );
   const [products, setProducts] = useState<ProductData[]>([]);
-  const [favorites, setFavorites] = useState<ProductData[]>([]);
-
-  console.log("Products: ", products);
-  console.log(currentUser);
+  const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
+  const [favoritesIds, setFavoritesIds] = useState<string[]>([]);
 
   useEffect(() => {
     axios
@@ -119,6 +116,14 @@ function App() {
         setProducts(response?.data);
       });
   }, []);
+
+  useEffect(() => {
+    const idsArray: string[] = [];
+    favoriteProducts.forEach((favoriteProduct) =>
+      idsArray.push(favoriteProduct._id)
+    );
+    setFavoritesIds(idsArray);
+  }, [favoriteProducts]);
 
   //Check currentUser favorites array for product id matches in products array objs.
   useEffect(() => {
@@ -129,7 +134,7 @@ function App() {
       var matches: ProductData[] = [];
       allProducts.forEach((product: ProductData) => {
         if (
-          currentUserFavorites.find(
+          currentUserFavorites?.find(
             (favorite: string) => favorite === product._id
           )
         ) {
@@ -141,8 +146,8 @@ function App() {
     };
 
     //Array of matches objs are set to favorites state.
-    setFavorites(findFavoriteProducts(currentUser?.favorites, products));
-  }, [products]);
+    setFavoriteProducts(findFavoriteProducts(currentUser?.favorites, products));
+  }, [products, currentUser]);
 
   return (
     <ThemeProvider theme={customTheme}>
@@ -162,11 +167,23 @@ function App() {
             path="/register"
           />
           <Route
-            element={<SingleProduct productData={products} />}
+            element={
+              <SingleProduct
+                productData={products}
+                favoritesIds={favoritesIds}
+                userId={currentUser?._id}
+              />
+            }
             path="/products/:productId"
           />
           <Route
-            element={<Favorites favorites={products} />}
+            element={
+              <Favorites
+                favoritesIds={favoritesIds}
+                favorites={favoriteProducts}
+                userId={currentUser?._id}
+              />
+            }
             path="/favorites"
           />
           <Route element={<Cart productsInCart={products} />} path="/cart" />
