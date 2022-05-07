@@ -30,7 +30,7 @@ export const login = async (req, res) => {
 
     //Respond with everything but user password
     const { password, ...loggedInUser } = existingUser._doc;
-    res.status(200).json({ result: loggedInUser, token });
+    res.status(200).json({ user: loggedInUser, token });
   } catch (error) {
     res.status(500).json({ message: "Failed to sign in." });
   }
@@ -47,7 +47,7 @@ export const register = async (req, res) => {
 
     //Second arg in hash method is 'salt' (password difficulty)
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
-    const result = await User.create({
+    const user = await User.create({
       username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
@@ -55,7 +55,7 @@ export const register = async (req, res) => {
     });
 
     const token = jwt.sign(
-      { username: result.username, id: result._id },
+      { username: user.username, id: user._id },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
@@ -63,9 +63,9 @@ export const register = async (req, res) => {
     );
 
     //Respond with everything but user password
-    const { password, ...registeredUser } = result._doc;
+    const { password, ...registeredUser } = user._doc;
     //If user creation was successful, send result and token back in res obj with status code.
-    res.status(201).json({ result: registeredUser, token });
+    res.status(201).json({ user: registeredUser, token });
   } catch (error) {
     res.status(500).json({ message: "Failed to register user." });
   }
@@ -114,15 +114,15 @@ export const updateFavorites = async (req, res) => {
     existingUser = await User.findOne({ _id: req.params.id });
     if (!existingUser)
       return res.status(404).json({ message: "User doesn't exist." });
-
+    console.log(req.body);
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
-        favorites: req.body.favorites,
+        favorites: req.body,
       },
       { new: true }
     );
-    res.status(200).json(updatedUser);
+    res.status(200).json({ user: updatedUser });
   } catch (err) {
     res.status(500).json({ message: "Failed to update user." });
   }
