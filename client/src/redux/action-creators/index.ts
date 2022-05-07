@@ -8,17 +8,17 @@ export const login = (formData: any, navigate: any) => async (dispatch: Dispatch
     //JSON parsed to js obj returns as res and we grab the data prop.
     const { data } = await api.login(formData);
     dispatch({ type: ActionType.AUTH, payload: data });
-    // navigate("/");
+    navigate("/");
   } catch (error: any) {
     const authError = error.response.data.message;
     dispatch({ type: ActionType.AUTH_ERROR, payload: authError });
   }
 };
-export const register = (formData: any, navigate: any) => async (dispatch: Dispatch<Action>) => {
+export const register = (formData: object, navigate: any) => async (dispatch: Dispatch<Action>) => {
   try {
     const { data } = await api.register(formData);
     dispatch({ type: ActionType.AUTH, payload: data });
-    // navigate("/");
+    navigate("/");
   } catch (error: any) {
     const authError = error.response.data.message;
     dispatch({ type: ActionType.AUTH_ERROR, payload: authError });
@@ -34,3 +34,12 @@ export const register = (formData: any, navigate: any) => async (dispatch: Dispa
 //     dispatch({ type: ActionType.AUTH_ERROR, authError });
 //   }
 // };
+export const updateFavorites = (id: string, formData: object) => async (dispatch: Dispatch<Action>) => {
+  try {
+    const { data } = await api.updateFavorites(id, formData);
+    dispatch({ type: ActionType.UPDATE_FAVORITES, payload: data });
+  } catch (error: any) {
+    const authError = error.response.data.message;
+    dispatch({ type: ActionType.AUTH_ERROR, payload: authError });
+  }
+};

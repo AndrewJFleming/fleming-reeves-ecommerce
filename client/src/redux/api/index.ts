@@ -22,6 +22,7 @@ const axiosInstance = axios.create({
 export const login = (formData: any) => axiosInstance.post("/users/login", formData);
 export const register = (formData: any) => axiosInstance.post("/users/register", formData);
 // export const updateUser = (id: string, formData: any) => axiosInstance.put(`/users/${id}`, formData);
+export const updateFavorites = (id: string, formData: any) => axiosInstance.post(`/users/favorites/${id}`, formData);
 
 // export const addToCart = (id: string) => axiosInstance.get(`/products/find/${id}`);
 // export const createCart = (newCartData: any) => axiosInstance.post("/carts/", newCartData);

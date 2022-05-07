@@ -10,11 +10,16 @@ interface Logout {
     payload?: any,
   }
 
+interface UpdateFavorites {
+    type: ActionType.UPDATE_FAVORITES,
+    payload?: any,
+  }
+
 interface AuthError {
     type: ActionType.AUTH_ERROR,
     payload?: any,
   }
   
-  export type Action = Auth | Logout | AuthError
+  export type Action = Auth | Logout | UpdateFavorites | AuthError
 
   

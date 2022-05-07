@@ -16,7 +16,7 @@ const router = express.Router();
 router.post("/login", login);
 router.post("/register", register);
 router.put("/:id", updateUser);
-router.put("/favorites/:id", updateFavorites);
+router.post("/favorites/:id", updateFavorites);
 router.delete("/:id", deleteUser);
 
 export default router;

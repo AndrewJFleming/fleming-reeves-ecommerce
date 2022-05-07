@@ -7,6 +7,9 @@ const userReducer = (state: any = { authData: {}, error: false }, action: Action
       //Save user data to local storage under 'profile' label (accessToken included).
       localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
       return { ...state, authData: action?.payload, error: false };
+    case ActionType.UPDATE_FAVORITES:
+      localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
+      return { ...state, authData: action?.payload, error: false };
     case ActionType.LOGOUT:
       localStorage.removeItem("profile");
       return { ...state, authData: {}, error: false };
