@@ -73,7 +73,10 @@ const useStyles = makeStyles((theme: any) => {
       alignSelf: 'flex-start',
       justifySelf: 'flex-start',
       width: '100%',
-      backgroundColor: '#C44343'
+      backgroundColor: '#C44343',
+      top: '0',
+      position: 'sticky',
+      zIndex: '1200'
     }
   };
 });
@@ -156,6 +159,7 @@ const Layout = ({ children, username }: Props) => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
+          alignItems: 'center',
           width: '100%'
         }}
       >
