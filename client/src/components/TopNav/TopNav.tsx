@@ -1,32 +1,32 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import { Container, Box } from "@mui/material";
-import { styled } from "@mui/system";
-import NavItem from "./NavItem/NavItem";
-import CartNavItemInner from "./CartNavItemInner/CartNavItemInner";
-import UserAvatar from "./UserAvatar/UserAvatar";
+import { Container, Box } from '@mui/material';
+import { styled } from '@mui/system';
+import NavItem from './NavItem/NavItem';
+import CartNavItemInner from './CartNavItemInner/CartNavItemInner';
+import UserAvatar from './UserAvatar/UserAvatar';
 
-import { useStyles } from "./TopNav.styles";
+import { useStyles } from './TopNav.styles';
 
 interface Props {
   username: string;
 }
 
-const StyledNav = styled("nav")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  [theme.breakpoints.down("md")]: {
-    "&:first-of-type": {
-      width: "100%",
-    },
-  },
+const StyledNav = styled('nav')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  [theme.breakpoints.down('md')]: {
+    '&:first-of-type': {
+      width: '100%'
+    }
+  }
 }));
 
 export const TopNav: FC<Props> = ({ username }) => {
   const classes = useStyles();
 
   return (
-    <Box component="header" sx={{ backgroundColor: "error.main" }}>
+    <Box component="header" sx={{ backgroundColor: 'error.main' }}>
       <Container className={classes.headerContainer}>
         <StyledNav id="left-nav">
           <NavItem
@@ -56,26 +56,24 @@ export const TopNav: FC<Props> = ({ username }) => {
           />
         </StyledNav>
         <StyledNav id="right-nav">
-          {username ? (
-            <NavItem
-              navItemInner="Logout"
-              path=""
-              linkClasses={`${classes.authLink} ${classes.navItem}`}
-            />
-          ) : (
-            <React.Fragment>
-              <NavItem
-                navItemInner="Login"
-                path="/login"
+          {username
+            ? <NavItem
+                navItemInner="Logout"
+                path=""
                 linkClasses={`${classes.authLink} ${classes.navItem}`}
               />
-              <NavItem
-                navItemInner="Register"
-                path="/register"
-                linkClasses={`${classes.authLink} ${classes.navItem}`}
-              />
-            </React.Fragment>
-          )}
+            : <React.Fragment>
+                <NavItem
+                  navItemInner="Login"
+                  path="/login"
+                  linkClasses={`${classes.authLink} ${classes.navItem}`}
+                />
+                <NavItem
+                  navItemInner="Register"
+                  path="/register"
+                  linkClasses={`${classes.authLink} ${classes.navItem}`}
+                />
+              </React.Fragment>}
         </StyledNav>
       </Container>
     </Box>

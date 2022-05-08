@@ -152,7 +152,7 @@ function App() {
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
-      <TopNav username={currentUser?.username} />
+      
       <Layout username={currentUser?.username}>
         <Routes>
           <Route element={<Home productData={products} />} path="/" />
