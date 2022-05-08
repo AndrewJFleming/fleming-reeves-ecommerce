@@ -165,7 +165,7 @@ const Layout = ({ children, username }: Props) => {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'row',
             marginLeft: '35px'
           }}
         >
