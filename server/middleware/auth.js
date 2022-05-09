@@ -2,29 +2,25 @@ import jwt from "jsonwebtoken";
 
 export const auth = async (req, res, next) => {
   try {
+    //Get token part of the string from request.
     const token = req.headers.authorization.split(" ")[1];
 
     let decodedData;
     if (token) {
-      decodedData = jwt.verify(token, process.env.JWT_SECRET);
+      decodedData = jwt.verify(
+        token,
+        // "test"
+        process.env.JWT_SECRET
+      );
       req.userId = decodedData.id;
     }
-    console.log(req);
     next();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    res.status(401).json({
+      message:
+        error.name === "TokenExpiredError"
+          ? "Login token expired"
+          : "Token validation failed",
+    });
   }
 };
-
-// export const verifyToken = (req, res, next) => {
-//   const authHeader = req.headers.token;
-//   if (!authHeader) {
-//     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-//       if (err) res.status(403).json("Token is not valid");
-//       req.user = user;
-//       next();
-//     });
-//   } else {
-//     return res.status(401).json("You are not authenticated");
-//   }
-// };
