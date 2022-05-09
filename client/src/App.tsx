@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import axios, { AxiosResponse } from "axios";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "./redux";
 import { createTheme, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -108,6 +110,10 @@ function App() {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
   const [favoritesIds, setFavoritesIds] = useState<string[]>([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { updateFavorites } = bindActionCreators(actionCreators, dispatch);
 
   useEffect(() => {
     axios
@@ -149,13 +155,35 @@ function App() {
     setFavoriteProducts(findFavoriteProducts(currentUser?.favorites, products));
   }, [products, currentUser]);
 
+  const handleFavorite = (id: any, isFavorite: boolean) => {
+    if (!isFavorite) {
+      const updatedFavoritesIds: string[] = favoritesIds;
+      updatedFavoritesIds.push(id);
+      updateFavorites(currentUser?._id, updatedFavoritesIds, navigate);
+    } else {
+      const updatedFavoritesIds: string[] = favoritesIds.filter(
+        (favId) => favId !== id
+      );
+      updateFavorites(currentUser?._id, updatedFavoritesIds, navigate);
+    }
+  };
+
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
       <TopNav username={currentUser?.username} />
       <Layout username={currentUser?.username}>
         <Routes>
-          <Route element={<Home productData={products} />} path="/" />
+          <Route
+            element={
+              <Home
+                productData={products}
+                handleFavorite={handleFavorite}
+                favoritesIds={favoritesIds}
+              />
+            }
+            path="/"
+          />
           <Route element={<About />} path="/about" />
           <Route element={<Contact />} path="/contact" />
           <Route
@@ -172,6 +200,7 @@ function App() {
                 productData={products}
                 favoritesIds={favoritesIds}
                 userId={currentUser?._id}
+                handleFavorite={handleFavorite}
               />
             }
             path="/products/:productId"

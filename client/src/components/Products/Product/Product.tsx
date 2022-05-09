@@ -1,58 +1,65 @@
-import React, { Component } from 'react';
-import './Product.css';
-import { Link } from 'react-router-dom';
-import Paper from '@mui/material/Paper';
+import { useState, useEffect } from "react";
+import "./Product.css";
+import { Link } from "react-router-dom";
 import {
   Button,
   Card,
   CardActions,
   CardContent,
   CardMedia,
-  Grid,
-  Typography
-} from '@mui/material';
-import StarRateIcon from '@mui/icons-material/StarRate';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { makeStyles } from '@mui/styles';
+  Typography,
+} from "@mui/material";
+import StarRateIcon from "@mui/icons-material/StarRate";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { makeStyles } from "@mui/styles";
 
 interface ProductProps {
+  _id: string;
   imageId: string;
   imageUrl: string;
   title: string;
   desc: string;
   price: number;
+  handleFavorite: any;
+  favoritesIds: string[];
 }
 
 const useStyles = makeStyles({
   productLink: {
-    textDecoration: 'none',
-    color: 'inherit',
-    '&:hover': {
-      textDecoration: 'none'
-    }
-  }
+    textDecoration: "none",
+    color: "inherit",
+    "&:hover": {
+      textDecoration: "none",
+    },
+  },
 });
 
 const Product = ({
+  _id,
   imageId,
   imageUrl,
   title,
   desc,
-  price
+  price,
+  handleFavorite,
+  favoritesIds,
 }: ProductProps) => {
   const classes = useStyles();
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+  useEffect(() => {
+    const id: any = _id;
+    setIsFavorite(favoritesIds.includes(id));
+  }, [_id, favoritesIds]);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <Link
-        to={'/products/' + imageId}
-        className={classes.productLink}
-      >
+      <Link to={"/products/" + imageId} className={classes.productLink}>
         <CardMedia
           component="img"
           height="240"
           image={imageUrl}
-          alt={'A preview of ' + title}
+          alt={"A preview of " + title}
         />
       </Link>
       <CardContent>
@@ -66,17 +73,26 @@ const Product = ({
           variant="subtitle1"
           gutterBottom
           sx={{
-            justifySelf: 'center',
-            alignSelf: 'center',
-            textAlign: 'center',
-            margin: '20px 0px 30px 0px'
+            justifySelf: "center",
+            alignSelf: "center",
+            textAlign: "center",
+            margin: "20px 0px 30px 0px",
           }}
         >
-          {'Price:  $' + price}
+          {"Price:  $" + price}
         </Typography>
         <CardActions>
-          <Button size="small">
-            <StarRateIcon />Favorite
+          <Button
+            size="small"
+            onClick={() => handleFavorite(_id, isFavorite)}
+            sx={
+              isFavorite
+                ? { color: "rgba(34, 2, 66, 0.5)" }
+                : { color: "primary.main" }
+            }
+          >
+            <StarRateIcon />
+            Favorite
           </Button>
           <Button size="small">
             <ShoppingCartIcon /> Add to Cart
@@ -84,20 +100,6 @@ const Product = ({
         </CardActions>
       </CardContent>
     </Card>
-
-    // <div className="product-card">
-    //   <img
-    //     className="product-card_image"
-    //     src={imageUrl}
-    //     alt="Thumbnail image of the artwork being sold"
-    //   />
-    //   <h2 className="product-card_title">
-    //     {title}
-    //   </h2>
-    //   <h3 className="product-card_desc">
-    //     {desc.length <= 99 ? desc : `${desc.substring(0, 100)}...`}
-    //   </h3>
-    // </div>
   );
 };
 
