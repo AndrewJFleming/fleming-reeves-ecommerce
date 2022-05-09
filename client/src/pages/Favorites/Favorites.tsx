@@ -11,6 +11,7 @@ import { makeStyles } from "@mui/styles";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ProductData } from "../../interfaces";
+import { useNavigate } from "react-router-dom";
 
 import { actionCreators } from "../../redux";
 
@@ -26,13 +27,14 @@ const useStyles = makeStyles((theme: any) => {
 
 const Favorites = ({ favorites, userId, favoritesIds }: Props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { updateFavorites } = bindActionCreators(actionCreators, dispatch);
 
   const handleRemove = (id: string) => {
     const updatedFavoritesIds: string[] = favoritesIds.filter(
       (favId) => favId !== id
     );
-    updateFavorites(userId, updatedFavoritesIds);
+    updateFavorites(userId, updatedFavoritesIds, navigate);
   };
 
   let allFavorites = favorites?.map((favorite) => {
