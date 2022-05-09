@@ -8,13 +8,13 @@ const userReducer = (state: any = { authData: {}, error: false }, action: Action
       localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
       return { ...state, authData: action?.payload, error: false };
     case ActionType.UPDATE_FAVORITES:
-      localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
-      return { ...state, authData: action?.payload, error: false };
+      localStorage.setItem("profile", JSON.stringify({ ...state.authData, user: action?.payload }));
+      return { ...state, authData: {...state.authData, user: action?.payload}, error: false };
     case ActionType.LOGOUT:
       localStorage.removeItem("profile");
       return { ...state, authData: {}, error: false };
-    // case actionTypes.AUTH_ERROR:
-    //   return { ...state, error: action.authError };
+    case ActionType.AUTH_ERROR:
+      return { ...state, error: action?.payload };
     // case actionTypes.CLEAR_AUTH_ERROR:
     //   return { ...state, error: false };
     default:
