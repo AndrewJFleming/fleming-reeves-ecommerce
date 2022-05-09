@@ -10,6 +10,7 @@ export const login = (formData: any, navigate: any) => async (dispatch: Dispatch
     dispatch({ type: ActionType.AUTH, payload: data });
     navigate("/");
   } catch (error: any) {
+    console.log(error.response.data.message)
     const authError = error.response.data.message;
     dispatch({ type: ActionType.AUTH_ERROR, payload: authError });
   }
@@ -34,12 +35,17 @@ export const register = (formData: object, navigate: any) => async (dispatch: Di
 //     dispatch({ type: ActionType.AUTH_ERROR, authError });
 //   }
 // };
-export const updateFavorites = (id: string, formData: object) => async (dispatch: Dispatch<Action>) => {
+export const updateFavorites = (id: string, formData: object, navigate: any) => async (dispatch: Dispatch<Action>) => {
   try {
     const { data } = await api.updateFavorites(id, formData);
     dispatch({ type: ActionType.UPDATE_FAVORITES, payload: data });
   } catch (error: any) {
+    console.log(error.response.data.message)
     const authError = error.response.data.message;
     dispatch({ type: ActionType.AUTH_ERROR, payload: authError });
+    setTimeout(() => {
+      dispatch({ type: ActionType.LOGOUT });
+      navigate("/login");
+    }, 5000)
   }
 };

@@ -9,9 +9,11 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 
 type HomeProps = {
   productData: ProductData[];
+  handleFavorite: any;
+  favoritesIds: string[];
 };
 
-const Home = ({ productData }: HomeProps) => {
+const Home = ({ productData, handleFavorite, favoritesIds }: HomeProps) => {
   const [productsArray, setProductsArray] = useState(productData);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(5);
@@ -56,7 +58,11 @@ const Home = ({ productData }: HomeProps) => {
           gridTemplateColumns: "(3, 1fr)",
         }}
       >
-        <Products productsArray={currentProducts} />
+        <Products
+          productsArray={currentProducts}
+          favoritesIds={favoritesIds}
+          handleFavorite={handleFavorite}
+        />
         <div className="pagination-container" />
       </Box>
       <Stack

@@ -25,7 +25,9 @@ export const login = async (req, res) => {
       //Include email and id along with accessToken
       { username: existingUser.username, id: existingUser._id },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      // number value indicates seconds (eg, "expiresIn: 60" indicates expiration in 60 seconds)
+      // string value allows for more specificity ("15m", "1h", "1d" )
+      { expiresIn: "15m" }
     );
 
     //Respond with everything but user password
@@ -58,7 +60,7 @@ export const register = async (req, res) => {
       { username: user.username, id: user._id },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "15m",
       }
     );
 
@@ -72,32 +74,57 @@ export const register = async (req, res) => {
 };
 
 // UPDATE
-export const updateUser = async (req, res) => {
-  //Check for missing fields to ensure user doesn't update w/ blank values.
-  if (!req.body.username || !req.body.email)
-    return res.status(400).json({ message: "Missing inputs" });
+// export const updateUser = async (req, res) => {
+//   //Check for missing fields to ensure user doesn't update w/ blank values.
+//   if (!req.body.username || !req.body.email)
+//     return res.status(400).json({ message: "Missing inputs" });
 
+//   let existingUser;
+//   try {
+//     existingUser = await User.findOne({ _id: req.params.id });
+//     if (!existingUser)
+//       return res.status(404).json({ message: "User doesn't exist." });
+
+//     const isPasswordCorrect = await bcrypt.compare(
+//       req.body.currentPassword,
+//       existingUser.password
+//     );
+
+//     if (!isPasswordCorrect)
+//       return res.status(400).json({ message: "Incorrect password." });
+
+//     if (req.body.password) {
+//       req.body.password = await bcrypt.hash(req.body.password, 12);
+//     }
+//     const updatedUser = await User.findByIdAndUpdate(
+//       req.params.id,
+//       {
+//         $set: req.body,
+//       },
+//       { new: true }
+//     );
+//     res.status(200).json(updatedUser);
+//   } catch (err) {
+//     res.status(500).json({ message: "Failed to update user." });
+//   }
+// };
+
+// UPDATE FAVORITES
+export const updateFavorites = async (req, res) => {
   let existingUser;
   try {
+    if (req.userId !== req.params.id)
+      return res
+        .status(409)
+        .json({ message: "Token user id and params.id missmatch" });
+
     existingUser = await User.findOne({ _id: req.params.id });
     if (!existingUser)
       return res.status(404).json({ message: "User doesn't exist." });
-
-    const isPasswordCorrect = await bcrypt.compare(
-      req.body.currentPassword,
-      existingUser.password
-    );
-
-    if (!isPasswordCorrect)
-      return res.status(400).json({ message: "Incorrect password." });
-
-    if (req.body.password) {
-      req.body.password = await bcrypt.hash(req.body.password, 12);
-    }
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
-        $set: req.body,
+        favorites: req.body,
       },
       { new: true }
     );
@@ -107,33 +134,12 @@ export const updateUser = async (req, res) => {
   }
 };
 
-// UPDATE FAVORITES
-export const updateFavorites = async (req, res) => {
-  let existingUser;
-  try {
-    existingUser = await User.findOne({ _id: req.params.id });
-    if (!existingUser)
-      return res.status(404).json({ message: "User doesn't exist." });
-    console.log(req.body);
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      {
-        favorites: req.body,
-      },
-      { new: true }
-    );
-    res.status(200).json({ user: updatedUser });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to update user." });
-  }
-};
-
 // //DELETE
-export const deleteUser = async (req, res) => {
-  try {
-    await User.findByIdAndDelete(req.params.id);
-    res.status(200).json("User deleted");
-  } catch (err) {
-    res.status(500).json(err);
-  }
-};
+// export const deleteUser = async (req, res) => {
+//   try {
+//     await User.findByIdAndDelete(req.params.id);
+//     res.status(200).json("User deleted");
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// };
