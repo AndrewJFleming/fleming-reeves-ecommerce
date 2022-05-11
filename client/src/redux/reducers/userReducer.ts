@@ -1,5 +1,7 @@
 import { ActionType } from "../constants/actionTypes";
 import { Action } from "../actions";
+import { createSlice } from "@reduxjs/toolkit";
+import { StarRateTwoTone } from "@material-ui/icons";
 
 const userReducer = (state: any = { authData: {}, error: false }, action: Action ) => {
   switch (action.type) {
@@ -21,5 +23,19 @@ const userReducer = (state: any = { authData: {}, error: false }, action: Action
       return state;
   }
 };
+
+//with @reduxjs/toolkit
+
+// export const userSlice = createSlice({
+//   name:"user",
+//   initialState: {...},
+//   reducers: {
+//     login: (state, action) => {
+//    state.value = action.payload;
+//     },
+//   },
+// })
+
+// export userSlice.reducer; 
 
 export default userReducer;

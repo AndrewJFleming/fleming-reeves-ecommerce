@@ -13,6 +13,7 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {
+  Container,
   CssBaseline,
   Grid,
   Paper,
@@ -27,11 +28,13 @@ type Props = {
 };
 
 const drawerWidth = 240;
+const transitionDuration = 1000;
 
 const useStyles = makeStyles((theme: any) => {
   return {
     drawer: {
       width: drawerWidth,
+      height: '100%',
       flexShrink: 1,
       '& .MuiDrawer-paper': {
         boxSizing: 'border-box'
@@ -39,13 +42,15 @@ const useStyles = makeStyles((theme: any) => {
     },
     drawerPaper: {
       backgroundColor: '#C44343!important',
-      width: 'inherit'
+      width: 'inherit',
+      height: 'inherit'
     },
     navListItem: {
       backgroundColor: '#F3F6E5!important'
     },
     root: {
-      display: 'flex'
+      display: 'flex',
+      flexDirection: 'column'
     },
     userIcon: {
       marginRight: 10
@@ -72,11 +77,12 @@ const useStyles = makeStyles((theme: any) => {
       flexDirection: 'column',
       alignSelf: 'flex-start',
       justifySelf: 'flex-start',
-      width: '100%',
+      width: '100vw',
+      margin: '0',
       backgroundColor: '#C44343',
       top: '0',
       position: 'sticky',
-      zIndex: '1200'
+      zIndex: '9000'
     }
   };
 });
@@ -120,9 +126,25 @@ const Layout = ({ children, username }: Props) => {
   };
 
   return (
-    <Box className={classes.root}>
+    <Box>
       <CssBaseline />
-      <Box sx={{ width: drawerWidth }}>
+      <Box className={classes.navContainer}>
+        <TopNav username={username} />
+      </Box>
+
+      {/* TopNav and current homepage */}
+
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%'
+        }}
+      >
+        {/* Drawer begins here */}
+
         <Drawer
           className={classes.drawer}
           classes={{
@@ -153,28 +175,8 @@ const Layout = ({ children, username }: Props) => {
             )}
           </List>
         </Drawer>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%'
-        }}
-      >
-        <Box className={classes.navContainer}>
-          <TopNav username={username} />
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            marginLeft: '35px'
-          }}
-        >
-          {children}
-        </Box>
+
+        {children}
       </Box>
     </Box>
   );
