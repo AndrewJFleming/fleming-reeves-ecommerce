@@ -1,7 +1,6 @@
-import Product from "./Product/Product";
-import { ProductData } from "../../interfaces";
-import Grid from "@mui/material/Grid";
-import "./Products.css";
+import Product from './Product/Product';
+import { ProductData } from '../../interfaces';
+import Grid from '@mui/material/Grid';
 
 interface ProductsProps {
   productsArray: ProductData[];
@@ -12,11 +11,11 @@ interface ProductsProps {
 const Products = ({
   productsArray,
   handleFavorite,
-  favoritesIds,
+  favoritesIds
 }: ProductsProps) => {
-  let allProducts = productsArray.map((product) => {
+  let allProducts = productsArray.map(product => {
     return (
-      <Grid item>
+      <Grid item xs={10} sm={6} md={4} lg={3}>
         <Product
           key={product._id}
           _id={product._id}
@@ -33,7 +32,14 @@ const Products = ({
   });
 
   return (
-    <Grid container spacing={3}>
+    <Grid
+      container
+      spacing={3}
+      sx={{
+        width: '95%',
+        margin: '0px 25px'
+      }}
+    >
       {allProducts}
     </Grid>
   );
