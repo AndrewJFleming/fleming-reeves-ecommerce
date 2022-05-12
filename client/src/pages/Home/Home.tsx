@@ -78,20 +78,13 @@ const Home = ({
           data={productsArray}
         />
       </Box>
-      <Grid
-        container
-        spacing={1}
-        sx={{
-          margin: '0px 45px',
-          width: '95%'
-        }}
-      >
-        <Products
-          productsArray={currentProducts}
-          favoritesIds={favoritesIds}
-          handleFavorite={handleFavorite}
-        />
-      </Grid>
+
+      <Products
+        productsArray={currentProducts}
+        favoritesIds={favoritesIds}
+        handleFavorite={handleFavorite}
+      />
+
       <Stack
         className="pagination"
         spacing={2}

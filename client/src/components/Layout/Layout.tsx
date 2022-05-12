@@ -17,14 +17,18 @@ import {
   CssBaseline,
   Grid,
   Paper,
-  useMediaQuery
+  useMediaQuery,
+  Button
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { TopNav } from '../TopNav/TopNav';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 type Props = {
   children?: React.ReactNode;
   username: string;
+  greaterThan768: boolean;
 };
 
 const drawerWidth = 240;
@@ -33,7 +37,6 @@ const transitionDuration = 1000;
 const useStyles = makeStyles((theme: any) => {
   return {
     drawer: {
-      width: drawerWidth,
       height: '100%',
       flexShrink: 1,
       '& .MuiDrawer-paper': {
@@ -83,6 +86,11 @@ const useStyles = makeStyles((theme: any) => {
       top: '0',
       position: 'sticky',
       zIndex: '9000'
+    },
+    menuButton: {
+      justifySelf: 'flex-start',
+      alignSelf: 'flex-start',
+      margin: '15px 0'
     }
   };
 });
@@ -95,7 +103,7 @@ const menuItems = [
   },
   {
     //   Add username variable here
-    text: 'John Doe',
+    text: 'Profile',
     icon: <PersonIcon />,
     path: '/profile'
   },
@@ -106,19 +114,16 @@ const menuItems = [
   }
 ];
 
-const drawer = <div />;
-
-const Layout = ({ children, username }: Props) => {
+const Layout = ({ children, username, greaterThan768 }: Props) => {
   const classes = useStyles();
-  const greaterThan375 = useMediaQuery('(min-width:376px)');
 
-  const [open, setOpen] = useState(greaterThan375);
+  const [open, setOpen] = useState(greaterThan768);
 
   useEffect(
     () => {
-      setOpen(greaterThan375);
+      setOpen(greaterThan768);
     },
-    [greaterThan375]
+    [greaterThan768]
   );
 
   const handleMenuClick = () => {
@@ -144,37 +149,68 @@ const Layout = ({ children, username }: Props) => {
         }}
       >
         {/* Drawer begins here */}
-
-        <Drawer
-          className={classes.drawer}
-          classes={{
-            paper: classes.drawerPaper
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <Toolbar>
-            <Box className={classes.userIconContainer}>
-              <PersonIcon />
-            </Box>
-            <Typography variant="h5">
-              {username}
-            </Typography>
-          </Toolbar>
-          <Divider />
-          <List className={classes.navListItem}>
-            {menuItems.map((item, index) =>
-              <Link className={classes.navLink} to={item.path}>
-                <ListItem button key={item.text}>
-                  <ListItemIcon>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItem>
-              </Link>
-            )}
-          </List>
-        </Drawer>
+        {open
+          ? <Drawer
+              className={classes.drawer}
+              classes={{
+                paper: classes.drawerPaper
+              }}
+              variant="permanent"
+              anchor="left"
+              sx={{
+                width: greaterThan768 ? drawerWidth : '100%'
+              }}
+            >
+              <Toolbar />
+              <Toolbar
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Box sx={{ display: 'flex' }}>
+                  <Box className={classes.userIconContainer}>
+                    <PersonIcon />
+                  </Box>
+                  <Typography variant="h5">
+                    {/* turn this into a sign in button */}
+                    {username == null ? 'Not signed in' : username}
+                  </Typography>
+                </Box>
+                {!greaterThan768 &&
+                  <Button
+                    onClick={() => handleMenuClick()}
+                    sx={{
+                      justifySelf: 'flex-end'
+                    }}
+                  >
+                    <CloseIcon />
+                  </Button>}
+              </Toolbar>
+              <Divider />
+              <List className={classes.navListItem}>
+                {menuItems.map((item, index) =>
+                  <Link className={classes.navLink} to={item.path}>
+                    <ListItem button key={item.text}>
+                      <ListItemIcon>
+                        {item.icon}
+                      </ListItemIcon>
+                      <ListItemText primary={item.text} />
+                    </ListItem>
+                  </Link>
+                )}
+              </List>
+            </Drawer>
+          : <Button
+              onClick={() => handleMenuClick()}
+              className={classes.menuButton}
+              sx={{
+                border: 'solid 2px #C44343',
+                margin: '15px 0'
+              }}
+            >
+              <MenuIcon />
+            </Button>}
 
         {children}
       </Box>
