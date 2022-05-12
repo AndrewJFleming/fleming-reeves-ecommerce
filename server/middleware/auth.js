@@ -4,14 +4,9 @@ export const auth = async (req, res, next) => {
   try {
     //Get token part of the string from request.
     const token = req.headers.authorization.split(" ")[1];
-
     let decodedData;
     if (token) {
-      decodedData = jwt.verify(
-        token,
-        // "test"
-        process.env.JWT_SECRET
-      );
+      decodedData = jwt.verify(token, process.env.JWT_SECRET);
       req.userId = decodedData.id;
     }
     next();

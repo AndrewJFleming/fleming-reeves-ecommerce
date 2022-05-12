@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import "./Product.css";
 import { Link } from "react-router-dom";
 import {
@@ -47,6 +48,11 @@ const Product = ({
   const classes = useStyles();
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
+  // const currentUser = useSelector((state: any) => state.user.authData.user);
+  const updateFavoritesError = useSelector(
+    (state: any) => state.user.error.message
+  );
+
   useEffect(() => {
     const id: any = _id;
     setIsFavorite(favoritesIds.includes(id));
@@ -82,21 +88,26 @@ const Product = ({
           {"Price:  $" + price}
         </Typography>
         <CardActions>
-          <Button
-            size="small"
-            onClick={() => handleFavorite(_id, isFavorite)}
-            sx={
-              isFavorite
-                ? { color: "rgba(34, 2, 66, 0.5)" }
-                : { color: "primary.main" }
-            }
-          >
-            <StarRateIcon />
-            Favorite
-          </Button>
-          <Button size="small">
-            <ShoppingCartIcon /> Add to Cart
-          </Button>
+          {updateFavoritesError && <p>{updateFavoritesError}</p>}
+          {/* {currentUser && ( */}
+          <React.Fragment>
+            <Button
+              size="small"
+              onClick={() => handleFavorite(_id, isFavorite)}
+              sx={
+                isFavorite
+                  ? { color: "rgba(34, 2, 66, 0.5)" }
+                  : { color: "primary.main" }
+              }
+            >
+              <StarRateIcon />
+              Favorite
+            </Button>
+            <Button size="small">
+              <ShoppingCartIcon /> Add to Cart
+            </Button>
+          </React.Fragment>
+          {/* )} */}
         </CardActions>
       </CardContent>
     </Card>
