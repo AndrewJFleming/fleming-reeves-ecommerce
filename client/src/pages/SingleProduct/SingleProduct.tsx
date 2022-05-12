@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ProductData } from "../../interfaces";
 
 import Modal from "./Modal/Modal";
@@ -7,9 +7,7 @@ import { Box, Button } from "@mui/material";
 import { Typography } from "@mui/material";
 import StarRateIcon from "@mui/icons-material/StarRate";
 
-import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actionCreators } from "../../redux";
+import { useSelector } from "react-redux";
 
 import "./SingleProduct.css";
 import BackButton from "../../components/BackButton/BackButton";
@@ -34,13 +32,8 @@ const SingleProduct = ({
   );
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
-  //Redux related
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { updateFavorites } = bindActionCreators(actionCreators, dispatch);
-
   const updateFavoritesError = useSelector(
-    (state: any) => state.userReducer.error
+    (state: any) => state.user.error.message
   );
 
   useEffect(() => {
@@ -90,18 +83,20 @@ const SingleProduct = ({
       {/* May want to make the currency a variable instead of hard coding it like this */}
       <h3 className="product-price">{"Price: $" + currentProduct?.price} </h3>
       {updateFavoritesError && <p>{updateFavoritesError}</p>}
-      <Button
-        size="small"
-        onClick={() => handleFavorite(currentProduct?._id, isFavorite)}
-        sx={
-          isFavorite
-            ? { color: "rgba(34, 2, 66, 0.5)" }
-            : { color: "primary.main" }
-        }
-      >
-        <StarRateIcon />
-        Favorite
-      </Button>
+      {userId && (
+        <Button
+          size="small"
+          onClick={() => handleFavorite(currentProduct?._id, isFavorite)}
+          sx={
+            isFavorite
+              ? { color: "rgba(34, 2, 66, 0.5)" }
+              : { color: "primary.main" }
+          }
+        >
+          <StarRateIcon />
+          Favorite
+        </Button>
+      )}
       <BackButton />
     </Box>
   );

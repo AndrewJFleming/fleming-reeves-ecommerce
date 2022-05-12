@@ -1,31 +1,43 @@
-// import { createStore } from "redux";
-import { createStore, 
-  // combineReducers, 
-  applyMiddleware, 
-  compose 
-} from "redux";
-import { persistStore, persistReducer } from "redux-persist";
+import { configureStore } from "@reduxjs/toolkit";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist'
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
-import thunk from "redux-thunk";
+import { combineReducers } from "redux"; 
 
-import reducers from "./reducers";
+import usersReducer from './features/users'
 
-// const reducers = combineReducers({
-//   userReducer,
-// });
+
+const reducers = combineReducers({
+  user: usersReducer,
+});
 
 const persistConfig = {
   key: "root",
+  version: 1,
   storage,
 };
 
+
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-export const store = createStore(
-  persistedReducer,
-  compose(
-    applyMiddleware(thunk),
-    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-);
+export const store = configureStore({
+  reducer: persistedReducer,
+  // reducer: {
+  //   // user: usersReducer,
+  // },
+  middleware: (getDefaultMiddleware: any) =>
+  getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
+})
 export let persistor = persistStore(store);

@@ -1,8 +1,7 @@
 import { FC, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actionCreators } from "../../redux";
+import { login, register } from "../../redux/features/users";
 
 import { Typography, Paper, TextField, Button } from "@mui/material";
 
@@ -39,16 +38,18 @@ export const Auth: FC<Props> = ({ title, altPath }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { login, register } = bindActionCreators(actionCreators, dispatch);
-
   const handleAuth = (e: any) => {
     e.preventDefault();
     if (title === "Login") {
+      console.log("login");
       //Remove email prop from formData obj
       const { email, ...loginFormData } = formData;
-      login(loginFormData, navigate);
+
+      //createAsyncThunk callback is expecting all props within it's first arg
+      //so we pass our props in an obj and access using Dot property accessor.
+      dispatch(login({ loginFormData, navigate }));
     } else {
-      register(formData, navigate);
+      dispatch(register({ formData, navigate }));
     }
   };
 

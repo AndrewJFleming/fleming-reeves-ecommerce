@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios, { AxiosResponse } from "axios";
-import { bindActionCreators } from "redux";
-import { actionCreators } from "./redux";
 import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import { updateFavorites } from "./redux/features/users";
 
 //Page Components
 import Home from "./pages/Home/Home";
@@ -15,8 +14,6 @@ import { Auth } from "./pages/Auth/Auth";
 import SingleProduct from "./pages/SingleProduct/SingleProduct";
 
 //Components
-import { TopNav } from "./components/TopNav/TopNav";
-
 import { ProductData } from "./interfaces";
 import Layout from "./components/Layout/Layout";
 import Favorites from "./pages/Favorites/Favorites";
@@ -104,19 +101,14 @@ const customTheme = createTheme({
 });
 
 function App() {
-  const currentUser = useSelector(
-    (state: any) => state.userReducer.authData.user
-  );
+  const currentUser = useSelector((state: any) => state.user.authData.user);
+  // const cart = useSelector((state: any) => state.cartReducer);
   const [products, setProducts] = useState<ProductData[]>([]);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
   const [favoritesIds, setFavoritesIds] = useState<string[]>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { updateFavorites } = bindActionCreators(actionCreators, dispatch);
-
-
- 
   useEffect(() => {
     axios
       .get<ProductData[]>("http://localhost:5000/products")
@@ -161,22 +153,39 @@ function App() {
     if (!isFavorite) {
       const updatedFavoritesIds: string[] = favoritesIds;
       updatedFavoritesIds.push(id);
-      updateFavorites(currentUser?._id, updatedFavoritesIds, navigate);
+      //Add product id to favorites array.
+      dispatch(
+        updateFavorites({
+          userId: currentUser?._id,
+          updatedFavoritesIds,
+          navigate,
+        })
+      );
     } else {
       const updatedFavoritesIds: string[] = favoritesIds.filter(
         (favId) => favId !== id
       );
-      updateFavorites(currentUser?._id, updatedFavoritesIds, navigate);
+      //Remove product id from favorites array.
+      dispatch(
+        updateFavorites({
+          userId: currentUser?._id,
+          updatedFavoritesIds,
+          navigate,
+        })
+      );
     }
   };
 
-  const greaterThan768 = useMediaQuery('(min-width:769px)');
+  const greaterThan768 = useMediaQuery("(min-width:769px)");
 
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
-      
-      <Layout username={currentUser?.username} greaterThan768={greaterThan768}>
+      <Layout
+        username={currentUser?.username}
+        greaterThan768={greaterThan768}
+        // cart={cart}
+      >
         <Routes>
           <Route
             element={

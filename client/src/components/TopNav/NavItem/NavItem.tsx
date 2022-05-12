@@ -1,7 +1,8 @@
-import { FC } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { ActionType } from '../../../redux/constants/actionTypes';
+import { FC } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../../redux/features/users";
+import { persistor } from "../../../redux/store";
 
 interface Props {
   navItemInner: any;
@@ -15,21 +16,24 @@ const NavItem: FC<Props> = ({ navItemInner, path, linkClasses }) => {
 
   const handleLogout = () => {
     try {
-      dispatch({ type: ActionType.LOGOUT });
-      // dispatch({ type: RESET_CART });
-      navigate('/');
+      console.log("logout");
+      dispatch(logoutUser());
+      navigate("/");
+      persistor.purge();
     } catch (error) {
       console.log(error);
     }
   };
 
-  return navItemInner === 'Logout'
-    ? <span className={linkClasses} onClick={handleLogout}>
-        {navItemInner}
-      </span>
-    : <Link className={linkClasses} to={path}>
-        {navItemInner}
-      </Link>;
+  return navItemInner === "Logout" ? (
+    <span className={linkClasses} onClick={() => handleLogout()}>
+      {navItemInner}
+    </span>
+  ) : (
+    <Link className={linkClasses} to={path}>
+      {navItemInner}
+    </Link>
+  );
 };
 
 export default NavItem;

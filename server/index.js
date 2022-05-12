@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import productRoute from "./routes/products.js";
 import userRoute from "./routes/users.js";
+import cartRoute from "./routes/carts.js";
 
 const app = express();
 dotenv.config();
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 //Routes
 app.use("/products", productRoute);
 app.use("/users", userRoute);
+app.use("/carts", cartRoute);
 
 //Database connection
 const CONNECTION_URL = process.env.CONNECTION_URL;
