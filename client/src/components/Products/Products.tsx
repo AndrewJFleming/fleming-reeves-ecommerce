@@ -25,6 +25,7 @@ const Products = ({
           display: 'flex',
           justifyContent: 'center'
         }}
+        key={product._id}
       >
         <Product
           key={product._id}
