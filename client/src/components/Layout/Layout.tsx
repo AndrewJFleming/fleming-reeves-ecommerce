@@ -206,7 +206,9 @@ const Layout = ({ children, username, greaterThan768 }: Props) => {
               className={classes.menuButton}
               sx={{
                 border: 'solid 2px #C44343',
-                margin: '15px 0'
+                margin: '15px 0',
+                position: 'absolute',
+                left: '15px'
               }}
             >
               <MenuIcon />
