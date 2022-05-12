@@ -15,7 +15,7 @@ const Products = ({
 }: ProductsProps) => {
   let allProducts = productsArray.map(product => {
     return (
-      <Grid item xs={10} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={12} md={6} lg={3}>
         <Product
           key={product._id}
           _id={product._id}

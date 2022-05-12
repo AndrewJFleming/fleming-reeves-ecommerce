@@ -6,6 +6,7 @@ import {
   Typography
 } from '@mui/material';
 import React from 'react';
+import BackButton from '../../components/BackButton/BackButton';
 import { ProductData } from '../../interfaces';
 import { products } from './../../../data';
 
@@ -77,6 +78,7 @@ const Cart = ({ productsInCart }: Props) => {
             {"Total: $" + total}
         </Typography>
       </List>
+      <BackButton />
     </Box>
   );
 };

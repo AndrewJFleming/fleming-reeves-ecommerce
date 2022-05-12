@@ -12,6 +12,7 @@ import { bindActionCreators } from "redux";
 import { actionCreators } from "../../redux";
 
 import "./SingleProduct.css";
+import BackButton from "../../components/BackButton/BackButton";
 
 type SingleProductProps = {
   productData: ProductData[];
@@ -66,6 +67,7 @@ const SingleProduct = ({
         alignItems: "center",
       }}
     >
+      <BackButton />
       <Typography variant="h2">{currentProduct?.title}</Typography>
 
       <img
@@ -100,6 +102,7 @@ const SingleProduct = ({
         <StarRateIcon />
         Favorite
       </Button>
+      <BackButton />
     </Box>
   );
 };

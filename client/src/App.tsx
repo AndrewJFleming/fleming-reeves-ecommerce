@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios, { AxiosResponse } from "axios";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "./redux";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
 //Page Components
@@ -168,11 +168,13 @@ function App() {
     }
   };
 
+  const greaterThan768 = useMediaQuery('(min-width:769px)');
+
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
       
-      <Layout username={currentUser?.username}>
+      <Layout username={currentUser?.username} greaterThan768={greaterThan768}>
         <Routes>
           <Route
             element={
