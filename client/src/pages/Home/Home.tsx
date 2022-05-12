@@ -43,6 +43,13 @@ const Home = ({
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const value = event.target.value;
+
+    if (
+      parseInt(value) * currentPage > productsArray.length &&
+      currentPage > 1
+    ) {
+      setCurrentPage(1);
+    }
     setProductsPerPage(parseInt(value));
   };
 

@@ -190,8 +190,12 @@ const Layout = ({ children, username, greaterThan768 }: Props) => {
               <Divider />
               <List className={classes.navListItem}>
                 {menuItems.map((item, index) =>
-                  <Link className={classes.navLink} to={item.path}>
-                    <ListItem button key={item.text}>
+                  <Link
+                    className={classes.navLink}
+                    to={item.path}
+                    key={index}
+                  >
+                    <ListItem button>
                       <ListItemIcon>
                         {item.icon}
                       </ListItemIcon>

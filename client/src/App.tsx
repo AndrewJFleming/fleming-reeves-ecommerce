@@ -115,6 +115,8 @@ function App() {
 
   const { updateFavorites } = bindActionCreators(actionCreators, dispatch);
 
+
+ 
   useEffect(() => {
     axios
       .get<ProductData[]>("http://localhost:5000/products")
