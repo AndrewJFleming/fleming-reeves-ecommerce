@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import { Container, Box } from "@mui/material";
 import { styled } from "@mui/system";
@@ -10,7 +11,6 @@ import { useStyles } from "./TopNav.styles";
 
 interface Props {
   username: string;
-  // cart: object;
 }
 
 const StyledNav = styled("nav")(({ theme }) => ({
@@ -23,11 +23,21 @@ const StyledNav = styled("nav")(({ theme }) => ({
   },
 }));
 
-export const TopNav: FC<Props> = ({
-  username,
-  // cart
-}) => {
+export const TopNav: FC<Props> = ({ username }) => {
   const classes = useStyles();
+  const [cartCount, setCartCount] = useState<number>(0);
+  const cart = useSelector((state: any) => state.cart);
+
+  //Get cart count, factoring quantities of individual cart items.
+  useEffect(() => {
+    const count = cart.cartItems.reduce(
+      (accumulator: any, cartItem: { quantity: number }) => {
+        return accumulator + cartItem.quantity;
+      },
+      0
+    );
+    setCartCount(count);
+  }, [cart]);
 
   return (
     <Box component="header" sx={{ backgroundColor: "error.main" }}>
@@ -54,7 +64,7 @@ export const TopNav: FC<Props> = ({
         <StyledNav id="center-right-nav">
           {username && <UserAvatar username={username} />}
           <NavItem
-            navItemInner={<CartNavItemInner cartCount={0} />}
+            navItemInner={<CartNavItemInner cartCount={cartCount} />}
             path="/cart"
             linkClasses={classes.navItem}
           />
