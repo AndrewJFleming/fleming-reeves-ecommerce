@@ -3,7 +3,8 @@ import {
   List,
   ListItem,
   ListItemText,
-  Typography
+  Typography,
+  Container
 } from '@mui/material';
 import React from 'react';
 import BackButton from '../../components/BackButton/BackButton';
@@ -24,12 +25,14 @@ const Cart = ({ productsInCart }: Props) => {
     total += product.price;
     return (
       <ListItem
-        alignItems="flex-start"
-        sx={{
-          width: '85%',
-          border: '1px solid black',
-          borderRadius: 7,
-          margin: '15px 0px'
+      sx={{
+        width: '55%',
+        display: 'flex',
+        border: '1px solid black',
+        borderRadius: 7,
+        margin: '15px 0px',
+        alignItems: "flex-start",
+        justifySelf: 'flex-start'
         }}
       >
         <img
@@ -54,7 +57,9 @@ const Cart = ({ productsInCart }: Props) => {
   });
 
   return (
-    <Box>
+    <Container>
+      <BackButton/>
+
       <Typography variant="h2" textAlign="center">
         Cart
       </Typography>
@@ -79,7 +84,7 @@ const Cart = ({ productsInCart }: Props) => {
         </Typography>
       </List>
       <BackButton />
-    </Box>
+    </Container>
   );
 };
 

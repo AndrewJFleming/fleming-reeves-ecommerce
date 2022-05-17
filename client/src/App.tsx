@@ -101,7 +101,7 @@ const customTheme = createTheme({
 });
 
 function App() {
-  const currentUser = useSelector((state: any) => state.user.authData.user);
+  const currentUser = useSelector((state: any) => state.user.authData?.user);
   // const cart = useSelector((state: any) => state.cartReducer);
   const [products, setProducts] = useState<ProductData[]>([]);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
@@ -229,7 +229,11 @@ function App() {
             path="/favorites"
           />
           <Route element={<Cart productsInCart={products} />} path="/cart" />
-          <Route element={<Profile />} path="/profile" />
+          <Route 
+          element={
+          <Profile 
+          userId={currentUser?._id}
+          />} path="/profile" />
         </Routes>
       </Layout>
     </ThemeProvider>
