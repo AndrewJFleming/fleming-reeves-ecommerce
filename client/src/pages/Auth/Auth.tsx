@@ -1,12 +1,12 @@
-import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { login, register } from "../../redux/features/users";
+import { FC, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login, register } from '../../redux/features/users';
 
-import { Typography, Paper, TextField, Button } from "@mui/material";
+import { Typography, Paper, TextField, Button } from '@mui/material';
 
-import { makeStyles } from "@mui/styles";
-import { SwitchAuthPage } from "./SwitchAuthPage/SwitchAuthPage";
+import { makeStyles } from '@mui/styles';
+import { SwitchAuthPage } from './SwitchAuthPage/SwitchAuthPage';
 
 interface Props {
   title: string;
@@ -15,33 +15,33 @@ interface Props {
 
 const useStyles = makeStyles({
   authPage: {
-    position: "relative",
-    height: "calc(100vh - 60px)",
+    position: 'relative',
+    height: 'calc(100vh - 60px)'
   },
   authForm: {
     padding: 20,
     width: 280,
-    margin: "0 auto",
-    position: "absolute",
-    top: "45%",
-    left: "50%",
-    transform: "translate(-50%, -55%)",
-  },
+    margin: '0 auto',
+    position: 'absolute',
+    top: '45%',
+    left: '50%',
+    transform: 'translate(-50%, -55%)'
+  }
 });
 
 export const Auth: FC<Props> = ({ title, altPath }) => {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: ''
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleAuth = (e: any) => {
     e.preventDefault();
-    if (title === "Login") {
-      console.log("login");
+    if (title === 'Login') {
+      console.log('login');
       //Remove email prop from formData obj
       const { email, ...loginFormData } = formData;
 
@@ -56,14 +56,14 @@ export const Auth: FC<Props> = ({ title, altPath }) => {
   const handleChange = (e: any) =>
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
 
   const handleClearForm = (e: any) => {
     setFormData({
-      username: "",
-      email: "",
-      password: "",
+      username: '',
+      email: '',
+      password: ''
     });
   };
 
@@ -75,7 +75,7 @@ export const Auth: FC<Props> = ({ title, altPath }) => {
           {title}
         </Typography>
         <TextField
-          sx={{ backgroundColor: "common.white" }}
+          sx={{ backgroundColor: 'common.white' }}
           label="Username"
           placeholder="Enter username"
           value={formData.username}
@@ -85,9 +85,9 @@ export const Auth: FC<Props> = ({ title, altPath }) => {
           required
           onChange={handleChange}
         />
-        {title === "Register" && (
+        {title === 'Register' &&
           <TextField
-            sx={{ backgroundColor: "common.white" }}
+            sx={{ backgroundColor: 'common.white' }}
             label="Email"
             placeholder="Enter email"
             value={formData.email}
@@ -97,10 +97,9 @@ export const Auth: FC<Props> = ({ title, altPath }) => {
             fullWidth
             required
             onChange={handleChange}
-          />
-        )}
+          />}
         <TextField
-          sx={{ backgroundColor: "common.white" }}
+          sx={{ backgroundColor: 'common.white' }}
           label="Password"
           placeholder="Enter password"
           value={formData.password}
@@ -114,28 +113,26 @@ export const Auth: FC<Props> = ({ title, altPath }) => {
         <Button
           color="warning"
           variant="contained"
-          sx={{ margin: "1rem 0" }}
+          sx={{ margin: '1rem 0' }}
           fullWidth
           onClick={handleAuth}
         >
           {title}
         </Button>
         <Typography>
-          {title === "Login" ? (
-            <SwitchAuthPage
-              prompt="Not yet registered? "
-              title={title}
-              altPath={altPath}
-              handleClearForm={handleClearForm}
-            />
-          ) : (
-            <SwitchAuthPage
-              prompt="Already registered? "
-              title={title}
-              altPath={altPath}
-              handleClearForm={handleClearForm}
-            />
-          )}
+          {title === 'Login'
+            ? <SwitchAuthPage
+                prompt="Not yet registered? "
+                title={title}
+                altPath={altPath}
+                handleClearForm={handleClearForm}
+              />
+            : <SwitchAuthPage
+                prompt="Already registered? "
+                title={title}
+                altPath={altPath}
+                handleClearForm={handleClearForm}
+              />}
         </Typography>
       </Paper>
     </div>

@@ -5,11 +5,17 @@ import * as api from "../api";
 export const login:any = createAsyncThunk(
   "user/signInUser",
   async (argumentObj:any, thunkAPI ) => {
+
+    console.log(argumentObj.loginFormData);
+
     try {
       const { data } = await api.login(argumentObj.loginFormData);
+      
       argumentObj.navigate("/");
+
       return data;
     } catch (error: any) {
+      console.log(error);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -23,6 +29,7 @@ export const register:any = createAsyncThunk(
       argumentObj.navigate("/");
       return data;
     } catch (error: any) {
+      console.log(error)
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -45,6 +52,34 @@ export const updateFavorites:any = createAsyncThunk(
   }
 );
 
+export const updateUser: any = createAsyncThunk(
+  "user/updateUser",
+  async (argumentObj: any, thunkAPI) => {
+    try {
+      const { data } = await api.updateUser(argumentObj.userId, argumentObj.updateFormData)
+      argumentObj.navigate("/login");
+    } catch(error: any) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+)
+
+export const deleteUser: any = createAsyncThunk(
+  "user/deleteUser",
+  async (argumentObj: any, thunkAPI ) => {
+    try {
+      const { data } = await api.deleteUser(argumentObj.userId, argumentObj.deleteFormData);
+      console.log(data);
+      argumentObj.navigate("/login");
+      return data;
+    } catch (error: any) {
+      console.log(error)
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+)
+
 const userSlice = createSlice({
     name: "user",
     initialState: { authData: {}, error: false, loading: false, },
@@ -55,7 +90,7 @@ const userSlice = createSlice({
         state.authData = {};
         state.error = false;
         state.loading = false;
-      },
+      }
     },
     //Used when calling APIs
     extraReducers: (builder) => {
@@ -107,6 +142,34 @@ const userSlice = createSlice({
         state.loading = false;
         state.authData = {}
         state.error = action.payload;
+      })
+      //UPDATE USER
+      .addCase(updateUser.pending, (state: any, action: any) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(updateUser.fulfilled, (state: any, action: any) => {
+        state.loading = false;
+        state.authData = action.payload;
+        state.error = false;
+      })
+      .addCase(updateUser.rejected, (state: any, action: any) => {
+        state.error = true;
+        state.loading = false;
+      })
+
+      //DELETE USER
+      .addCase(deleteUser.pending, (state: any, action: any) => {
+        state.error = false;
+        state.loading = true;
+      })
+      .addCase(deleteUser.fulfilled, (state: any, action: any) => {
+        state.loading = false;
+        state.error = false;
+      })
+      .addCase(deleteUser.rejected, (state: any, action: any) => {
+        state.error = true;
+        state.loading = false;
       })
     },
 })
