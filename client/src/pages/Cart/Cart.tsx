@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, List, Typography, Button } from "@mui/material";
+import { Container, List, Typography, Button, Box } from "@mui/material";
 import BackButton from "../../components/BackButton/BackButton";
 import { useDispatch } from "react-redux";
 import { emptyCart } from "../../redux/features/cart";
@@ -49,30 +49,31 @@ const Cart = ({ cartItems, cartItemIds, userId }: Props) => {
       </Typography>
       {cartItems.length > 0 ? (
         <React.Fragment>
-          <Button onClick={handleEmptyCart}>Empty Cart</Button>
           <List
             sx={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              border: "1px solid black",
-              borderRadius: 7,
-              margin: "35px 0px",
+              margin: "35px 0px 0px",
             }}
           >
             {currentCart}
-            <Typography
-              variant="h3"
-              sx={{
-                marginTop: 12,
-              }}
-            >
-              {"Total: $" + total}
-            </Typography>
+            <Typography variant="h4">{"Total: $" + total}</Typography>
           </List>
-          <Button variant="contained" onClick={handleCheckout}>
-            Checkout
-          </Button>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              margin: "35px 0px",
+            }}
+          >
+            <Button variant="outlined" onClick={handleEmptyCart}>
+              Empty Cart
+            </Button>
+            <Button variant="contained" onClick={handleCheckout}>
+              Checkout
+            </Button>
+          </Box>
         </React.Fragment>
       ) : (
         <Typography
