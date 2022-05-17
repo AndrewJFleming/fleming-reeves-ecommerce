@@ -103,6 +103,7 @@ const customTheme = createTheme({
 function App() {
   const currentUser = useSelector((state: any) => state.user.authData?.user);
   // const cart = useSelector((state: any) => state.cartReducer);
+  const [signedIn, setSignedIn] = useState<Boolean>(false);
   const [products, setProducts] = useState<ProductData[]>([]);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
   const [favoritesIds, setFavoritesIds] = useState<string[]>([]);
@@ -116,6 +117,16 @@ function App() {
         setProducts(response?.data);
       });
   }, []);
+
+  useEffect(() => {
+    let _signedIn: Boolean = currentUser == undefined;
+    setTimeout(() => {
+      setSignedIn(_signedIn);
+    }, 1000)
+     console.log("signedIn: ", signedIn);
+     console.log("currentUser: ", currentUser);
+     
+  }, [currentUser])
 
   useEffect(() => {
     const idsArray: string[] = [];

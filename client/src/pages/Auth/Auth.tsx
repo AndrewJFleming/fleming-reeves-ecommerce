@@ -3,7 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login, register } from '../../redux/features/users';
 
-import { Typography, Paper, TextField, Button } from '@mui/material';
+import {
+  Typography,
+  Paper,
+  TextField,
+  Button,
+  FormGroup
+} from '@mui/material';
 
 import { makeStyles } from '@mui/styles';
 import { SwitchAuthPage } from './SwitchAuthPage/SwitchAuthPage';
@@ -71,69 +77,74 @@ export const Auth: FC<Props> = ({ title, altPath }) => {
   return (
     <div className={classes.authPage}>
       <Paper elevation={10} className={classes.authForm}>
-        <Typography variant="h5" align="center">
-          {title}
-        </Typography>
-        <TextField
-          sx={{ backgroundColor: 'common.white' }}
-          label="Username"
-          placeholder="Enter username"
-          value={formData.username}
-          name="username"
-          margin="normal"
-          fullWidth
-          required
-          onChange={handleChange}
-        />
-        {title === 'Register' &&
+        <form onSubmit={handleAuth}>
+          <Typography variant="h5" align="center">
+            {title}
+          </Typography>
           <TextField
             sx={{ backgroundColor: 'common.white' }}
-            label="Email"
-            placeholder="Enter email"
-            value={formData.email}
-            name="email"
-            type="email"
+            label="Username"
+            placeholder="Enter username"
+            value={formData.username}
+            name="username"
             margin="normal"
             fullWidth
             required
             onChange={handleChange}
-          />}
-        <TextField
-          sx={{ backgroundColor: 'common.white' }}
-          label="Password"
-          placeholder="Enter password"
-          value={formData.password}
-          name="password"
-          margin="normal"
-          type="password"
-          fullWidth
-          required
-          onChange={handleChange}
-        />
-        <Button
-          color="warning"
-          variant="contained"
-          sx={{ margin: '1rem 0' }}
-          fullWidth
-          onClick={handleAuth}
-        >
-          {title}
-        </Button>
-        <Typography>
-          {title === 'Login'
-            ? <SwitchAuthPage
-                prompt="Not yet registered? "
-                title={title}
-                altPath={altPath}
-                handleClearForm={handleClearForm}
-              />
-            : <SwitchAuthPage
-                prompt="Already registered? "
-                title={title}
-                altPath={altPath}
-                handleClearForm={handleClearForm}
-              />}
-        </Typography>
+            autoFocus
+          />
+          {title === 'Register' &&
+            <TextField
+              sx={{ backgroundColor: 'common.white' }}
+              label="Email"
+              placeholder="Enter email"
+              value={formData.email}
+              name="email"
+              type="email"
+              margin="normal"
+              fullWidth
+              required
+              onChange={handleChange}
+              autoFocus
+            />}
+          <TextField
+            sx={{ backgroundColor: 'common.white' }}
+            label="Password"
+            placeholder="Enter password"
+            value={formData.password}
+            name="password"
+            margin="normal"
+            type="password"
+            fullWidth
+            required
+            onChange={handleChange}
+          />
+          <Button
+            color="warning"
+            variant="contained"
+            sx={{ margin: '1rem 0' }}
+            fullWidth
+            // onClick={handleAuth}
+            type="submit"
+          >
+            {title}
+          </Button>
+          <Typography>
+            {title === 'Login'
+              ? <SwitchAuthPage
+                  prompt="Not yet registered? "
+                  title={title}
+                  altPath={altPath}
+                  handleClearForm={handleClearForm}
+                />
+              : <SwitchAuthPage
+                  prompt="Already registered? "
+                  title={title}
+                  altPath={altPath}
+                  handleClearForm={handleClearForm}
+                />}
+          </Typography>
+        </form>
       </Paper>
     </div>
   );
