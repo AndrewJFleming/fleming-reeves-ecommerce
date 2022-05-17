@@ -9,7 +9,9 @@ import {
   FormControl,
   InputLabel,
   Input,
-  FormGroup
+  FormGroup,
+  Typography,
+  Paper
 } from '@mui/material';
 
 type Props = {
@@ -78,73 +80,124 @@ const Profile = ({ userId }: Props) => {
   };
 
   return (
-    <Container>
-      <FormGroup>
-        <InputLabel htmlFor="username">Username</InputLabel>
-        <Input
-          id="username"
-          name="username"
-          onChange={handleChange}
-          value={deleteFormData.username}
-        />
-        <InputLabel htmlFor="password">Password</InputLabel>
-        <Input
-          id="password"
-          type="password"
-          name="password"
-          onChange={handleChange}
-          value={deleteFormData.password}
-        />
-        <Button onClick={handleUserDelete}>Delete</Button>
-      </FormGroup>
-      <FormGroup>
-        <InputLabel htmlFor="username">Email</InputLabel>
-        <Input
-          id="email"
-          name="email"
-          onChange={handleChangeUpdateForm}
-          value={updateFormData.email}
-        />
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: '45px',
+        paddingBottom: '155px'
+      }}
+    >
+      <Typography
+        variant="h2"
+        sx={{
+          marginBottom: '105px'
+        }}
+      >
+        Account Settings
+      </Typography>
+      <Paper
+        sx={{
+          width: '70%',
+          minWidth: '325px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <Typography variant="h6" sx={{ marginTop: '35px' }}>
+          Delete Account
+        </Typography>
+        <Typography variant="subtitle1" sx={{ marginBottom: '45px' }}>
+          Please confirm account details first:
+        </Typography>
+        <FormGroup
+          sx={{
+            width: '65%',
+            minWidth: '245px',
+            marginBottom: '55px'
+          }}
+        >
+          <InputLabel htmlFor="username">Username</InputLabel>
+          <Input
+            id="username"
+            name="username"
+            onChange={handleChange}
+            value={deleteFormData.username}
+          />
+          <InputLabel htmlFor="password">Password</InputLabel>
+          <Input
+            id="password"
+            type="password"
+            name="password"
+            onChange={handleChange}
+            value={deleteFormData.password}
+          />
+          <Button onClick={handleUserDelete}>Delete</Button>
+        </FormGroup>
 
-        <InputLabel htmlFor="username">Username</InputLabel>
-        <Input
-          id="username"
-          name="username"
-          onChange={handleChangeUpdateForm}
-          value={updateFormData.username}
-        />
-        <InputLabel htmlFor="currentPassword">
-          Current Password
-        </InputLabel>
-        <Input
-          id="currentPassword"
-          type="password"
-          name="currentPassword"
-          onChange={handleChangeUpdateForm}
-          value={updateFormData.currentPassword}
-        />
-        <InputLabel htmlFor="newPassword">New Password</InputLabel>
-        <Input
-          id="newPassword"
-          type="password"
-          name="newPassword"
-          onChange={handleChangeUpdateForm}
-          value={updateFormData.newPassword}
-        />
-        <InputLabel htmlFor="newPasswordConfirm">
-          Confirm New Password
-        </InputLabel>
-        <Input
-          id="newPasswordConfirm"
-          type="password"
-          name="newPasswordConfirm"
-          onChange={handleChangeUpdateForm}
-          value={updateFormData.newPasswordConfirm}
-        />
-        <Button type="submit" onClick={handleUserUpdate}>
-          Update
-        </Button>
-      </FormGroup>
+        <Typography variant="h6" sx={{ marginTop: '35px' }}>
+          Update Account
+        </Typography>
+        <Typography variant="subtitle1" sx={{ marginBottom: '45px' }}>
+          Please confirm account details first:
+        </Typography>
+        <FormGroup
+          sx={{
+            width: '65%',
+            minWidth: '245px',
+            marginBottom: '100px'
+          }}
+        >
+          <InputLabel htmlFor="username">Email</InputLabel>
+          <Input
+            id="email"
+            name="email"
+            onChange={handleChangeUpdateForm}
+            value={updateFormData.email}
+          />
+
+          <InputLabel htmlFor="username">Username</InputLabel>
+          <Input
+            id="username"
+            name="username"
+            onChange={handleChangeUpdateForm}
+            value={updateFormData.username}
+          />
+          <InputLabel htmlFor="currentPassword">
+            Current Password
+          </InputLabel>
+          <Input
+            id="currentPassword"
+            type="password"
+            name="currentPassword"
+            onChange={handleChangeUpdateForm}
+            value={updateFormData.currentPassword}
+          />
+          <InputLabel htmlFor="newPassword">New Password</InputLabel>
+          <Input
+            id="newPassword"
+            type="password"
+            name="newPassword"
+            onChange={handleChangeUpdateForm}
+            value={updateFormData.newPassword}
+          />
+          <InputLabel htmlFor="newPasswordConfirm">
+            Confirm New Password
+          </InputLabel>
+          <Input
+            id="newPasswordConfirm"
+            type="password"
+            name="newPasswordConfirm"
+            onChange={handleChangeUpdateForm}
+            value={updateFormData.newPasswordConfirm}
+          />
+          <Button type="submit" onClick={handleUserUpdate}>
+            Update
+          </Button>
+        </FormGroup>
+      </Paper>
     </Container>
   );
 };
