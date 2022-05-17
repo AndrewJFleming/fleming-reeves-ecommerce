@@ -1,12 +1,11 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import * as api from "../api";
 
-export const saveCart:any = createAsyncThunk(
-  "cart/saveCartToDatabase",
-  async (argumentObj:any, {rejectWithValue} ) => {
+export const createCart:any = createAsyncThunk(
+  "cart/saveCartToDB",
+  async (newCartData:any, {rejectWithValue} ) => {
     try {
-    //   await api.createCart(argumentObj.loginFormData);
-    console.log("saveCart")
+      await api.createCart(newCartData);
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -15,10 +14,20 @@ export const saveCart:any = createAsyncThunk(
 
 const cartSlice = createSlice({
     name: "cart",
-    initialState: { cartItems: [], addToCartNotice: null, error: false, loading: false, },
+    initialState: { cartItems: [], error: false, loading: false, },
     reducers: {
-      logoutUser: (state) => {
-        localStorage.removeItem("profile");
+      addToCart: (state, action:any) => {
+        const cartItemsCopy:any = state.cartItems
+        cartItemsCopy.push(action.payload)
+        state.cartItems = cartItemsCopy;
+      },
+      changeQuantity: (state:any, action:any) => {
+        state.cartItems = action.payload
+      },
+      removeFromCart: (state:any, action:any) => {
+        state.cartItems = action.payload
+      },
+      emptyCart: (state) => {
         state.cartItems = [];
         state.error = false;
         state.loading = false;
@@ -26,24 +35,22 @@ const cartSlice = createSlice({
     },
     //Used when calling APIs
     extraReducers: (builder) => {
-      //LOGIN
-      builder.addCase(saveCart.pending, (state:any, action:any) => {
+      builder.addCase(createCart.pending, (state:any, action:any) => {
         state.loading = true;
         state.error = false
       })
-      .addCase(saveCart.fulfilled, (state:any, action:any) => {
-        state.loading = false;
-        state.cartItems = action.payload;
-        state.error = false
-      })
-      .addCase(saveCart.rejected, (state:any, action:any) => {
+      .addCase(createCart.fulfilled, (state:any, action:any) => {
         state.loading = false;
         state.cartItems = [];
+        state.error = false
+      })
+      .addCase(createCart.rejected, (state:any, action:any) => {
+        state.loading = false;
         state.error = action.payload;
       })
     },
 })
 
-// export const { saveCart } = cartSlice.actions;
+export const { addToCart, emptyCart, changeQuantity, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

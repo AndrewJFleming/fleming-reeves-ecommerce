@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import Box, { BoxProps } from '@mui/material/Box';
-import Products from '../../components/Products/Products';
-import Pagination from '@mui/material/Pagination/';
-import Stack from '@mui/material/Stack';
-import { ProductData } from '../../interfaces';
-import './Home.css';
-import SearchBar from '../../components/SearchBar/SearchBar';
-import { Container } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import React, { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import Products from "../../components/Products/Products";
+import Pagination from "@mui/material/Pagination/";
+import Stack from "@mui/material/Stack";
+import { ProductData } from "../../interfaces";
+import "./Home.css";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import { Container } from "@mui/material";
 
 type HomeProps = {
   productData: ProductData[];
-  handleFavorite: any;
   favoritesIds: string[];
+  cartItemIds: string[];
+  handleFavorite: (id: any, isFavorite: boolean) => void;
+  handleAddToCart: (productData: any, quantity: number) => void;
 };
 
 const Home = ({
   productData,
   handleFavorite,
-  favoritesIds
+  favoritesIds,
+  cartItemIds,
+  handleAddToCart,
 }: HomeProps) => {
   const [productsArray, setProductsArray] = useState(productData);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(5);
-  const [searchString, setSearchString] = useState('');
+  const [searchString, setSearchString] = useState("");
 
-  useEffect(
-    () => {
-      setProductsArray(productData);
-    },
-    [productData]
-  );
+  useEffect(() => {
+    setProductsArray(productData);
+  }, [productData]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -55,50 +55,47 @@ const Home = ({
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const numberOfPages = Math.ceil(
-    productsArray.length / productsPerPage
-  );
+  const numberOfPages = Math.ceil(productsArray.length / productsPerPage);
   const currentProducts = productsArray.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
   const filteredProducts = productsArray.filter(
-    product => product.title == searchString
+    (product) => product.title == searchString
   );
 
   return (
     <Container
       maxWidth={false}
       sx={{
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center'
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        <SearchBar
-          placeholder={'Search by title'}
-          data={productsArray}
-        />
+        <SearchBar placeholder={"Search by title"} data={productsArray} />
       </Box>
 
       <Products
         productsArray={currentProducts}
         favoritesIds={favoritesIds}
+        cartItemIds={cartItemIds}
         handleFavorite={handleFavorite}
+        handleAddToCart={handleAddToCart}
       />
 
       <Stack
         className="pagination"
         spacing={2}
         sx={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: '55px'
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: "55px",
         }}
       >
         <Pagination

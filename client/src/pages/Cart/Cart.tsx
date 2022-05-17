@@ -1,88 +1,89 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-  Container
-} from '@mui/material';
-import React from 'react';
-import BackButton from '../../components/BackButton/BackButton';
-import { ProductData } from '../../interfaces';
-import { products } from './../../../data';
+import React, { useEffect, useState } from "react";
+import { Container, List, Typography, Button } from "@mui/material";
+import BackButton from "../../components/BackButton/BackButton";
+import { useDispatch } from "react-redux";
+import { emptyCart } from "../../redux/features/cart";
+import { createCart } from "../../redux/features/cart";
+import CartItem from "./CartItem.tsx/CartItem";
 
 type Props = {
-  productsInCart: ProductData[];
+  // productsInCart: ProductData[];
+  cartItems: [];
+  userId: string;
+  cartItemIds: string[];
 };
 
+const Cart = ({ cartItems, cartItemIds, userId }: Props) => {
+  const dispatch = useDispatch();
+  // const [cartState, setCartState] = useState([]);
+  const [total, setTotal] = useState(0);
 
-let total = 0;
+  const handleEmptyCart = () => {
+    dispatch(emptyCart());
+  };
 
-const Cart = ({ productsInCart }: Props) => {
-  total = 0;
+  const handleCheckout = () => {
+    dispatch(createCart({ products: cartItems, userId: userId, total: total }));
+  };
 
-  let currentCart = productsInCart?.map(product => {
-    total += product.price;
-    return (
-      <ListItem
-      sx={{
-        width: '55%',
-        display: 'flex',
-        border: '1px solid black',
-        borderRadius: 7,
-        margin: '15px 0px',
-        alignItems: "flex-start",
-        justifySelf: 'flex-start'
-        }}
-      >
-        <img
-          src={product.squareThumbUrl}
-          alt="a preview of the product"
-        />
-        <ListItemText
-          primary={product.title}
-          secondary={'Price:  $' + product.price}
-          primaryTypographyProps={{
-            fontSize: '24px',
-            fontWeight: 600
-          }}
-          sx={{
-            alignSelf: 'center',
-            marginLeft: '3vw',
-            fontSize: '24px'
-          }}
-        />
-      </ListItem>
-    );
+  let currentCart = cartItems?.map((cartItem: any) => {
+    return <CartItem cartItem={cartItem} cartItems={cartItems} />;
   });
+
+  useEffect(() => {
+    //Get total price of cart, factoring quantities of individual cart items.
+    const sum = cartItems.reduce(
+      (accumulator, cartItem: { price: number; quantity: number }) => {
+        return accumulator + cartItem.price * cartItem.quantity;
+      },
+      0
+    );
+    setTotal(sum);
+  }, [cartItems]);
 
   return (
     <Container>
-      <BackButton/>
-
+      <BackButton />
       <Typography variant="h2" textAlign="center">
         Cart
       </Typography>
-      <List
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          border: '1px solid black',
-          borderRadius: 7,
-          margin: '35px 0px'
-        }}
-      >
-        {currentCart}
+      {cartItems.length > 0 ? (
+        <React.Fragment>
+          <Button onClick={handleEmptyCart}>Empty Cart</Button>
+          <List
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              border: "1px solid black",
+              borderRadius: 7,
+              margin: "35px 0px",
+            }}
+          >
+            {currentCart}
+            <Typography
+              variant="h3"
+              sx={{
+                marginTop: 12,
+              }}
+            >
+              {"Total: $" + total}
+            </Typography>
+          </List>
+          <Button variant="contained" onClick={handleCheckout}>
+            Checkout
+          </Button>
+        </React.Fragment>
+      ) : (
         <Typography
-        variant='h3'
-        sx={{
-            marginTop: 12
-        }}
+          variant="h6"
+          sx={{
+            margin: "35px 0px",
+          }}
         >
-            {"Total: $" + total}
+          No products in cart
         </Typography>
-      </List>
+      )}
       <BackButton />
     </Container>
   );

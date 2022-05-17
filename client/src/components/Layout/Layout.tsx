@@ -29,7 +29,6 @@ type Props = {
   children?: React.ReactNode;
   username: string;
   greaterThan768: boolean;
-  // cart: object;
 };
 
 const drawerWidth = 240;
