@@ -10,7 +10,7 @@
   <h3 align="center">Fleming Reeves Ecommerce</h3>
 
   <p align="center">
-    A collaborative ecommerce project built with the MERN stack by Andrew Fleming and Cody Reeves.
+    A collaborative ecommerce project built with the MERN stack by <a href="https://github.com/AndrewJFleming">Andrew Fleming</a> and <a href="https://github.com/TechnoGecko">Cody Reeves</a> using TypeScript and Redux Toolkit.
     <br />
     <br />
     <a href="https://www.linkedin.com/in/andrew-j-fleming-web-dev">Andrew Fleming LinkedIn</a>
@@ -45,11 +45,19 @@
 
 ## About The Project
 
-[![Project Screen Shot][project-screenshot]](https://github.com/AndrewJFleming/fleming-reeves-ecommerce)
+[![Project Screenshot][project-screenshot]]
 
-This is a collaborative MERN stack project between Andrew Fleming and Cody Reeves. Our primary goal was to gain experience working in a team environment, using the Trello project management software for coordinating tasks for our weekly sprints. The initial release of the app was completed over the course of 4 week-long sprints.
+This is a collaborative MERN stack project between Andrew Fleming and Cody Reeves. Our primary goal was to gain experience working in a team environment, using the Trello project management software for coordinating tasks for our weekly sprints. The initial release of the app was completed over the course of 4 weeklong sprints (see screenshot below for an example of our Trello board).
 
-Though both of us had experience with the MaterialUI CSS framework, a secondary goal for this collaborative project was to improve our skills working with the Material UI components, the styled-components feature as well as the custom theme feature.
+[![Project Screenshot2][project-screenshot2]]
+
+Though both of us had experience with the Material UI CSS framework, a secondary goal for this collaborative project was to improve our skills working with the Material UI components; the styled-components feature as well as the custom theme feature.
+
+[![Project Screenshot3][project-screenshot3]]
+
+Just like with Material UI, both of us had significant experience working with Redux prior to the start of this project but were eager to gain experience with Redux Toolkit (a more modern way of using Redux).
+
+Finally, we also wanted to gain experience building a React.js project using Typescript; to more easily 'hit the ground running' when potentially working with tech firms where TypeScript is typically used.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -59,6 +67,9 @@ Though both of us had experience with the MaterialUI CSS framework, a secondary 
 - [Express.js](https://expressjs.com/)
 - [React.js](https://reactjs.org/)
 - [Node.js](https://nodejs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Redux](https://redux.js.org/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
 - [JsonWebToken](https://jwt.io/)
 - [bcrypt](https://www.npmjs.com/package/bcrypt)
 - [MaterialUI](https://mui.com/)
@@ -76,6 +87,10 @@ Below you'll find some instructions on what you'll need to run the project local
 - yarn
   ```sh
   npm install --global yarn
+  ```
+- TypeScript
+  ```sh
+  npm install -g typescript
   ```
 
 ### Installation
@@ -150,10 +165,12 @@ The client uses the Node.js server to interact with this project's MongoDB datab
 
 ## Contact
 
-Andrew Fleming - [LinkedIn Profile](https://www.linkedin.com/in/andrew-j-fleming-web-dev) - aflemi1@gmail.com
+Andrew Fleming - [LinkedIn](https://www.linkedin.com/in/andrew-j-fleming-web-dev) - [Github](https://github.com/AndrewJFleming) - aflemi1@gmail.com
 
-Cody Reeves - [LinkedIn Profile](https://www.linkedin.com/in/codingreeves/) - cody.reeves@codingreeves.com
+Cody Reeves - [LinkedIn](https://www.linkedin.com/in/codingreeves/) - [Github](https://github.com/TechnoGecko) - cody.reeves@codingreeves.com
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 [project-screenshot]: client/src/assets/images/screenshot.png
+[project-screenshot2]: client/src/assets/images/screenshot2.png
+[project-screenshot3]: client/src/assets/images/screenshot3.png
