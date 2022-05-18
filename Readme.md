@@ -152,7 +152,7 @@ The client uses the Node.js server to interact with this project's MongoDB datab
 
 Andrew Fleming - [LinkedIn Profile](https://www.linkedin.com/in/andrew-j-fleming-web-dev) - aflemi1@gmail.com
 
-Cody Reeves - [LinkedIn Profile](https://www.linkedin.com/in/codingreeves/) - codingreeves.com
+Cody Reeves - [LinkedIn Profile](https://www.linkedin.com/in/codingreeves/) - cody.reeves@codingreeves.com
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
