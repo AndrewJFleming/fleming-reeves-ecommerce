@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/AndrewJFleming/fleming-reeves-ecommerce">
-    <img src="client/src/images/logo.png" alt="Logo" height="80">
+    <img src="client/src/assets/images/logo.png" alt="Logo" height="80">
   </a>
 
   <h3 align="center">Fleming Reeves Ecommerce</h3>
@@ -152,8 +152,8 @@ The client uses the Node.js server to interact with this project's MongoDB datab
 
 Andrew Fleming - [LinkedIn Profile](https://www.linkedin.com/in/andrew-j-fleming-web-dev) - aflemi1@gmail.com
 
-Cody Reeves - [LinkedIn Profile](https://www.linkedin.com/in/codingreeves/) - codingreeves.com/
+Cody Reeves - [LinkedIn Profile](https://www.linkedin.com/in/codingreeves/) - codingreeves.com
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-[project-screenshot]: client/src/images/screenshot.png
+[project-screenshot]: client/src/assets/images/screenshot.png
