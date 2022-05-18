@@ -45,15 +45,15 @@
 
 ## About The Project
 
-[![Project Screenshot][project-screenshot]]
+![Project Screenshot][project-screenshot]
 
 This is a collaborative MERN stack project between Andrew Fleming and Cody Reeves. Our primary goal was to gain experience working in a team environment, using the Trello project management software for coordinating tasks for our weekly sprints. The initial release of the app was completed over the course of 4 weeklong sprints (see screenshot below for an example of our Trello board).
 
-[![Project Screenshot2][project-screenshot2]]
+![Project Screenshot2][project-screenshot2]
 
 Though both of us had experience with the Material UI CSS framework, a secondary goal for this collaborative project was to improve our skills working with the Material UI components; the styled-components feature as well as the custom theme feature.
 
-[![Project Screenshot3][project-screenshot3]]
+![Project Screenshot3][project-screenshot3]
 
 Just like with Material UI, both of us had significant experience working with Redux prior to the start of this project but were eager to gain experience with Redux Toolkit (a more modern way of using Redux).
 
