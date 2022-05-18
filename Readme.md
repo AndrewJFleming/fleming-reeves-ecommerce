@@ -55,7 +55,7 @@ Though both of us had experience with the Material UI CSS framework, a secondary
 
 ![Project Screenshot3][project-screenshot3]
 
-Just like with Material UI, both of us had significant experience working with Redux prior to the start of this project but were eager to gain experience with Redux Toolkit (a more modern way of using Redux).
+Just like with Material UI, both of us had significant experience working with Redux prior to the start of this project but were eager to gain experience with Redux Toolkit; a more modern way of using Redux (see screenshot above for a glimpse of typical project Redux state).
 
 Finally, we also wanted to gain experience building a React.js project using Typescript; to more easily 'hit the ground running' when potentially working with tech firms where TypeScript is typically used.
 
