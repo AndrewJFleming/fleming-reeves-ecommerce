@@ -140,7 +140,7 @@ The client uses the Node.js server to interact with this project's MongoDB datab
 1. Start the client or admin app locally.
 
    ```sh
-   npm start
+   yarn run start
    ```
 
 2. Navigate to the the server directory and start the server with the same command.
