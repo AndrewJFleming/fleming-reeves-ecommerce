@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/AndrewJFleming/fleming-reeves-ecommerce">
-    <img src="client/src/assets/images/square-logo.png" alt="Logo" height="80">
+    <img src="client/src/assets/images/square-logo.png" alt="Logo" height="200">
   </a>
 
   <h3 align="center">Fleming Reeves Ecommerce</h3>
