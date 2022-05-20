@@ -1,19 +1,27 @@
-import Product from './Product/Product';
-import { ProductData } from '../../interfaces';
-import Grid from '@mui/material/Grid';
+import Product from "./Product/Product";
+import { ProductData } from "../../interfaces";
+import Grid from "@mui/material/Grid";
+import { useSelector } from "react-redux";
 
 interface ProductsProps {
   productsArray: ProductData[];
-  handleFavorite: any;
+  handleFavorite: (id: any, isFavorite: boolean) => void;
+  handleAddToCart: (productData: any, quantity: number) => void;
   favoritesIds: string[];
+  cartItemIds: string[];
 }
 
 const Products = ({
   productsArray,
   handleFavorite,
-  favoritesIds
+  handleAddToCart,
+  favoritesIds,
+  cartItemIds,
 }: ProductsProps) => {
-  let allProducts = productsArray.map(product => {
+  const currentUser = useSelector((state: any) => state.user.authData.user);
+  const cart = useSelector((state: any) => state.cart);
+
+  let allProducts = productsArray.map((product) => {
     return (
       <Grid
         item
@@ -22,8 +30,8 @@ const Products = ({
         md={6}
         lg={3}
         sx={{
-          display: 'flex',
-          justifyContent: 'center'
+          display: "flex",
+          justifyContent: "center",
         }}
         key={product._id}
       >
@@ -32,11 +40,17 @@ const Products = ({
           _id={product._id}
           imageId={product._id}
           imageUrl={product.largeUrl}
+          thumbnail={product.squareThumbUrl}
           title={product.title}
           desc={product.desc}
           price={product.price}
           handleFavorite={handleFavorite}
+          handleAddToCart={handleAddToCart}
+          currentUser={currentUser}
+          updateFavoritesError={currentUser?.error}
+          cart={cart}
           favoritesIds={favoritesIds}
+          cartItemIds={cartItemIds}
         />
       </Grid>
     );
@@ -47,8 +61,8 @@ const Products = ({
       container
       spacing={3}
       sx={{
-        width: '95%',
-        margin: '0px 25px'
+        width: "95%",
+        margin: "0px 25px",
       }}
     >
       {allProducts}

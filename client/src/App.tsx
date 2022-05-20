@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import axios, { AxiosResponse } from "axios";
 import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { updateFavorites } from "./redux/features/users";
+import { addToCart, removeFromCart } from "./redux/features/cart";
+import { getProducts } from "./redux/features/products";
 
 //Page Components
 import Home from "./pages/Home/Home";
@@ -100,41 +101,48 @@ const customTheme = createTheme({
   },
 });
 
+interface RootState {
+  products: {
+    allProducts: [];
+  };
+}
+
 function App() {
   const currentUser = useSelector((state: any) => state.user.authData?.user);
 
+
   const cartQuantity = useSelector((state:any) => state.user)
-  // const cart = useSelector((state: any) => state.cartReducer);
+ 
+  const cart = useSelector((state: any) => state.cart);
+
   const [signedIn, setSignedIn] = useState<Boolean>(false);
-  const [products, setProducts] = useState<ProductData[]>([]);
+  const products = useSelector(
+    (state: RootState) => state.products.allProducts
+  );
+  // const [products, setProducts] = useState<ProductData[]>([]);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
   const [favoritesIds, setFavoritesIds] = useState<string[]>([]);
+  const [cartItemIds, setCartItemIds] = useState<string[]>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
 
-  useEffect(() => {
-    console.log("cartQuantity: ", cartQuantity)
-  },[cartQuantity])
+  //Get all products for use in Product cards and SingleProduct page.
 
   useEffect(() => {
-    axios
-      .get<ProductData[]>("http://localhost:5000/products")
-      .then((response: AxiosResponse) => {
-        setProducts(response?.data);
-      });
+    dispatch(getProducts());
   }, []);
 
   useEffect(() => {
     let _signedIn: Boolean = currentUser == undefined;
     setTimeout(() => {
       setSignedIn(_signedIn);
-    }, 1000)
-     console.log("signedIn: ", signedIn);
-     console.log("currentUser: ", currentUser);
-     
-  }, [currentUser])
+    }, 1000);
+    console.log("signedIn: ", signedIn);
+    console.log("currentUser: ", currentUser);
+  }, [currentUser]);
 
+  //Create array just containing favorite product ids.
   useEffect(() => {
     const idsArray: string[] = [];
     favoriteProducts.forEach((favoriteProduct) =>
@@ -142,6 +150,13 @@ function App() {
     );
     setFavoritesIds(idsArray);
   }, [favoriteProducts]);
+
+  //Create array just containing cart item product ids.
+  useEffect(() => {
+    const idsArray: string[] = [];
+    cart.cartItems.forEach((cartItem: any) => idsArray.push(cartItem.pId));
+    setCartItemIds(idsArray);
+  }, [cart.cartItems]);
 
   //Check currentUser favorites array for product id matches in products array objs.
   useEffect(() => {
@@ -194,23 +209,47 @@ function App() {
     }
   };
 
+  const handleAddToCart = (productData: any, quantity: number) => {
+    console.log(productData);
+    if (
+      !cart.cartItems.find((cartItem: any) => cartItem.pId === productData.pId)
+    ) {
+      dispatch(
+        addToCart({
+          pId: productData.pId,
+          title: productData.title,
+          thumbnail: productData.thumbnail,
+          price: productData.price,
+          quantity: quantity,
+        })
+      );
+    } else {
+      //Remove cart item from cartItems array.
+      dispatch(
+        removeFromCart(
+          cart?.cartItems.filter(
+            (cartItem: any) => cartItem.pId !== productData.pId
+          )
+        )
+      );
+    }
+  };
+
   const greaterThan768 = useMediaQuery("(min-width:769px)");
 
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
-      <Layout
-        username={currentUser?.username}
-        greaterThan768={greaterThan768}
-        // cart={cart}
-      >
+      <Layout username={currentUser?.username} greaterThan768={greaterThan768}>
         <Routes>
           <Route
             element={
               <Home
                 productData={products}
-                handleFavorite={handleFavorite}
                 favoritesIds={favoritesIds}
+                cartItemIds={cartItemIds}
+                handleFavorite={handleFavorite}
+                handleAddToCart={handleAddToCart}
               />
             }
             path="/"
@@ -218,11 +257,15 @@ function App() {
           <Route element={<About />} path="/about" />
           <Route element={<Contact />} path="/contact" />
           <Route
-            element={<Auth title="Login" altPath="/register" />}
+            element={
+              <Auth title="Login" altAuthPage="Register" altPath="/register" />
+            }
             path="/login"
           />
           <Route
-            element={<Auth title="Register" altPath="/login" />}
+            element={
+              <Auth title="Register" altAuthPage="Login" altPath="/login" />
+            }
             path="/register"
           />
           <Route
@@ -230,8 +273,10 @@ function App() {
               <SingleProduct
                 productData={products}
                 favoritesIds={favoritesIds}
+                cartItemIds={cartItemIds}
                 userId={currentUser?._id}
                 handleFavorite={handleFavorite}
+                handleAddToCart={handleAddToCart}
               />
             }
             path="/products/:productId"
@@ -246,12 +291,20 @@ function App() {
             }
             path="/favorites"
           />
-          <Route element={<Cart productsInCart={products} />} path="/cart" />
-          <Route 
-          element={
-          <Profile 
-          userId={currentUser?._id}
-          />} path="/profile" />
+          <Route
+            element={
+              <Cart
+                cartItems={cart?.cartItems}
+                cartItemIds={cartItemIds}
+                userId={currentUser?._id}
+              />
+            }
+            path="/cart"
+          />
+          <Route
+            element={<Profile userId={currentUser?._id} />}
+            path="/profile"
+          />
         </Routes>
       </Layout>
     </ThemeProvider>

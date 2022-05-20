@@ -19,7 +19,6 @@ export const getUsers = async (req, res) => {
 // LOGIN
 export const login = async (req, res) => {
   try {
-    console.log(req.body)
     const existingUser = await User.findOne({ username: req.body.username });
     if (!existingUser)
       return res.status(404).json({ message: "User doesn't exist." });
@@ -103,13 +102,12 @@ export const updateUser = async (req, res) => {
       existingUser.password
     );
 
-    
     if (!isPasswordCorrect)
-    return res.status(400).json({ message: "Incorrect password." });
-    
+      return res.status(400).json({ message: "Incorrect password." });
+
     if (req.body.newPassword) {
-      if(req.body.newPassword !== req.body.newPasswordConfirm){
-        return res.status(400).json({ message: "Passwords do not match."})
+      if (req.body.newPassword !== req.body.newPasswordConfirm) {
+        return res.status(400).json({ message: "Passwords do not match." });
       }
       req.body.newPassword = await bcrypt.hash(req.body.newPassword, 12);
     }
@@ -117,13 +115,12 @@ export const updateUser = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
-        password: req.body.newPassword
+        password: req.body.newPassword,
       },
       { new: true }
     );
-   res.status(200).json(updatedUser);
-   console.log("updatedUser: ", updatedUser);
-    
+    res.status(200).json(updatedUser);
+    console.log("updatedUser: ", updatedUser);
   } catch (err) {
     res.status(500).json({ message: "Failed to update user." });
   }
@@ -159,11 +156,9 @@ export const deleteUser = async (req, res) => {
   let currentUser;
   console.log(req.params);
   try {
-
-    currentUser = User.findOne({ _id: req.params.id })
+    currentUser = User.findOne({ _id: req.params.id });
     //await User.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "User deleted!"});
-
+    res.status(200).json({ message: "User deleted!" });
 
     // const isPasswordCorrect = await bcrypt.compare(
     //   req.formData.password,

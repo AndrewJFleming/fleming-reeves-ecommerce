@@ -11,11 +11,14 @@ export const auth = async (req, res, next) => {
     }
     next();
   } catch (error) {
-    res.status(401).json({
-      message:
-        error.name === "TokenExpiredError"
-          ? "Login token expired"
-          : "Token validation failed",
-    });
+    res.status(401).json(
+      error
+      //   {
+      //   message:
+      //     error.name === "TokenExpiredError"
+      //       ? "Login token expired"
+      //       : "Token validation failed",
+      // }
+    );
   }
 };

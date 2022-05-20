@@ -1,21 +1,14 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux';
 import * as api from "../api";
 
 export const login:any = createAsyncThunk(
   "user/signInUser",
   async (argumentObj:any, thunkAPI ) => {
-
-    console.log(argumentObj.loginFormData);
-
     try {
       const { data } = await api.login(argumentObj.loginFormData);
-      
       argumentObj.navigate("/");
-
       return data;
     } catch (error: any) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -29,7 +22,6 @@ export const register:any = createAsyncThunk(
       argumentObj.navigate("/");
       return data;
     } catch (error: any) {
-      console.log(error)
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -46,7 +38,7 @@ export const updateFavorites:any = createAsyncThunk(
         //navigate passed from App.tsx in argumentObj arg
         thunkAPI.dispatch(logoutUser());
         argumentObj.navigate("/login");
-      }, 5000)
+      }, 25000)
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -90,7 +82,7 @@ const userSlice = createSlice({
         state.authData = {};
         state.error = false;
         state.loading = false;
-      }
+      },
     },
     //Used when calling APIs
     extraReducers: (builder) => {
