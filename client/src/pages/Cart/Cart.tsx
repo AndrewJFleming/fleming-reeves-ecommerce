@@ -26,8 +26,10 @@ const Cart = ({ cartItems, cartItemIds, userId }: Props) => {
     dispatch(createCart({ products: cartItems, userId: userId, total: total }));
   };
 
+
   let currentCart = cartItems?.map((cartItem: any) => {
     return <CartItem cartItem={cartItem} cartItems={cartItems} />;
+
   });
 
   useEffect(() => {

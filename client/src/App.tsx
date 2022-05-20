@@ -109,7 +109,12 @@ interface RootState {
 
 function App() {
   const currentUser = useSelector((state: any) => state.user.authData?.user);
+
+
+  const cartQuantity = useSelector((state:any) => state.user)
+ 
   const cart = useSelector((state: any) => state.cart);
+
   const [signedIn, setSignedIn] = useState<Boolean>(false);
   const products = useSelector(
     (state: RootState) => state.products.allProducts
@@ -121,7 +126,9 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   //Get all products for use in Product cards and SingleProduct page.
+
   useEffect(() => {
     dispatch(getProducts());
   }, []);

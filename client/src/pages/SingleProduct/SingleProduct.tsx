@@ -47,6 +47,10 @@ const SingleProduct = ({
   const [isInCart, setIsInCart] = useState<boolean>(false);
   const [quantity, setQuantity] = useState(1);
 
+  const currentUser = useSelector(
+    (state: any) => state.user.authData.user
+  );
+  
   const updateFavoritesError = useSelector(
     (state: any) => state.user.error.message
   );
