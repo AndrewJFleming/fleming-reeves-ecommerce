@@ -102,6 +102,8 @@ const customTheme = createTheme({
 
 function App() {
   const currentUser = useSelector((state: any) => state.user.authData?.user);
+
+  const cartQuantity = useSelector((state:any) => state.user)
   // const cart = useSelector((state: any) => state.cartReducer);
   const [signedIn, setSignedIn] = useState<Boolean>(false);
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -109,6 +111,11 @@ function App() {
   const [favoritesIds, setFavoritesIds] = useState<string[]>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    console.log("cartQuantity: ", cartQuantity)
+  },[cartQuantity])
 
   useEffect(() => {
     axios

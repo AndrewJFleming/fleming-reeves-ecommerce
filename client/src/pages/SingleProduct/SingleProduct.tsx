@@ -32,6 +32,10 @@ const SingleProduct = ({
   );
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
+  const currentUser = useSelector(
+    (state: any) => state.user.authData.user
+  );
+  
   const updateFavoritesError = useSelector(
     (state: any) => state.user.error.message
   );

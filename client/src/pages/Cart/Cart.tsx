@@ -33,7 +33,8 @@ const Cart = ({ productsInCart }: Props) => {
         margin: '15px 0px',
         alignItems: "flex-start",
         justifySelf: 'flex-start'
-        }}
+      }}
+      key={product._id}
       >
         <img
           src={product.squareThumbUrl}
