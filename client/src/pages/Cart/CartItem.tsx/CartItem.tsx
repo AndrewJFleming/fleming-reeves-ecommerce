@@ -13,10 +13,41 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
+import { makeStyles } from "@mui/styles";
+
 type Props = {
   cartItem: any;
   cartItems: [];
 };
+
+const useStyles = makeStyles((theme: any) => {
+  return {
+    contentWrapper: {
+      display: "flex",
+      width: "250px",
+      flexDirection: "column",
+      [theme.breakpoints.down("md")]: {
+        width: "150px",
+      },
+    },
+    itemId: {
+      display: "block",
+      [theme.breakpoints.down("md")]: {
+        display: "none",
+      },
+    },
+    buttonSectionWrapper: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
+    buttonWrapper: {
+      display: "flex",
+      alignItems: "center",
+      pl: 1,
+      pb: 1,
+    },
+  };
+});
 
 const CartItem = ({ cartItem, cartItems }: Props) => {
   const dispatch = useDispatch();
@@ -53,6 +84,8 @@ const CartItem = ({ cartItem, cartItems }: Props) => {
     );
   };
 
+  const classes = useStyles();
+
   return (
     <Card sx={{ display: "flex", marginBottom: 2 }}>
       <CardMedia
@@ -61,7 +94,7 @@ const CartItem = ({ cartItem, cartItems }: Props) => {
         image={cartItem.thumbnail}
         alt="Cart item image thumbnail"
       />
-      <Box sx={{ display: "flex", width: 300, flexDirection: "column" }}>
+      <Box className={classes.contentWrapper}>
         <CardContent sx={{ flex: "1 0 auto", pb: 0 }}>
           <Link to={"/products/" + cartItem.pId}>
             <Typography component="div" variant="h6">
@@ -69,6 +102,7 @@ const CartItem = ({ cartItem, cartItems }: Props) => {
             </Typography>
           </Link>
           <Typography
+            className={classes.itemId}
             variant="subtitle1"
             color="text.secondary"
             component="div"
@@ -79,20 +113,8 @@ const CartItem = ({ cartItem, cartItems }: Props) => {
             {`$${cartItem.price * cartItem.quantity}`}
           </Typography>
         </CardContent>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              pl: 1,
-              pb: 1,
-            }}
-          >
+        <Box className={classes.buttonSectionWrapper}>
+          <Box className={classes.buttonWrapper}>
             <IconButton
               aria-label="Decrement"
               onClick={() =>
@@ -117,14 +139,7 @@ const CartItem = ({ cartItem, cartItems }: Props) => {
               <AddIcon />
             </IconButton>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              pl: 1,
-              pb: 1,
-            }}
-          >
+          <Box className={classes.buttonWrapper}>
             <IconButton
               aria-label="Remove from cart"
               onClick={() => removeFromCartHandler(cartItem.pId)}
