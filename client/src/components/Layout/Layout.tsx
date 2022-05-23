@@ -1,111 +1,107 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  CssBaseline,
+  Typography,
+  Toolbar,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import PersonIcon from "@mui/icons-material/Person";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import {
-  Container,
-  CssBaseline,
-  Grid,
-  Paper,
-  useMediaQuery,
-  Button,
-} from "@mui/material";
-import { Link } from "react-router-dom";
 import { TopNav } from "../TopNav/TopNav";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
+import BackButton from "../BackButton/BackButton";
+import { TokenExpiredPopup } from "../TokenExpiredPopup/TokenExpiredPopup";
 
 type Props = {
   children?: React.ReactNode;
   username: string;
-  greaterThan768: boolean;
 };
-
-const drawerWidth = 240;
-const transitionDuration = 1000;
 
 const useStyles = makeStyles((theme: any) => {
   return {
     drawer: {
       height: "100%",
+      width: 240,
       flexShrink: 1,
       "& .MuiDrawer-paper": {
         boxSizing: "border-box",
       },
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
+      },
     },
-    drawerPaper: {
-      backgroundColor: "#C44343!important",
-      width: "inherit",
-      height: "inherit",
+    navLinkButton: {
+      "&:hover": {
+        backgroundColor: "rgba(0, 0, 0, 0.25)!important",
+      },
     },
-    navListItem: {
-      backgroundColor: "#F3F6E5!important",
-    },
-    root: {
+    // root: {
+    //   display: "flex",
+    //   flexDirection: "column",
+    // },
+    usernameToolbar: {
       display: "flex",
-      flexDirection: "column",
-    },
-    userIcon: {
-      marginRight: 10,
+      justifyContent: "space-between",
+      backgroundColor: "rgba(0, 0, 0, 0.4)",
+      height: 65,
+      [theme.breakpoints.down("md")]: {
+        height: 80,
+      },
     },
     userIconContainer: {
+      color: theme.palette.success.main,
       marginRight: 10,
-      width: 45,
-      height: 45,
+      width: 35,
+      height: 35,
       borderRadius: 50,
-      border: "1px solid black",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
     },
+    toolbarUsername: {
+      color: theme.palette.success.main,
+    },
+    navBox: {},
     navLink: {
       textDecoration: "none",
-      color: "inherit",
+      color: theme.palette.success.main,
       "&:hover": {
         textDecoration: "none",
+        color: theme.palette.success.light,
       },
     },
-    navContainer: {
-      display: "flex",
-      flexDirection: "column",
-      alignSelf: "flex-start",
-      justifySelf: "flex-start",
-      width: "100vw",
-      margin: "0",
-      backgroundColor: "#C44343",
-      top: "0",
-      position: "sticky",
-      zIndex: "9000",
-    },
-    menuButton: {
-      justifySelf: "flex-start",
-      alignSelf: "flex-start",
-      margin: "15px 0",
+    pageMain: {
+      marginTop: "65px",
+      [theme.breakpoints.down("md")]: {
+        marginTop: "80px",
+      },
     },
   };
 });
 
+const svgLink =
+  "https://gist.githubusercontent.com/AndrewJFleming/3b1beae5c84b79adc425411572991a2e/raw/94e38925e6909316b248117450a151c09339c068/usernameToolbarBGSlender.svg";
+const drawerWidth = 240;
+// const transitionDuration = 1000;
+
 const menuItems = [
-  {
-    text: "Favorites",
-    icon: <StarRateIcon />,
-    path: "/favorites",
-  },
   {
     //   Add username variable here
     text: "Profile",
     icon: <PersonIcon />,
     path: "/profile",
+  },
+  {
+    text: "Favorites",
+    icon: <StarRateIcon />,
+    path: "/favorites",
   },
   {
     text: "Cart",
@@ -114,104 +110,109 @@ const menuItems = [
   },
 ];
 
-const Layout = ({ children, username, greaterThan768 }: Props) => {
+const Layout = ({ children, username }: Props) => {
   const classes = useStyles();
 
-  const [open, setOpen] = useState(greaterThan768);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    setOpen(greaterThan768);
-  }, [greaterThan768]);
-
-  const handleMenuClick = () => {
-    setOpen(!open);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
-  return (
+  const drawer = (
     <Box>
+      <Toolbar className={classes.usernameToolbar}>
+        <Box sx={{ display: "flex" }}>
+          <Box className={classes.userIconContainer}>
+            {/* <PersonIcon /> */}
+            <img
+              style={{ width: 40 }}
+              src="https://gist.githubusercontent.com/AndrewJFleming/5c7179e2303872b7b71d18cf22ed1910/raw/e1588e345e15f3dc3de55eaa1edefc7a4eca2125/avatarZoomed.svg"
+              alt="user placeholder avatar"
+            />
+          </Box>
+          <Typography variant="h6" className={classes.toolbarUsername}>
+            {/* turn this into a sign in button */}
+            {username == null ? "Not signed in" : username}
+          </Typography>
+        </Box>
+      </Toolbar>
+      <List>
+        {menuItems.map((menuItem, index) => (
+          <Link className={classes.navLink} to={menuItem.path} key={index}>
+            <ListItem button className={classes.navLinkButton}>
+              <ListItemIcon sx={{ color: "success.main" }}>
+                {menuItem.icon}
+              </ListItemIcon>
+              <ListItemText primary={menuItem.text} />
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+    </Box>
+  );
+
+  return (
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <Box className={classes.navContainer}>
-        <TopNav username={username} />
-      </Box>
-
-      {/* TopNav and current homepage */}
-
+      <TopNav
+        username={username}
+        handleDrawerToggle={handleDrawerToggle}
+        drawerWidth={drawerWidth}
+      />
       <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-        }}
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="drawer-nav"
       >
-        {/* Drawer begins here */}
-        {open ? (
-          <Drawer
-            className={classes.drawer}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            anchor="left"
-            sx={{
-              width: greaterThan768 ? drawerWidth : "100%",
-            }}
-          >
-            <Toolbar />
-            <Toolbar
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ display: "flex" }}>
-                <Box className={classes.userIconContainer}>
-                  <PersonIcon />
-                </Box>
-                <Typography variant="h5">
-                  {/* turn this into a sign in button */}
-                  {username == null ? "Not signed in" : username}
-                </Typography>
-              </Box>
-              {!greaterThan768 && (
-                <Button
-                  onClick={() => handleMenuClick()}
-                  sx={{
-                    justifySelf: "flex-end",
-                  }}
-                >
-                  <CloseIcon />
-                </Button>
-              )}
-            </Toolbar>
-            <Divider />
-            <List className={classes.navListItem}>
-              {menuItems.map((item, index) => (
-                <Link className={classes.navLink} to={item.path} key={index}>
-                  <ListItem button>
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={item.text} />
-                  </ListItem>
-                </Link>
-              ))}
-            </List>
-          </Drawer>
-        ) : (
-          <Button
-            onClick={() => handleMenuClick()}
-            className={classes.menuButton}
-            sx={{
-              border: "solid 2px #C44343",
-              margin: "15px 0",
-              position: "absolute",
-              left: "15px",
-            }}
-          >
-            <MenuIcon />
-          </Button>
-        )}
-
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+              borderRight: "1px solid #ecf6d0",
+              backgroundColor: "#110716",
+              backgroundImage: `url(${svgLink})`,
+              backgroundSize: "100%",
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+              backgroundColor: "#110716",
+              backgroundImage: `url(${svgLink})`,
+              backgroundSize: "100%",
+            },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+        className={classes.pageMain}
+      >
+        <TokenExpiredPopup />
         {children}
       </Box>
     </Box>

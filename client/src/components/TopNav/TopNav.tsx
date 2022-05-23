@@ -1,20 +1,26 @@
 import React, { FC, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { Container, Box } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/system";
 import NavItem from "./NavItem/NavItem";
 import CartNavItemInner from "./CartNavItemInner/CartNavItemInner";
 import UserAvatar from "./UserAvatar/UserAvatar";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import { useStyles } from "./TopNav.styles";
 
 interface Props {
   username: string;
+  handleDrawerToggle: any;
+  drawerWidth: number;
 }
 
 const StyledNav = styled("nav")(({ theme }) => ({
   display: "flex",
+  justifyContent: "space-between",
   alignItems: "center",
   [theme.breakpoints.down("md")]: {
     "&:first-of-type": {
@@ -23,7 +29,11 @@ const StyledNav = styled("nav")(({ theme }) => ({
   },
 }));
 
-export const TopNav: FC<Props> = ({ username }) => {
+export const TopNav: FC<Props> = ({
+  username,
+  handleDrawerToggle,
+  drawerWidth,
+}) => {
   const classes = useStyles();
   const [cartCount, setCartCount] = useState<number>(0);
   const cart = useSelector((state: any) => state.cart);
@@ -40,14 +50,30 @@ export const TopNav: FC<Props> = ({ username }) => {
   }, [cart]);
 
   return (
-    <Box component="header" sx={{ backgroundColor: "error.main" }}>
-      <Container className={classes.headerContainer}>
+    <AppBar
+      position="fixed"
+      sx={{
+        width: { sm: `calc(100% - ${drawerWidth}px)` },
+        ml: { sm: `${drawerWidth}px` },
+        backgroundColor: "error.main",
+      }}
+    >
+      <Toolbar className={classes.headerContainer}>
         <StyledNav id="left-nav">
           <NavItem
             navItemInner="Fleming Reeves Ecommerce"
             path="/"
             linkClasses={`${classes.headerLogo} ${classes.navItem}`}
           />
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 0, display: { sm: "none" }, color: "success.main" }}
+          >
+            <MenuIcon />
+          </IconButton>
         </StyledNav>
         <StyledNav id="center-left-nav">
           <NavItem
@@ -61,14 +87,18 @@ export const TopNav: FC<Props> = ({ username }) => {
             linkClasses={classes.navItem}
           />
         </StyledNav>
-        <StyledNav id="center-right-nav">
-          {username && <UserAvatar username={username} />}
-          <NavItem
-            navItemInner={<CartNavItemInner cartCount={cartCount} />}
-            path="/cart"
-            linkClasses={classes.navItem}
-          />
-        </StyledNav>
+        {username && (
+          <StyledNav id="center-right-nav">
+            <React.Fragment>
+              <UserAvatar username={username} />
+              <NavItem
+                navItemInner={<CartNavItemInner cartCount={cartCount} />}
+                path="/cart"
+                linkClasses={classes.navItem}
+              />
+            </React.Fragment>
+          </StyledNav>
+        )}
         <StyledNav id="right-nav">
           {username ? (
             <NavItem
@@ -91,7 +121,7 @@ export const TopNav: FC<Props> = ({ username }) => {
             </React.Fragment>
           )}
         </StyledNav>
-      </Container>
-    </Box>
+      </Toolbar>
+    </AppBar>
   );
 };

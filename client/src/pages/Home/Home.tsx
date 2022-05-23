@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
+
+import { Container, Box, Pagination, Stack } from "@mui/material";
 import Products from "../../components/Products/Products";
-import Pagination from "@mui/material/Pagination/";
-import Stack from "@mui/material/Stack";
-import { ProductData } from "../../interfaces";
-import "./Home.css";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { Container } from "@mui/material";
+
+import { ProductData } from "../../interfaces";
+
+import "./Home.css";
 
 type HomeProps = {
   productData: ProductData[];
@@ -65,22 +65,10 @@ const Home = ({
   );
 
   return (
-    <Container
-      maxWidth={false}
-      sx={{
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+    <Container maxWidth={false}>
+      <Box>
         <SearchBar placeholder={"Search by title"} data={productsArray} />
       </Box>
-
       <Products
         productsArray={currentProducts}
         favoritesIds={favoritesIds}
@@ -88,7 +76,6 @@ const Home = ({
         handleFavorite={handleFavorite}
         handleAddToCart={handleAddToCart}
       />
-
       <Stack
         className="pagination"
         spacing={2}

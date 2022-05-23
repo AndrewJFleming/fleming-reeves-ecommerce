@@ -3,9 +3,8 @@
     margin: none;
 }
 .searchInputs {
-    position: relative;
-    display: flex;
-    justify-content: center;
+
+    padding-left: 24px;
 }
 
 
