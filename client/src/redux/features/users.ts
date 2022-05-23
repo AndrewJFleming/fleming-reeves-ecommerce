@@ -38,7 +38,7 @@ export const updateFavorites:any = createAsyncThunk(
         //navigate passed from App.tsx in argumentObj arg
         thunkAPI.dispatch(logoutUser());
         argumentObj.navigate("/login");
-      }, 25000)
+      }, 5000)
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
