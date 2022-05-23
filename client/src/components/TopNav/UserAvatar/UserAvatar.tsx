@@ -1,4 +1,6 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
+
 import { styled } from "@mui/system";
 
 interface Props {
@@ -12,15 +14,21 @@ const StyledAvatar = styled("span")(({ theme }) => ({
   fontWeight: "600",
   width: "20px",
   height: "20px",
-  lineHeight: "18px",
   padding: "2px",
   textAlign: "center",
   borderRadius: "50%",
   marginRight: "12px",
+  "&:hover": {
+    backgroundColor: theme.palette.common.black,
+  },
 }));
 
 const UserAvatar: FC<Props> = ({ username }) => {
-  return <StyledAvatar>{username.charAt(0).toUpperCase()}</StyledAvatar>;
+  return (
+    <Link to="profile" style={{ lineHeight: "18px" }}>
+      <StyledAvatar>{username.charAt(0).toUpperCase()}</StyledAvatar>
+    </Link>
+  );
 };
 
 export default UserAvatar;
