@@ -25,7 +25,6 @@ interface ProductProps {
   handleFavorite: (id: any, isFavorite: boolean) => void;
   handleAddToCart: (productData: any, quantity: number) => void;
   currentUser: object;
-  updateFavoritesError: { name: string; message: string; expiredAt: string };
   cart: any;
   favoritesIds: string[];
   cartItemIds: string[];
@@ -52,7 +51,6 @@ const Product = ({
   handleFavorite,
   handleAddToCart,
   currentUser,
-  updateFavoritesError,
   cart,
   favoritesIds,
   cartItemIds,
@@ -107,9 +105,6 @@ const Product = ({
         </Typography>
         {currentUser && (
           <CardActions>
-            {updateFavoritesError?.name === "TokenExpiredError" && (
-              <p>{updateFavoritesError?.message}</p>
-            )}
             <React.Fragment>
               <Button
                 size="small"

@@ -1,6 +1,4 @@
-import React from 'react';
-import './Pagination.css';
-import Stack from '@mui/material/Stack';
+import { Box } from "@mui/material";
 
 interface PaginationProps {
   productsPerPage: number;
@@ -20,21 +18,17 @@ const Pagination = (props: PaginationProps) => {
   }
 
   return (
-    <nav>
-      <ul className="pagination">
-        {pageNumbers.map(number =>
-          <li key={number} className="page-container">
-            <a
-              onClick={() => props.paginate(number)}
-              href="!#"
-              className="page-link"
-            >
+    <Box component="nav">
+      <ul>
+        {pageNumbers.map((number) => (
+          <li key={number}>
+            <a onClick={() => props.paginate(number)} href="!#">
               {number}
             </a>
           </li>
-        )}
+        ))}
       </ul>
-    </nav>
+    </Box>
   );
 };
 

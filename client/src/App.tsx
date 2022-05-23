@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { updateFavorites } from "./redux/features/users";
 import { addToCart, removeFromCart } from "./redux/features/cart";
@@ -109,26 +109,18 @@ interface RootState {
 
 function App() {
   const currentUser = useSelector((state: any) => state.user.authData?.user);
-
-
-  const cartQuantity = useSelector((state:any) => state.user)
- 
   const cart = useSelector((state: any) => state.cart);
-
   const [signedIn, setSignedIn] = useState<Boolean>(false);
   const products = useSelector(
     (state: RootState) => state.products.allProducts
   );
-  // const [products, setProducts] = useState<ProductData[]>([]);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
   const [favoritesIds, setFavoritesIds] = useState<string[]>([]);
   const [cartItemIds, setCartItemIds] = useState<string[]>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   //Get all products for use in Product cards and SingleProduct page.
-
   useEffect(() => {
     dispatch(getProducts());
   }, []);
@@ -138,8 +130,6 @@ function App() {
     setTimeout(() => {
       setSignedIn(_signedIn);
     }, 1000);
-    console.log("signedIn: ", signedIn);
-    console.log("currentUser: ", currentUser);
   }, [currentUser]);
 
   //Create array just containing favorite product ids.
@@ -210,7 +200,6 @@ function App() {
   };
 
   const handleAddToCart = (productData: any, quantity: number) => {
-    console.log(productData);
     if (
       !cart.cartItems.find((cartItem: any) => cartItem.pId === productData.pId)
     ) {
@@ -235,12 +224,10 @@ function App() {
     }
   };
 
-  const greaterThan768 = useMediaQuery("(min-width:769px)");
-
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
-      <Layout username={currentUser?.username} greaterThan768={greaterThan768}>
+      <Layout username={currentUser?.username}>
         <Routes>
           <Route
             element={

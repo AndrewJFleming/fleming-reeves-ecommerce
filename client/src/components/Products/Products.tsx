@@ -23,18 +23,7 @@ const Products = ({
 
   let allProducts = productsArray.map((product) => {
     return (
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        md={6}
-        lg={3}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-        key={product._id}
-      >
+      <Grid item xs={12} sm={12} md={6} lg={3} key={product._id}>
         <Product
           key={product._id}
           _id={product._id}
@@ -47,7 +36,6 @@ const Products = ({
           handleFavorite={handleFavorite}
           handleAddToCart={handleAddToCart}
           currentUser={currentUser}
-          updateFavoritesError={currentUser?.error}
           cart={cart}
           favoritesIds={favoritesIds}
           cartItemIds={cartItemIds}
@@ -61,8 +49,8 @@ const Products = ({
       container
       spacing={3}
       sx={{
-        width: "95%",
-        margin: "0px 25px",
+        width: "100%",
+        margin: "0px",
       }}
     >
       {allProducts}

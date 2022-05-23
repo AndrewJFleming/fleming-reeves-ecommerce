@@ -3,10 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login, register } from "../../redux/features/users";
 
-import { Typography, Paper, TextField, Button } from "@mui/material";
+import {
+  Typography,
+  Paper,
+  TextField,
+  Button,
+  Container,
+  Box,
+} from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
 import { SwitchAuthPage } from "./SwitchAuthPage/SwitchAuthPage";
+import BackButton from "../../components/BackButton/BackButton";
 
 interface Props {
   title: string;
@@ -17,7 +25,7 @@ interface Props {
 const useStyles = makeStyles({
   authPage: {
     position: "relative",
-    height: "calc(100vh - 60px)",
+    height: "calc(100vh - 65px)",
   },
   authForm: {
     padding: 20,
@@ -68,62 +76,63 @@ export const Auth: FC<Props> = ({ title, altPath, altAuthPage }) => {
 
   const classes = useStyles();
   return (
-    <div className={classes.authPage}>
-      <Paper elevation={10} className={classes.authForm}>
-        <form onSubmit={handleAuth}>
-          <Typography variant="h5" align="center">
-            {title}
-          </Typography>
-          <TextField
-            sx={{ backgroundColor: "common.white" }}
-            label="Username"
-            placeholder="Enter username"
-            value={formData.username}
-            name="username"
-            margin="normal"
-            fullWidth
-            required
-            onChange={handleChange}
-            autoFocus
-          />
-          {title === "Register" && (
+    <Container>
+      <BackButton />
+      <Box component="div" className={classes.authPage}>
+        <Paper elevation={10} className={classes.authForm}>
+          <form onSubmit={handleAuth}>
+            <Typography variant="h5" align="center">
+              {title}
+            </Typography>
             <TextField
               sx={{ backgroundColor: "common.white" }}
-              label="Email"
-              placeholder="Enter email"
-              value={formData.email}
-              name="email"
-              type="email"
+              label="Username"
+              placeholder="Enter username"
+              value={formData.username}
+              name="username"
               margin="normal"
               fullWidth
               required
               onChange={handleChange}
               autoFocus
             />
-          )}
-          <TextField
-            sx={{ backgroundColor: "common.white" }}
-            label="Password"
-            placeholder="Enter password"
-            value={formData.password}
-            name="password"
-            margin="normal"
-            type="password"
-            fullWidth
-            required
-            onChange={handleChange}
-          />
-          <Button
-            color="warning"
-            variant="contained"
-            sx={{ margin: "1rem 0" }}
-            fullWidth
-            // onClick={handleAuth}
-            type="submit"
-          >
-            {title}
-          </Button>
-          <Typography>
+            {title === "Register" && (
+              <TextField
+                sx={{ backgroundColor: "common.white" }}
+                label="Email"
+                placeholder="Enter email"
+                value={formData.email}
+                name="email"
+                type="email"
+                margin="normal"
+                fullWidth
+                required
+                onChange={handleChange}
+                autoFocus
+              />
+            )}
+            <TextField
+              sx={{ backgroundColor: "common.white" }}
+              label="Password"
+              placeholder="Enter password"
+              value={formData.password}
+              name="password"
+              margin="normal"
+              type="password"
+              fullWidth
+              required
+              onChange={handleChange}
+            />
+            <Button
+              color="warning"
+              variant="contained"
+              sx={{ margin: "1rem 0" }}
+              fullWidth
+              // onClick={handleAuth}
+              type="submit"
+            >
+              {title}
+            </Button>
             {title === "Login" ? (
               <SwitchAuthPage
                 prompt="Not yet registered? "
@@ -139,9 +148,9 @@ export const Auth: FC<Props> = ({ title, altPath, altAuthPage }) => {
                 handleClearForm={handleClearForm}
               />
             )}
-          </Typography>
-        </form>
-      </Paper>
-    </div>
+          </form>
+        </Paper>
+      </Box>
+    </Container>
   );
 };

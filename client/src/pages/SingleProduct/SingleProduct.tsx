@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ProductData } from "../../interfaces";
 
-import Modal from "./Modal/Modal";
-import { Box, Button } from "@mui/material";
-import { Typography } from "@mui/material";
+import BackButton from "../../components/BackButton/BackButton";
+import PageTitle from "../../components/PageTitle/PageTitle";
+import ProductImageModal from "./ProductImageModal/ProductImageModal";
+import { styled } from "@mui/system";
+import { Box, Button, Container, Typography } from "@mui/material";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-import { useSelector } from "react-redux";
-
-import "./SingleProduct.css";
-import BackButton from "../../components/BackButton/BackButton";
+import { makeStyles } from "@mui/styles";
 
 type SingleProductProps = {
   productData: ProductData[];
@@ -30,6 +29,34 @@ type SingleProductProps = {
   ) => void;
 };
 
+const useStyles = makeStyles((theme: any) => {
+  return {
+    productContentWrapper: {
+      marginBottom: "2rem",
+    },
+    singleProductImage: {
+      display: "block",
+      width: "40vw",
+      maxWidth: "650px",
+      margin: "0 auto 1rem",
+      "&:hover": {
+        cursor: "pointer",
+      },
+      [theme.breakpoints.down("md")]: {
+        width: "100%",
+      },
+    },
+    othersWrapper: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      pl: 1,
+      pb: 1,
+    },
+  };
+});
+
 const SingleProduct = ({
   productData,
   userId,
@@ -39,26 +66,21 @@ const SingleProduct = ({
   handleAddToCart,
 }: SingleProductProps) => {
   const { productId } = useParams();
-  const [showModal, setShowModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<ProductData | null>(
     null
   );
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isInCart, setIsInCart] = useState<boolean>(false);
   const [quantity, setQuantity] = useState(1);
-
-  const currentUser = useSelector(
-    (state: any) => state.user.authData.user
-  );
-  
-  const updateFavoritesError = useSelector(
-    (state: any) => state.user.error.message
-  );
+  const [isOpen, setIsOpen] = useState(false);
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
 
   useEffect(() => {
     const matchedProduct: ProductData = productData.filter(
       (product) => product._id === productId
     )[0];
+
     setCurrentProduct(matchedProduct);
   }, [productData, productId]);
 
@@ -71,47 +93,35 @@ const SingleProduct = ({
     setIsInCart(cartItemIds.includes(id));
   }, [currentProduct, cartItemIds]);
 
-  const ToggleModal = () => {
-    setShowModal(!showModal);
-  };
+  const StyledImg = styled("img")(({ theme }) => ({
+    [theme.breakpoints.down("md")]: {},
+  }));
+
+  const classes = useStyles();
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <Container>
       <BackButton />
       {currentProduct ? (
-        <React.Fragment>
-          <Typography variant="h2">{currentProduct.title}</Typography>
-
-          <img
-            onClick={ToggleModal}
-            className="product-image"
+        <Box component="div" className={classes.productContentWrapper}>
+          <PageTitle title={currentProduct.title} />
+          <StyledImg
+            onClick={handleOpen}
+            className={classes.singleProductImage}
             src={currentProduct?.largeUrl}
             alt={"Preview image of" + currentProduct.title}
           />
-
-          <p className="product-desc">{currentProduct.desc}</p>
-          {showModal && (
-            <div onClick={ToggleModal}>
-              <Modal
-                imageUrl={currentProduct.fullsizeUrl}
-                title={currentProduct.title}
-              />
-            </div>
-          )}
-
-          {/* May want to make the currency a variable instead of hard coding it like this */}
-          <h3 className="product-price">
-            {"Price: $" + currentProduct?.price}{" "}
-          </h3>
-          {updateFavoritesError && <p>{updateFavoritesError}</p>}
+          <Typography variant="body1" sx={{ marginBottom: "1rem" }}>
+            {currentProduct.desc}
+          </Typography>
+          <Typography variant="body2" sx={{ marginBottom: "1rem" }}>
+            <em>Product Id: {currentProduct._id}</em>
+          </Typography>
           {userId && (
-            <React.Fragment>
+            <Box component="div" className={classes.othersWrapper}>
+              <Typography variant="h5">
+                {"Price: $" + currentProduct?.price}
+              </Typography>
               <Button
                 size="small"
                 onClick={() => handleFavorite(currentProduct._id, isFavorite)}
@@ -150,14 +160,20 @@ const SingleProduct = ({
                   <span>Add to Cart</span>
                 )}
               </Button>
-            </React.Fragment>
+            </Box>
           )}
-        </React.Fragment>
+          <ProductImageModal
+            imageUrl={currentProduct?.largeUrl}
+            title={currentProduct.title}
+            isOpen={isOpen}
+            handleClose={handleClose}
+          />
+        </Box>
       ) : (
         <Typography variant="h6">No Product matching that ID...</Typography>
       )}
       <BackButton />
-    </Box>
+    </Container>
   );
 };
 

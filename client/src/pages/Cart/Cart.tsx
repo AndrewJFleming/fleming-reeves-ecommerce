@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Container, List, Typography, Button, Box } from "@mui/material";
-import BackButton from "../../components/BackButton/BackButton";
 import { useDispatch } from "react-redux";
-import { emptyCart } from "../../redux/features/cart";
-import { createCart } from "../../redux/features/cart";
+import { createCart, emptyCart } from "../../redux/features/cart";
+
+import { Container, List, Typography, Button, Box } from "@mui/material";
 import CartItem from "./CartItem.tsx/CartItem";
+import PageTitle from "../../components/PageTitle/PageTitle";
+import BackButton from "../../components/BackButton/BackButton";
+import NoItemsNotice from "../../components/NoItemsNotice/NoItemsNotice";
 
 type Props = {
-  // productsInCart: ProductData[];
   cartItems: [];
   userId: string;
   cartItemIds: string[];
@@ -15,7 +16,6 @@ type Props = {
 
 const Cart = ({ cartItems, cartItemIds, userId }: Props) => {
   const dispatch = useDispatch();
-  // const [cartState, setCartState] = useState([]);
   const [total, setTotal] = useState(0);
 
   const handleEmptyCart = () => {
@@ -25,12 +25,6 @@ const Cart = ({ cartItems, cartItemIds, userId }: Props) => {
   const handleCheckout = () => {
     dispatch(createCart({ products: cartItems, userId: userId, total: total }));
   };
-
-
-  let currentCart = cartItems?.map((cartItem: any) => {
-    return <CartItem cartItem={cartItem} cartItems={cartItems} />;
-
-  });
 
   useEffect(() => {
     //Get total price of cart, factoring quantities of individual cart items.
@@ -46,9 +40,7 @@ const Cart = ({ cartItems, cartItemIds, userId }: Props) => {
   return (
     <Container>
       <BackButton />
-      <Typography variant="h2" textAlign="center">
-        Cart
-      </Typography>
+      <PageTitle title="Cart" />
       {cartItems.length > 0 ? (
         <React.Fragment>
           <List
@@ -59,7 +51,15 @@ const Cart = ({ cartItems, cartItemIds, userId }: Props) => {
               margin: "35px 0px 0px",
             }}
           >
-            {currentCart}
+            {cartItems?.map((cartItem: any) => {
+              return (
+                <CartItem
+                  key={cartItem.pId}
+                  cartItem={cartItem}
+                  cartItems={cartItems}
+                />
+              );
+            })}
             <Typography variant="h4">{"Total: $" + total}</Typography>
           </List>
           <Box
@@ -78,16 +78,9 @@ const Cart = ({ cartItems, cartItemIds, userId }: Props) => {
           </Box>
         </React.Fragment>
       ) : (
-        <Typography
-          variant="h6"
-          sx={{
-            margin: "35px 0px",
-          }}
-        >
-          No products in cart
-        </Typography>
+        <NoItemsNotice notice="No Products in Cart" />
       )}
-      <BackButton />
+      {cartItems?.length > 2 && <BackButton />}
     </Container>
   );
 };

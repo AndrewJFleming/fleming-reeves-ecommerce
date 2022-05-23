@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +18,8 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PageTitle from "../../components/PageTitle/PageTitle";
+import NoItemsNotice from "../../components/NoItemsNotice/NoItemsNotice";
 
 type Props = {
   favoritesIds: string[];
@@ -25,7 +28,29 @@ type Props = {
 };
 
 const useStyles = makeStyles((theme: any) => {
-  return {};
+  return {
+    contentWrapper: {
+      display: "flex",
+      width: "250px",
+      flexDirection: "column",
+      [theme.breakpoints.down("md")]: {
+        width: "150px",
+      },
+    },
+    itemId: {
+      display: "block",
+      [theme.breakpoints.down("md")]: {
+        display: "none",
+      },
+    },
+    buttonWrapper: {
+      display: "flex",
+      justifyContent: "flex-end",
+      alignItems: "center",
+      pl: 1,
+      pb: 1,
+    },
+  };
 });
 
 const Favorites = ({ favorites, userId, favoritesIds }: Props) => {
@@ -39,9 +64,11 @@ const Favorites = ({ favorites, userId, favoritesIds }: Props) => {
     dispatch(updateFavorites({ userId, updatedFavoritesIds, navigate }));
   };
 
-  let allFavorites = favorites?.map((favorite) => {
+  const classes = useStyles();
+
+  let allFavorites: any = favorites?.map((favorite) => {
     return (
-      <Card sx={{ display: "flex", marginBottom: 2 }}>
+      <Card key={favorite._id} sx={{ display: "flex", marginBottom: 2 }}>
         <Link to={"/products/" + favorite._id}>
           <CardMedia
             component="img"
@@ -50,7 +77,7 @@ const Favorites = ({ favorites, userId, favoritesIds }: Props) => {
             alt="Favorite product image thumbnail"
           />
         </Link>
-        <Box sx={{ display: "flex", width: 300, flexDirection: "column" }}>
+        <Box className={classes.contentWrapper}>
           <CardContent sx={{ flex: "1 0 auto", pb: 0 }}>
             <Link to={"/products/" + favorite._id}>
               <Typography component="div" variant="h6">
@@ -58,6 +85,7 @@ const Favorites = ({ favorites, userId, favoritesIds }: Props) => {
               </Typography>
             </Link>
             <Typography
+              className={classes.itemId}
               variant="subtitle1"
               color="text.secondary"
               component="div"
@@ -65,15 +93,7 @@ const Favorites = ({ favorites, userId, favoritesIds }: Props) => {
               {favorite._id}
             </Typography>
           </CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              pl: 1,
-              pb: 1,
-            }}
-          >
+          <Box className={classes.buttonWrapper}>
             <IconButton
               aria-label="Remove from favorites"
               onClick={() => handleRemove(favorite._id)}
@@ -89,19 +109,21 @@ const Favorites = ({ favorites, userId, favoritesIds }: Props) => {
   return (
     <Container>
       <BackButton />
-      <Typography variant="h2" textAlign="center">
-        Favorites
-      </Typography>
-      <List
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          margin: "35px 0px 0px",
-        }}
-      >
-        {allFavorites}
-      </List>
+      <PageTitle title="Favorites" />
+      {allFavorites?.length ? (
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {allFavorites}
+        </List>
+      ) : (
+        <NoItemsNotice notice="No Favorites Added" />
+      )}
+      {allFavorites?.length > 2 && <BackButton />}
     </Container>
   );
 };
