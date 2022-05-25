@@ -15,7 +15,12 @@ import { Auth } from "./pages/Auth/Auth";
 import SingleProduct from "./pages/SingleProduct/SingleProduct";
 
 //Components
-import { ProductData } from "./interfaces";
+import {
+  UserReducerState,
+  ProductData,
+  CartState,
+  CartItemState,
+} from "./interfaces";
 import Layout from "./components/Layout/Layout";
 import Favorites from "./pages/Favorites/Favorites";
 import Cart from "./pages/Cart/Cart";
@@ -103,14 +108,17 @@ const customTheme = createTheme({
 
 interface RootState {
   products: {
-    allProducts: [];
+    allProducts: ProductData[];
   };
+  user: UserReducerState;
+  cart: CartState;
 }
 
 function App() {
-  const currentUser = useSelector((state: any) => state.user.authData?.user);
-  const cart = useSelector((state: any) => state.cart);
-  const [signedIn, setSignedIn] = useState<Boolean>(false);
+  const currentUser = useSelector(
+    (state: RootState) => state.user.authData.user
+  );
+  const cart = useSelector((state: RootState) => state.cart);
   const products = useSelector(
     (state: RootState) => state.products.allProducts
   );
@@ -125,13 +133,6 @@ function App() {
     dispatch(getProducts());
   }, []);
 
-  useEffect(() => {
-    let _signedIn: Boolean = currentUser == undefined;
-    setTimeout(() => {
-      setSignedIn(_signedIn);
-    }, 1000);
-  }, [currentUser]);
-
   //Create array just containing favorite product ids.
   useEffect(() => {
     const idsArray: string[] = [];
@@ -144,15 +145,17 @@ function App() {
   //Create array just containing cart item product ids.
   useEffect(() => {
     const idsArray: string[] = [];
-    cart.cartItems.forEach((cartItem: any) => idsArray.push(cartItem.pId));
+    cart.cartItems.forEach((cartItem: CartItemState) =>
+      idsArray.push(cartItem.pId)
+    );
     setCartItemIds(idsArray);
   }, [cart.cartItems]);
 
   //Check currentUser favorites array for product id matches in products array objs.
   useEffect(() => {
     const findFavoriteProducts = (
-      currentUserFavorites: any,
-      allProducts: any
+      currentUserFavorites: string[],
+      allProducts: ProductData[]
     ) => {
       var matches: ProductData[] = [];
       allProducts.forEach((product: ProductData) => {
@@ -172,7 +175,7 @@ function App() {
     setFavoriteProducts(findFavoriteProducts(currentUser?.favorites, products));
   }, [products, currentUser]);
 
-  const handleFavorite = (id: any, isFavorite: boolean) => {
+  const handleFavorite = (id: string, isFavorite: boolean) => {
     if (!isFavorite) {
       const updatedFavoritesIds: string[] = favoritesIds;
       updatedFavoritesIds.push(id);
@@ -199,9 +202,11 @@ function App() {
     }
   };
 
-  const handleAddToCart = (productData: any, quantity: number) => {
+  const handleAddToCart = (productData: CartItemState) => {
     if (
-      !cart.cartItems.find((cartItem: any) => cartItem.pId === productData.pId)
+      !cart.cartItems.find(
+        (cartItem: CartItemState) => cartItem.pId === productData.pId
+      )
     ) {
       dispatch(
         addToCart({
@@ -209,7 +214,7 @@ function App() {
           title: productData.title,
           thumbnail: productData.thumbnail,
           price: productData.price,
-          quantity: quantity,
+          quantity: productData.quantity,
         })
       );
     } else {
@@ -217,7 +222,7 @@ function App() {
       dispatch(
         removeFromCart(
           cart?.cartItems.filter(
-            (cartItem: any) => cartItem.pId !== productData.pId
+            (cartItem: CartItemState) => cartItem.pId !== productData.pId
           )
         )
       );
@@ -280,11 +285,7 @@ function App() {
           />
           <Route
             element={
-              <Cart
-                cartItems={cart?.cartItems}
-                cartItemIds={cartItemIds}
-                userId={currentUser?._id}
-              />
+              <Cart cartItems={cart.cartItems} userId={currentUser?._id} />
             }
             path="/cart"
           />
