@@ -12,12 +12,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import { CartItemState } from "../../../interfaces";
 
 import { makeStyles } from "@mui/styles";
 
 type Props = {
-  cartItem: any;
-  cartItems: [];
+  cartItem: CartItemState;
+  cartItems: [CartItemState];
 };
 
 const useStyles = makeStyles((theme: any) => {

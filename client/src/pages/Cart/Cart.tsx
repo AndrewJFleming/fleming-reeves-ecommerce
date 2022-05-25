@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createCart, emptyCart } from "../../redux/features/cart";
+import { CartItemState } from "../../interfaces";
 
 import { Container, List, Typography, Button, Box } from "@mui/material";
 import CartItem from "./CartItem.tsx/CartItem";
@@ -9,12 +10,11 @@ import BackButton from "../../components/BackButton/BackButton";
 import NoItemsNotice from "../../components/NoItemsNotice/NoItemsNotice";
 
 type Props = {
-  cartItems: [];
+  cartItems: [CartItemState];
   userId: string;
-  cartItemIds: string[];
 };
 
-const Cart = ({ cartItems, cartItemIds, userId }: Props) => {
+const Cart = ({ cartItems, userId }: Props) => {
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
 
