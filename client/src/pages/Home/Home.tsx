@@ -4,7 +4,7 @@ import { Container, Box, Pagination, Stack } from "@mui/material";
 import Products from "../../components/Products/Products";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
-import { ProductData } from "../../interfaces";
+import { CartItemState, ProductData } from "../../interfaces";
 
 import "./Home.css";
 
@@ -12,8 +12,8 @@ type HomeProps = {
   productData: ProductData[];
   favoritesIds: string[];
   cartItemIds: string[];
-  handleFavorite: (id: any, isFavorite: boolean) => void;
-  handleAddToCart: (productData: any, quantity: number) => void;
+  handleFavorite: (id: string, isFavorite: boolean) => void;
+  handleAddToCart: (productData: CartItemState) => void;
 };
 
 const Home = ({

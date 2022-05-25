@@ -37,6 +37,7 @@ export const TopNav: FC<Props> = ({
   const classes = useStyles();
   const [cartCount, setCartCount] = useState<number>(0);
   const cart = useSelector((state: any) => state.cart);
+  // const cart = useSelector((state: any) => state.cart);
 
   //Get cart count, factoring quantities of individual cart items.
   useEffect(() => {

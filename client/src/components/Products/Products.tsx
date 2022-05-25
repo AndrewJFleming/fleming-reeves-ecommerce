@@ -1,14 +1,18 @@
 import Product from "./Product/Product";
-import { ProductData } from "../../interfaces";
+import { CartItemState, ProductData, UserReducerState } from "../../interfaces";
 import Grid from "@mui/material/Grid";
 import { useSelector } from "react-redux";
 
-interface ProductsProps {
+interface Props {
   productsArray: ProductData[];
-  handleFavorite: (id: any, isFavorite: boolean) => void;
-  handleAddToCart: (productData: any, quantity: number) => void;
+  handleFavorite: (id: string, isFavorite: boolean) => void;
+  handleAddToCart: (productData: CartItemState) => void;
   favoritesIds: string[];
   cartItemIds: string[];
+}
+
+interface RootState {
+  user: UserReducerState;
 }
 
 const Products = ({
@@ -17,26 +21,19 @@ const Products = ({
   handleAddToCart,
   favoritesIds,
   cartItemIds,
-}: ProductsProps) => {
-  const currentUser = useSelector((state: any) => state.user.authData.user);
-  const cart = useSelector((state: any) => state.cart);
+}: Props) => {
+  const currentUser = useSelector(
+    (state: RootState) => state.user.authData.user
+  );
 
   let allProducts = productsArray.map((product) => {
     return (
       <Grid item xs={12} sm={12} md={6} lg={3} key={product._id}>
         <Product
-          key={product._id}
-          _id={product._id}
-          imageId={product._id}
-          imageUrl={product.largeUrl}
-          thumbnail={product.squareThumbUrl}
-          title={product.title}
-          desc={product.desc}
-          price={product.price}
+          product={product}
           handleFavorite={handleFavorite}
           handleAddToCart={handleAddToCart}
           currentUser={currentUser}
-          cart={cart}
           favoritesIds={favoritesIds}
           cartItemIds={cartItemIds}
         />

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import "./Product.css";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -14,18 +12,13 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { makeStyles } from "@mui/styles";
 
-interface ProductProps {
-  _id: string;
-  imageId: string;
-  imageUrl: string;
-  thumbnail: string;
-  title: string;
-  desc: string;
-  price: number;
-  handleFavorite: (id: any, isFavorite: boolean) => void;
-  handleAddToCart: (productData: any, quantity: number) => void;
-  currentUser: object;
-  cart: any;
+import { CartItemState, ProductData, UserState } from "../../../interfaces";
+
+interface Props {
+  product: ProductData;
+  handleFavorite: (id: string, isFavorite: boolean) => void;
+  handleAddToCart: (productData: CartItemState) => void;
+  currentUser: UserState;
   favoritesIds: string[];
   cartItemIds: string[];
 }
@@ -41,44 +34,37 @@ const useStyles = makeStyles({
 });
 
 const Product = ({
-  _id,
-  imageId,
-  imageUrl,
-  thumbnail,
-  title,
-  desc,
-  price,
+  product,
   handleFavorite,
   handleAddToCart,
   currentUser,
-  cart,
   favoritesIds,
   cartItemIds,
-}: ProductProps) => {
+}: Props) => {
   const classes = useStyles();
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isInCart, setIsInCart] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsFavorite(favoritesIds.includes(_id));
-  }, [_id, favoritesIds]);
+    setIsFavorite(favoritesIds.includes(product._id));
+  }, [product._id, favoritesIds]);
   useEffect(() => {
-    setIsInCart(cartItemIds.includes(_id));
-  }, [_id, cartItemIds]);
+    setIsInCart(cartItemIds.includes(product._id));
+  }, [product._id, cartItemIds]);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <Link to={"/products/" + imageId} className={classes.productLink}>
+      <Link to={"/products/" + product._id} className={classes.productLink}>
         <CardMedia
           component="img"
           height="240"
-          image={imageUrl}
-          alt={"A preview of " + title}
+          image={product.largeUrl}
+          alt={"A preview of " + product.title}
         />
       </Link>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {title}
+          {product.title}
         </Typography>
         <Typography
           gutterBottom
@@ -86,10 +72,12 @@ const Product = ({
           color="success.dark"
           component="div"
         >
-          ID: {_id}
+          ID: {product._id}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          {desc.length <= 119 ? desc : `${desc.substring(0, 120)}...`}
+          {product.desc.length <= 119
+            ? product.desc
+            : `${product.desc.substring(0, 120)}...`}
         </Typography>
         <Typography
           variant="subtitle1"
@@ -101,14 +89,14 @@ const Product = ({
             margin: "20px 0px 30px 0px",
           }}
         >
-          {"Price:  $" + price}
+          {"Price:  $" + product.price}
         </Typography>
         {currentUser && (
           <CardActions>
             <React.Fragment>
               <Button
                 size="small"
-                onClick={() => handleFavorite(_id, isFavorite)}
+                onClick={() => handleFavorite(product._id, isFavorite)}
                 sx={
                   isFavorite
                     ? { color: "rgba(34, 2, 66, 0.5)" }
@@ -121,15 +109,13 @@ const Product = ({
               <Button
                 size="small"
                 onClick={() =>
-                  handleAddToCart(
-                    {
-                      pId: _id,
-                      title: title,
-                      thumbnail: thumbnail,
-                      price: price,
-                    },
-                    1
-                  )
+                  handleAddToCart({
+                    pId: product._id,
+                    title: product.title,
+                    thumbnail: product.squareThumbUrl,
+                    price: product.price,
+                    quantity: 1,
+                  })
                 }
                 sx={
                   isInCart

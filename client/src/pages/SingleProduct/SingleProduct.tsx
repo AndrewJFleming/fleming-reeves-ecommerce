@@ -10,6 +10,7 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
+import { CartItemState } from "../../interfaces";
 import { makeStyles } from "@mui/styles";
 
 type SingleProductProps = {
@@ -17,16 +18,8 @@ type SingleProductProps = {
   favoritesIds: string[];
   cartItemIds: string[];
   userId: string;
-  handleFavorite: (id: any, isFavorite: boolean) => void;
-  handleAddToCart: (
-    productData: {
-      pId: string;
-      title: string;
-      price: number;
-      thumbnail: string;
-    },
-    quantity: number
-  ) => void;
+  handleFavorite: (id: string, isFavorite: boolean) => void;
+  handleAddToCart: (productData: CartItemState) => void;
 };
 
 const useStyles = makeStyles((theme: any) => {
@@ -71,7 +64,6 @@ const SingleProduct = ({
   );
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isInCart, setIsInCart] = useState<boolean>(false);
-  const [quantity, setQuantity] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
@@ -88,6 +80,7 @@ const SingleProduct = ({
     const id: any = currentProduct?._id;
     setIsFavorite(favoritesIds.includes(id));
   }, [currentProduct, favoritesIds]);
+
   useEffect(() => {
     const id: any = currentProduct?._id;
     setIsInCart(cartItemIds.includes(id));
@@ -137,15 +130,13 @@ const SingleProduct = ({
               <Button
                 size="small"
                 onClick={() =>
-                  handleAddToCart(
-                    {
-                      pId: currentProduct._id,
-                      title: currentProduct.title,
-                      thumbnail: currentProduct.squareThumbUrl,
-                      price: currentProduct.price,
-                    },
-                    quantity
-                  )
+                  handleAddToCart({
+                    pId: currentProduct._id,
+                    title: currentProduct.title,
+                    thumbnail: currentProduct.squareThumbUrl,
+                    price: currentProduct.price,
+                    quantity: 1,
+                  })
                 }
                 sx={
                   isInCart

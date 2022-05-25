@@ -35,8 +35,8 @@ export const login = async (req, res) => {
       //Include email and id along with accessToken
       { username: existingUser.username, id: existingUser._id },
       process.env.JWT_SECRET,
-      // number value indicates seconds (eg, "expiresIn: 60" indicates expiration in 60 seconds)
-      // string value allows for more specificity ("15m", "1h", "1d" )
+      // number value indicates miliseconds (eg, "expiresIn: 60" indicates expiration in 60 miliseconds)
+      // string value allows for more specificity ("60s", "15m", "1h", "1d" )
       { expiresIn: "15m" }
     );
 
