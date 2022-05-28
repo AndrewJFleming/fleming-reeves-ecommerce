@@ -6,7 +6,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import DrawerMenuItems from "./DrawerMenuItems/DrawerMenuItems";
 
 type Props = {
-  username: any;
+  username: string;
 };
 
 const useStyles = makeStyles((theme: any) => {

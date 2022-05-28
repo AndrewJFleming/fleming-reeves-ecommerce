@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles";
 
 type Props = {
   path: string;
-  icon: any;
+  icon: JSX.Element;
   text: string;
 };
 
