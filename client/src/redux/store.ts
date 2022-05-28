@@ -8,17 +8,16 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist'
+} from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-import { combineReducers } from "redux"; 
+import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
+import { combineReducers } from "redux";
 
-import usersReducer from './features/users'
-import cartReducer from './features/cart'
-import productsReducer from './features/products'
+import usersReducer from "./features/users";
+import cartReducer from "./features/cart";
+import productsReducer from "./features/products";
 
-
-const reducers:any = combineReducers({
+const reducers: any = combineReducers({
   products: productsReducer,
   user: usersReducer,
   cart: cartReducer,
@@ -28,23 +27,19 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  whitelist: ['user', 'cart'],
-  stateReconciler: autoMergeLevel2
+  whitelist: ["user", "cart"],
+  stateReconciler: autoMergeLevel2,
 };
-
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  // reducer: {
-  //   // user: usersReducer,
-  // },
-  middleware: (getDefaultMiddleware: any) =>
-  getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
-  }),
-})
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
 export let persistor = persistStore(store);

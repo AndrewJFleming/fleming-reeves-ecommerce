@@ -1,26 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { changeQuantity } from "../../../redux/features/cart";
-import { removeFromCart } from "../../../redux/features/cart";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import { updateFavorites } from "../../../redux/features/users";
+import { ProductData } from "../../../interfaces";
 
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
+import {
+  IconButton,
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { makeStyles } from "@mui/styles";
 
 type Props = {
-  favorite: any;
+  favorite: ProductData;
   userId: string;
-  favoritesIds: any;
+  favoritesIds: string[];
 };
 
 const useStyles = makeStyles((theme: any) => {
