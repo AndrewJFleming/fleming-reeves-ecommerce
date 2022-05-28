@@ -9,9 +9,7 @@ import trelloScreenshot from "../../assets/images/screenshot2.png";
 import reduxScreenshot from "../../assets/images/screenshot3.png";
 import { AboutFigure } from "./AboutFigure/AboutFigure";
 
-interface Props {}
-
-export const About: FC<Props> = () => {
+export const About: FC = () => {
   return (
     <Container>
       <BackButton />

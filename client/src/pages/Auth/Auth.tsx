@@ -47,7 +47,7 @@ export const Auth: FC<Props> = ({ title, altPath, altAuthPage }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleAuth = (e: any) => {
+  const handleAuth = (e: React.FormEvent) => {
     e.preventDefault();
     if (title === "Login") {
       //Remove email prop from formData obj
@@ -60,13 +60,13 @@ export const Auth: FC<Props> = ({ title, altPath, altAuthPage }) => {
     }
   };
 
-  const handleChange = (e: any) =>
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
 
-  const handleClearForm = (e: any) => {
+  const handleClearForm = () => {
     setFormData({
       username: "",
       email: "",
@@ -128,7 +128,6 @@ export const Auth: FC<Props> = ({ title, altPath, altAuthPage }) => {
               variant="contained"
               sx={{ margin: "1rem 0" }}
               fullWidth
-              // onClick={handleAuth}
               type="submit"
             >
               {title}

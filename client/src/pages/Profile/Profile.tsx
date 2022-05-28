@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteUser, updateUser } from "../../redux/features/users";
 
@@ -7,7 +7,6 @@ import {
   Button,
   Box,
   Container,
-  FormControl,
   InputLabel,
   Input,
   FormGroup,
@@ -50,15 +49,14 @@ const Profile = ({ userId }: Props) => {
     handleClearUpdateForm();
   };
 
-  const handleChange = (e: any) => {
+  const handleChangeDeleteForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDeleteFormData({
       ...deleteFormData,
       [e.target.name]: e.target.value,
     });
-    console.log(e.target.value);
   };
 
-  const handleChangeUpdateForm = (e: any) => {
+  const handleChangeUpdateForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUpdateFormData({
       ...updateFormData,
       [e.target.name]: e.target.value,
@@ -121,7 +119,7 @@ const Profile = ({ userId }: Props) => {
             <Input
               id="username-delete"
               name="username"
-              onChange={handleChange}
+              onChange={handleChangeDeleteForm}
               value={deleteFormData.username}
             />
             <InputLabel htmlFor="password">Password</InputLabel>
@@ -129,7 +127,7 @@ const Profile = ({ userId }: Props) => {
               id="password"
               type="password"
               name="password"
-              onChange={handleChange}
+              onChange={handleChangeDeleteForm}
               value={deleteFormData.password}
             />
             <Button onClick={handleUserDelete}>Delete</Button>

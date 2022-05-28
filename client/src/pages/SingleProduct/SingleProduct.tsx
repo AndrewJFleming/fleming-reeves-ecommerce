@@ -65,6 +65,7 @@ const SingleProduct = ({
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isInCart, setIsInCart] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
+
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
 
@@ -154,7 +155,7 @@ const SingleProduct = ({
             </Box>
           )}
           <ProductImageModal
-            imageUrl={currentProduct?.largeUrl}
+            fullsizeUrl={currentProduct?.fullsizeUrl}
             title={currentProduct.title}
             isOpen={isOpen}
             handleClose={handleClose}

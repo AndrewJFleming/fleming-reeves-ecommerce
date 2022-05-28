@@ -2,8 +2,8 @@ import { Box, Drawer } from "@mui/material";
 import DrawerContent from "./DrawerContent/DrawerContent";
 
 type Props = {
-  username: any;
-  drawerWidth: any;
+  username: string;
+  drawerWidth: number;
   handleDrawerToggle: () => void;
   mobileOpen: boolean;
 };

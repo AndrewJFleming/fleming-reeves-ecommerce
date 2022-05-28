@@ -31,7 +31,7 @@ export interface CartItemState {
 }
 
 export interface CartState {
-  cartItems: [CartItemState];
+  cartItems: CartItemState[];
 }
 
 export interface UserState {

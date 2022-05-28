@@ -5,16 +5,16 @@ import { Modal } from "@mui/material";
 import { styled } from "@mui/system";
 
 interface Props {
-  imageUrl: string | undefined;
+  fullsizeUrl: string | undefined;
   title: string | undefined;
-  handleClose: any;
+  handleClose: () => void;
   isOpen: boolean;
 }
 
 const StyledModalImg = styled("img")(({ theme }) => ({}));
 
 export const ProductImageModal: FC<Props> = ({
-  imageUrl,
+  fullsizeUrl,
   title,
   handleClose,
   isOpen,
@@ -36,7 +36,7 @@ export const ProductImageModal: FC<Props> = ({
           left: "50%",
           transform: "translate(-50%, -50%)",
         }}
-        src={imageUrl}
+        src={fullsizeUrl}
         alt={title}
       />
     </Modal>

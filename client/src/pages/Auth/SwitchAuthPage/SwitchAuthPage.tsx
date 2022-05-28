@@ -7,7 +7,7 @@ interface Props {
   prompt: string;
   title: string;
   altPath: string;
-  handleClearForm: any;
+  handleClearForm: () => void;
 }
 
 export const SwitchAuthPage: FC<Props> = ({

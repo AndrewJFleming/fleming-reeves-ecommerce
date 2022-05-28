@@ -12,7 +12,7 @@ interface Props {
   externalLinkUrl: string;
   externalLinkDestination: string;
   name: string;
-  icon: any;
+  icon: JSX.Element;
 }
 
 const useStyles = makeStyles((theme: any) => {
