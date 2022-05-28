@@ -10,7 +10,7 @@ import BackButton from "../../components/BackButton/BackButton";
 import NoItemsNotice from "../../components/NoItemsNotice/NoItemsNotice";
 
 type Props = {
-  cartItems: [CartItemState];
+  cartItems: CartItemState[];
   userId: string;
 };
 
@@ -51,7 +51,7 @@ const Cart = ({ cartItems, userId }: Props) => {
               margin: "35px 0px 0px",
             }}
           >
-            {cartItems?.map((cartItem: any) => {
+            {cartItems?.map((cartItem: CartItemState) => {
               return (
                 <CartItem
                   key={cartItem.pId}

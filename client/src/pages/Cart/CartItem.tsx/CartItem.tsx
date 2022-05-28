@@ -18,7 +18,7 @@ import { makeStyles } from "@mui/styles";
 
 type Props = {
   cartItem: CartItemState;
-  cartItems: [CartItemState];
+  cartItems: CartItemState[];
 };
 
 const useStyles = makeStyles((theme: any) => {
@@ -58,10 +58,10 @@ const CartItem = ({ cartItem, cartItems }: Props) => {
     cartItemId: string,
     quantity: number
   ) => {
-    const dispatchQtyChange = (change: any) => {
+    const dispatchQtyChange = (change: number) => {
       dispatch(
         changeQuantity(
-          cartItems.map((cartItem: any) =>
+          cartItems.map((cartItem: CartItemState) =>
             cartItem.pId === cartItemId
               ? { ...cartItem, quantity: change }
               : cartItem
@@ -80,7 +80,9 @@ const CartItem = ({ cartItem, cartItems }: Props) => {
   const removeFromCartHandler = (cartItemId: string) => {
     dispatch(
       removeFromCart(
-        cartItems.filter((cartItem: any) => cartItem.pId !== cartItemId)
+        cartItems.filter(
+          (cartItem: CartItemState) => cartItem.pId !== cartItemId
+        )
       )
     );
   };
