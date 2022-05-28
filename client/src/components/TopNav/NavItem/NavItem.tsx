@@ -5,7 +5,7 @@ import { logoutUser } from "../../../redux/features/users";
 import { persistor } from "../../../redux/store";
 
 interface Props {
-  navItemInner: any;
+  navItemInner?: string | JSX.Element;
   path: string;
   linkClasses: string;
 }

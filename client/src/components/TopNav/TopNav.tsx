@@ -11,10 +11,11 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { useStyles } from "./TopNav.styles";
+import { CartState } from "../../interfaces";
 
 interface Props {
   username: string;
-  handleDrawerToggle: any;
+  handleDrawerToggle: () => void;
   drawerWidth: number;
 }
 
@@ -29,6 +30,10 @@ const StyledNav = styled("nav")(({ theme }) => ({
   },
 }));
 
+interface RootState {
+  cart: CartState;
+}
+
 export const TopNav: FC<Props> = ({
   username,
   handleDrawerToggle,
@@ -36,13 +41,12 @@ export const TopNav: FC<Props> = ({
 }) => {
   const classes = useStyles();
   const [cartCount, setCartCount] = useState<number>(0);
-  const cart = useSelector((state: any) => state.cart);
-  // const cart = useSelector((state: any) => state.cart);
+  const cart = useSelector((state: RootState) => state.cart);
 
   //Get cart count, factoring quantities of individual cart items.
   useEffect(() => {
     const count = cart.cartItems.reduce(
-      (accumulator: any, cartItem: { quantity: number }) => {
+      (accumulator: number, cartItem: { quantity: number }) => {
         return accumulator + cartItem.quantity;
       },
       0
