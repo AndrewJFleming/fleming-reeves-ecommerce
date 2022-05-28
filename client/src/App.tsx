@@ -6,6 +6,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { updateFavorites } from "./redux/features/users";
 import { addToCart, removeFromCart } from "./redux/features/cart";
 import { getProducts } from "./redux/features/products";
+import {
+  UserReducerState,
+  ProductData,
+  CartState,
+  CartItemState,
+} from "./interfaces";
 
 //Page Components
 import Home from "./pages/Home/Home";
@@ -15,12 +21,6 @@ import { Auth } from "./pages/Auth/Auth";
 import SingleProduct from "./pages/SingleProduct/SingleProduct";
 
 //Components
-import {
-  UserReducerState,
-  ProductData,
-  CartState,
-  CartItemState,
-} from "./interfaces";
 import Layout from "./components/Layout/Layout";
 import Favorites from "./pages/Favorites/Favorites";
 import Cart from "./pages/Cart/Cart";
