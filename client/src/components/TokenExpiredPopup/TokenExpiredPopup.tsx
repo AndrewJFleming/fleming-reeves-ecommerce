@@ -46,11 +46,11 @@ export const TokenExpiredPopup: FC<Props> = () => {
           User Token Expired
         </Typography>
         <Typography id="modal-description" sx={{ mt: 2 }}>
-          You've been logged out and are being redirected to the{" "}
+          You've been logged out. Please{" "}
           <Link to="login" onClick={handleClose}>
-            Login
+            <span style={{ fontWeight: "bold" }}>login</span>
           </Link>{" "}
-          page.
+          again.
         </Typography>
       </Box>
     </Modal>
