@@ -13,6 +13,8 @@
     A collaborative ecommerce project built with the MERN stack by <a href="https://github.com/AndrewJFleming">Andrew Fleming</a> and <a href="https://github.com/TechnoGecko">Cody Reeves</a> using TypeScript and Redux Toolkit.
     <br />
     <br />
+    <a href="https://fleming-reeves-ecommerce.netlify.app/">Demo Site (Hosted on Netlify)</a>
+    ·
     <a href="https://www.linkedin.com/in/andrew-j-fleming-web-dev">Andrew Fleming LinkedIn</a>
     ·
     <a href="https://www.linkedin.com/in/codingreeves/">Cody Reeves LinkedIn</a>
